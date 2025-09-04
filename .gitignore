@@ -67,16 +67,6 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 
-# Project-specific directories (Youtu-agent)
-Youtu-agent/data/
-/Youtu-agent/output/
-/Youtu-agent/workspace/
-/Youtu-agent/run_workdir/
-/Youtu-agent/logs/
-/Youtu-agent/configs/agents/generated
-/Youtu-agent/site/
-Youtu-agent/mytools/
-
 # Example data directories (Youtu-agent)
 Youtu-agent/examples/paper_collector/data
 Youtu-agent/examples/data_analysis/data
@@ -88,10 +78,8 @@ Youtu-agent/examples/gui_agent_datamaker/data
 /Youtu-agent/docs/examples_output
 
 # Dependency management (Python)
-requirements.txt
 pip-log.txt
 pip-delete-this-directory.txt
-Youtu-agent/uv.lock
 
 # Testing (Python)
 test.yaml
@@ -102,7 +90,6 @@ htmlcov/
 
 # Distribution (Python)
 *.whl
-Youtu-agent/utu_agent_ui-*.whl
 
 # OS generated files
 .DS_Store
