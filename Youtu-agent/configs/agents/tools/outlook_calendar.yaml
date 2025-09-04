@@ -1,0 +1,16 @@
+name: outlook_calendar
+mode: builtin
+activated_tools: null
+config:
+  # Microsoft Graph API authentication
+  # Option 1: Client Credentials Flow (for service accounts)
+  client_id: "${oc.env:OUTLOOK_CLIENT_ID}"
+  client_secret: "${oc.env:OUTLOOK_CLIENT_SECRET}"
+  tenant_id: "${oc.env:OUTLOOK_TENANT_ID}"
+
+  # Option 2: Direct Access Token (if you have one)
+  # access_token: "${oc.env:OUTLOOK_ACCESS_TOKEN}"
+
+  # Optional: Default calendar settings
+  # default_calendar_id: "primary"
+  # time_zone: "UTC"

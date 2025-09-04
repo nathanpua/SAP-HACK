@@ -1,0 +1,18 @@
+name: teams_calendar
+mode: builtin
+activated_tools: null
+config:
+  # Microsoft Graph API authentication
+  # Option 1: Client Credentials Flow (for service accounts)
+  client_id: "${oc.env:TEAMS_CLIENT_ID}"
+  client_secret: "${oc.env:TEAMS_CLIENT_SECRET}"
+  tenant_id: "${oc.env:TEAMS_TENANT_ID}"
+
+  # Option 2: Direct Access Token (if you have one)
+  # access_token: "${oc.env:TEAMS_ACCESS_TOKEN}"
+
+  # Teams meeting settings
+  # allow_anonymous_join: true
+  # enable_camera: true
+  # enable_mic: true
+  # time_zone: "UTC"

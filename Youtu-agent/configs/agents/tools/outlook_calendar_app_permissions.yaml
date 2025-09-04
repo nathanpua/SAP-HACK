@@ -1,0 +1,18 @@
+name: outlook_calendar_app_permissions
+mode: builtin
+activated_tools: null
+config:
+  # Application permissions (no user interaction needed)
+  # Use this for service accounts or automated processes
+  client_id: "${oc.env:OUTLOOK_CLIENT_ID}"
+  client_secret: "${oc.env:OUTLOOK_CLIENT_SECRET}"
+  tenant_id: "${oc.env:OUTLOOK_TENANT_ID}"
+
+  # REQUIRED for Application permissions: specify the user ID
+  # This is the user whose calendar you want to access
+  user_id: "${oc.env:OUTLOOK_USER_ID}"  # e.g., "user@domain.com"
+
+  # Note: With Application permissions, you need:
+  # 1. Application permissions in Azure (not Delegated)
+  # 2. Admin consent granted
+  # 3. A specific user ID to access their calendar

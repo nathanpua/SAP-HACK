@@ -1,0 +1,146 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+venv/
+env/
+ENV/
+
+# IDE and Editor files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment and configuration files
+.env
+.env.local
+.env.production
+.env.staging
+.env.*.local
+
+# Logs and databases
+*.log
+*.db
+*.sqlite
+*.sqlite3
+*.jsonl
+
+# Data files
+*.csv
+*.xlsx
+*.xls
+*.pdf
+*.mp3
+*.wav
+*.MOV
+*.xml
+*.jpg
+*.png
+*.zip
+*.docx
+*.pptx
+*.m4a
+*.pdb
+*.bak
+*.publish
+*.html
+*.pkl
+*.mp4
+*.avi
+*.mkv
+
+# Temporary and cache files
+_*
+!__init__.py
+_SESSION_DATA
+.cache/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+
+# Project-specific directories
+/data/
+/output/
+/workspace/
+/run_workdir/
+/logs/
+/configs/agents/generated
+site/
+mytools/
+
+# Example data directories
+/examples/paper_collector/data
+/examples/data_analysis/data
+/examples/data_analysis/output
+/examples/gui_agent_datamaker/data
+!/examples/gui_agent_datamaker/data/Dublin_Zoo_Intro.docx
+
+# Documentation build
+/docs/examples_output
+
+# Dependency management
+requirements.txt
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Testing
+test.yaml
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Distribution
+*.whl
+utu_agent_ui-*.whl
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# AI/ML artifacts
+*.h5
+*.pb
+*.pkl
+*.joblib
+*.model
+*.weights
+
+# API keys and secrets
+.env
+.env.local
+.env.*.local
+secrets.json
+credentials.json
+*.key
+*.pem
+*.crt
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Backup files
+*.orig
+*.rej
+*~
+
+# Lock files (optional - uncomment if you want to commit)
+# uv.lock
+# poetry.lock

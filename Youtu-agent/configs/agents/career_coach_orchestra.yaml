@@ -1,0 +1,50 @@
+# SAP Career Coach Orchestra Agent Configuration - Enhanced with Skills Development Focus
+defaults:
+  - /model/base@planner_model
+  - /simple_agents/sap_research_agent@workers.ResearchAgent
+  - /simple_agents/sap_analysis_agent@workers.AnalysisAgent
+  - /simple_agents/sap_synthesis_agent@workers.SynthesisAgent
+  - /simple_agents/sap_skills_development_agent@workers.SkillsDevelopmentAgent
+  - _self_
+
+type: orchestra
+
+# Interactive Configuration
+interactive_config:
+  enabled: true
+  max_clarification_rounds: 3
+  allow_follow_up_questions: true
+  conversation_memory: true
+
+planner_config:
+  examples_path: examples/career_coach/planner_examples.json
+  interactive_mode: true
+  allow_clarification: true
+
+reporter_model:
+  model_provider:
+    type: ${oc.env:UTU_LLM_TYPE}
+    model: ${oc.env:UTU_LLM_MODEL}
+    api_key: ${oc.env:UTU_LLM_API_KEY}
+    base_url: ${oc.env:UTU_LLM_BASE_URL}
+
+workers_info:
+  - name: ResearchAgent
+    desc: SAP Research specialist for gathering SAP-specific career information and training resources
+    strengths: SAP career research, SAP job market analysis, SAP certification research, SAP industry trends, SAP company intelligence, SAP training program research, course platform analysis
+    weaknesses: Cannot analyze documents directly, limited to web-based information gathering
+
+  - name: AnalysisAgent
+    desc: SAP Career analysis specialist for SAP employee profiles, skill assessment, and development planning
+    strengths: SAP resume analysis, SAP skills gap assessment, SAP career path analysis, SAP certification evaluation, SAP market positioning, current skill level evaluation, development roadmap creation
+    weaknesses: Cannot gather new information, limited to provided data analysis
+
+  - name: SkillsDevelopmentAgent
+    desc: SAP Skills development specialist for training resources, course recommendations, and learning pathways
+    strengths: SAP technical skills development, certification training guidance, online course recommendations, hands-on practice opportunities, learning resource curation, skill progression planning, cost-effective training strategies
+    weaknesses: Cannot analyze individual resumes or provide personalized career counseling, limited to general skills development guidance
+
+  - name: SynthesisAgent
+    desc: SAP Career integration specialist for comprehensive SAP career guidance and skills development strategy
+    strengths: Synthesizing SAP career information, creating SAP-specific action plans with skills development, SAP career strategy development with training integration, SAP transition planning with skill acquisition roadmaps
+    weaknesses: Cannot gather new data or perform detailed technical analysis

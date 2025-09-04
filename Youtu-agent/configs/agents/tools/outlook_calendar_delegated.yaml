@@ -1,0 +1,15 @@
+name: outlook_calendar_delegated
+mode: builtin
+activated_tools: null
+config:
+  # Delegated permissions (requires user interaction)
+  # Use this if you want to access the signed-in user's calendar
+  client_id: "${oc.env:OUTLOOK_CLIENT_ID}"
+  client_secret: "${oc.env:OUTLOOK_CLIENT_SECRET}"
+  tenant_id: "${oc.env:OUTLOOK_TENANT_ID}"
+
+  # Optional: specify user ID for Application permissions
+  # user_id: "user@domain.com"  # For Application permissions
+
+  # Note: With Delegated permissions, users need to consent
+  # The app registration needs Delegated permissions, not Application permissions

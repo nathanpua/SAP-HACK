@@ -1,0 +1,52 @@
+[
+    {
+    "question": "Which Uzbekistani tennis player won the singles title at the inaugural ITF $25,000 event held in Qujing in 2016, and in which year was he born?",
+    "available_agents": [
+    {
+    "agent_name": "SearchAgent",
+    "description": "Web search, information retrieval, research material collection, API data fetching"
+    }
+    ],
+        "analysis": "This question requires identifying the winner of the 2016 Qujing ITF singles tournament and his birth year. It involves multiple steps: first finding information about the tournament, then confirming the champion's identity, and finally retrieving personal details. Given the specific year, location, and player nationality, multiple search steps are needed to obtain accurate information.",
+"plan": [
+{"agent_name": "SearchAgent", "task": "Search for information and results of the 2016 Qujing ITF $25,000 tennis tournament", "completed": false},
+{"agent_name": "SearchAgent", "task": "Find detailed information about the singles champion of the 2016 Qujing ITF $25,000 tournament", "completed": false},
+{"agent_name": "SearchAgent", "task": "Verify the singles champion's Uzbekistani nationality", "completed": false},
+{"agent_name": "SearchAgent", "task": "Search for the personal profile and birth year of the Uzbekistani singles champion", "completed": false}
+]
+    },
+    {
+"question": "In the early 20th century, an astronomical phenomenon was discovered in the Southern Hemisphere and later photographed by a professor who joined a prominent university in the American Midwest in the late 19th century. In the same year, an object from space was discovered near a small American town. Who was the professor who photographed the astronomical phenomenon?",
+"available_agents": [
+{
+"agent_name": "SearchAgent",
+"description": "Web search, information retrieval, research material collection, API data fetching"
+}
+],
+"analysis": "This is a complex historical search question involving multiple connected pieces of information: an early 20th-century astronomical phenomenon in the Southern Hemisphere, a late 19th-century professor at a prominent Midwestern U.S. university, and a contemporaneous discovery of a space object near an American town. Multiple search angles are required to identify the intersection of these historical events and determine the professor's identity.",
+"plan": [
+{"agent_name": "SearchAgent", "task": "Search for major astronomical phenomena discovered in the Southern Hemisphere in the early 20th century and related events", "completed": false},
+{"agent_name": "SearchAgent", "task": "Find information about prominent universities in the American Midwest in the late 19th century and their faculty lists", "completed": false},
+{"agent_name": "SearchAgent", "task": "Search for the Midwestern U.S. university professor who photographed the Southern Hemisphere astronomical phenomenon", "completed": false},
+{"agent_name": "SearchAgent", "task": "Look up details of the space object discovered near an American town in the early 20th century", "completed": false}
+]
+    },
+    {
+        "question": "A system that was revised in a work published in the first decade of the 21st century, which itself was associated with the expansion of a Japanese company's presence in the United States during that period, has had significant influence on the field of education. What is the name of the original educational framework that was revised in the aforementioned work?",
+        "available_agents": [
+            {
+                "agent_name": "SearchAgent",
+                "description": "Web search, information retrieval, research material collection, API data fetching"
+            }
+        ],
+        "analysis": "This question requires identifying an educational framework that was revised in early 2000s work connected to Japanese company expansion in the US. The search needs to connect Japanese business expansion with educational publications during 2000-2010, then identify the specific revised educational framework.",
+        "plan": [
+            {"agent_name": "SearchAgent", "task": "Search for Japanese companies that expanded their presence in the United States during 2000-2010", "completed": true},
+            {"agent_name": "SearchAgent", "task": "Identify educational works and publications released in the first decade of the 21st century", "completed": false},
+            {"agent_name": "SearchAgent", "task": "Find connections between Japanese company US expansion and educational publications during 2000-2010", "completed": false},
+            {"agent_name": "SearchAgent", "task": "Research educational frameworks and systems that were revised during the first decade of 21st century", "completed": false},
+            {"agent_name": "SearchAgent", "task": "Locate the specific educational work that revised an existing educational system and was associated with Japanese company expansion", "completed": false}
+        ]
+    }
+]
+
