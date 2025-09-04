@@ -206,7 +206,7 @@ typing-inspection==0.4.1
 typing_extensions==4.14.1
 tzdata==2025.2
 urllib3==2.5.0
-utu_agent_ui @ file:///Users/nathanpua/Desktop/SAP%20hack/Youtu-agent/utu_agent_ui-0.1.5-py3-none-any.whl
+# utu_agent_ui @ file:///Users/nathanpua/Desktop/SAP%20hack/Youtu-agent/utu_agent_ui-0.1.5-py3-none-any.whl
 uvicorn==0.35.0
 virtualenv==20.34.0
 watchdog==6.0.0
@@ -216,5 +216,5 @@ Wikipedia-API==0.8.1
 wrapt==1.17.2
 xxhash==3.5.0
 yarl==1.20.1
--e git+https://github.com/nathanpua/SAP-HACK.git@853a348cd4f09e4e7f74d333d2057e1bb90a66d3#egg=Youtu_agent&subdirectory=Youtu-agent
+# -e git+https://github.com/nathanpua/SAP-HACK.git@853a348cd4f09e4e7f74d333d2057e1bb90a66d3#egg=Youtu_agent&subdirectory=Youtu-agent
 zipp==3.23.0

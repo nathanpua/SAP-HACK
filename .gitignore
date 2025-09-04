@@ -10,6 +10,9 @@ wheels/
 .venv
 venv/
 env/
+!Youtu-agent/utu/env/
+!Youtu-agent/tests/env/
+!Youtu-agent/docs/ref/env/
 ENV/
 
 # IDE and Editor files
