@@ -16,55 +16,103 @@ This repository contains two main components:
 - **Technology**: Next.js 15, React 19, TypeScript, Supabase
 - **Purpose**: Modern web interface for interacting with the AI agents
 
-## 🚀 Quick Start
+## 🚀 Get Started
 
 ### Prerequisites
 - Python 3.12+
 - Node.js 18+
 - Git
+- uv (Python package installer and resolver)
 
-### 1. Clone the Repository
+### Step 1: Clone and Basic Setup
+
+First, clone the repository and set up the basic Python environment:
+
 ```bash
+# Clone the repository
 git clone https://github.com/nathanpua/SAP-HACK.git
 cd SAP-HACK
+
+# Create a virtual environment using uv
+uv venv
+
+# Activate the virtual environment
+# On macOS/Linux:
+source .venv/bin/activate
+# On Windows:
+# .venv\Scripts\activate
+
+# Install Python dependencies
+uv pip install -r requirements.txt
 ```
 
-### 2. Backend Setup (Youtu-agent)
-```bash
-# Copy environment configuration
-cp .env.example .env
+### Step 2: Backend Chatbot Setup
 
-# Edit .env with your API keys (see backend section below)
-# Then set up the Python environment
+The backend uses the Youtu-agent framework. You need to install the UI package first:
+
+```bash
+# Download the prebuilt wheel file from:
+# https://tencentcloudadp.github.io/youtu-agent/frontend/#installation
+# Save it to the project root directory, then install it:
+uv pip install utu_agent_ui-0.1.6-py3-none-any.whl
+
+# Navigate to the backend directory
 cd Youtu-agent
-pip install -r ../requirements.txt
-# OR using uv (recommended)
-uv sync
+
+# Configure environment variables (copy and edit .env file)
+cp .env.example .env
+# Edit .env with your API keys (see Environment Configuration section below)
+
+# Navigate to the career coach example
+cd examples/career_coach
+
+# Start the backend chatbot server
+python main_web.py
 ```
 
-### 3. Frontend Setup
+**Note**: The backend server will start on `ws://127.0.0.1:8848/ws` by default.
+
+### Step 3: Frontend Setup
+
+Set up and run the React frontend application:
+
 ```bash
-# Install dependencies
-cd frontend/sap-hack
+# Open a new terminal and navigate to frontend directory
+cd sap-hack-frontend
+
+# Install Node.js dependencies
 npm install
 
-# Copy and configure environment
-cp .env.example .env.local
-# Edit .env.local with your Supabase credentials
-```
-
-### 4. Run the Applications
-```bash
-# Terminal 1: Start the backend agent server
-cd Youtu-agent
-python examples/career_coach/main_orchestra.py
-
-# Terminal 2: Start the frontend
-cd frontend/sap-hack
+# Start the development server
 npm run dev
 ```
 
-Visit `http://localhost:3000` to access the web application.
+**Note**: The frontend will be available at `http://localhost:3000`.
+
+### Step 4: Telemetry Setup (Optional)
+
+For monitoring and observability, set up Phoenix for OpenTelemetry:
+
+```bash
+# In a new terminal, start the Phoenix server
+phoenix serve
+```
+
+**Note**: Phoenix provides observability for your AI agents and can be accessed at the URL shown in the terminal output.
+
+### Step 5: Access the Application
+
+Once all services are running:
+- **Frontend**: Visit `http://localhost:3000` in your browser
+- **Backend WebSocket**: Connected to `ws://127.0.0.1:8848/ws`
+- **Phoenix Telemetry**: Check terminal output for access URL
+
+### Troubleshooting
+
+- **Backend not starting**: Ensure all required API keys are configured in `.env`
+- **Frontend connection issues**: Verify the WebSocket URL in frontend environment variables
+- **Virtual environment issues**: Make sure you're using the correct activation command for your OS
+- **Package installation errors**: Try running `uv sync` instead of `uv pip install -r requirements.txt`
 
 ## 🔑 Environment Configuration
 
