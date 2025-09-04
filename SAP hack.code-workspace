@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../InternAgent/.cursor/rules"
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}
