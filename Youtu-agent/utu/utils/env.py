@@ -4,16 +4,16 @@ import pathlib
 
 from dotenv import find_dotenv, load_dotenv
 
-# Try to load .env file from current directory or project root
-env_file = find_dotenv(raise_error_if_not_found=False)
-if not env_file:
-    # Fallback: look for .env in the project root (utu package directory)
-    project_root = pathlib.Path(__file__).parent.parent.parent
-    env_file = project_root / '.env'
-    if env_file.exists():
-        env_file = str(env_file)
-
-load_dotenv(env_file, verbose=True, override=True)
+# Load .env from the root directory (parent of Youtu-agent)
+root_env_path = pathlib.Path(__file__).parent.parent.parent.parent / '.env'
+if root_env_path.exists():
+    env_file = str(root_env_path)
+    load_dotenv(env_file, verbose=True, override=True)
+else:
+    # Fallback to find_dotenv if root .env doesn't exist
+    env_file = find_dotenv(raise_error_if_not_found=False)
+    if env_file:
+        load_dotenv(env_file, verbose=True, override=True)
 
 
 class EnvUtils:

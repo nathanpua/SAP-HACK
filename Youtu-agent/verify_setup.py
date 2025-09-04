@@ -10,7 +10,9 @@ import sys
 from datetime import datetime, timedelta
 import dotenv
 
-dotenv.load_dotenv()
+# Load .env from the root directory (parent of Youtu-agent)
+root_env_path = os.path.join(os.path.dirname(__file__), '..', '.env')
+dotenv.load_dotenv(root_env_path)
 
 def check_environment():
     """Check required environment variables"""
