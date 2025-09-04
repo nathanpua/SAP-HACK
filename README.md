@@ -114,20 +114,9 @@ CAREER_COACH_WS_URL=ws://127.0.0.1:8848/ws
 
 ### Career Coach Agent
 ```bash
+# Starting the chatbot server 
 cd Youtu-agent
-python examples/career_coach/main_orchestra.py
-```
-
-### Data Analysis Agent
-```bash
-cd Youtu-agent
-python examples/data_analysis/main.py
-```
-
-### Web Research Agent
-```bash
-cd Youtu-agent
-python examples/research/main.py
+python examples/career_coach/main_web.py
 ```
 
 ## 🔧 Development
