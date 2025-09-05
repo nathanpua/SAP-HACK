@@ -60,6 +60,7 @@ class Event:
 class UserQuery:
     type: Literal["query"]
     query: str
+    user_id: str | None = None
 
 
 async def handle_raw_stream_events(event: ag.RawResponsesStreamEvent) -> Event | None:

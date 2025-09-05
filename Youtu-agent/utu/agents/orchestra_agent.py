@@ -29,6 +29,7 @@ class OrchestraAgent(BaseAgent):
         if isinstance(config, str):
             config = ConfigLoader.load_agent_config(config)
         self.config = config
+        self.current_user_id = None  # Will be set when user authenticates
         # init subagents
         self.planner_agent = PlannerAgent(config)
         self.worker_agents = self._setup_workers()

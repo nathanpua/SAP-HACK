@@ -83,6 +83,9 @@ agent:
     - Default working language: **Chinese**
     </language_settings>
 
+toolkits:
+  - /tools/user_profile@user_profile
+
 model:
   model_provider:
     type: ${oc.env:UTU_LLM_TYPE}

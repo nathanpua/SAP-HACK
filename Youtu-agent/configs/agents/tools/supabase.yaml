@@ -5,7 +5,6 @@ activated_tools:
   - execute_sql
 config:
   command: npx
-  args: ["-y", "@supabase/mcp-server-supabase@latest", "--access-token", "${oc.env:SUPABASE_ACCESS_TOKEN}"]
+  args: ["-y", "@supabase/mcp-server-supabase@latest", "--access-token", "${oc.env:SUPABASE_ACCESS_TOKEN}", "--project-ref", "kclhwddhqtlmcjfpebz"]
   env:
     SUPABASE_ACCESS_TOKEN: ${oc.env:SUPABASE_ACCESS_TOKEN}
-    SUPABASE_PROJECT_REF: ${oc.env:SUPABASE_PROJECT_REF}

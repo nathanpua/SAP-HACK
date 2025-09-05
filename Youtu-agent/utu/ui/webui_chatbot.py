@@ -54,10 +54,29 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
                     # print(f"Received query: {query.query}")
                     # Echo back the query in the response
+
+                    # Prepare query with user context
+                    query_with_context = query.query
+                    if query.user_id:
+                        # Store user context in agent and its workers for toolkit access
+                        if hasattr(self.agent, 'current_user_id'):
+                            self.agent.current_user_id = query.user_id
+                        # Also set user_id for worker agents in orchestra
+                        if hasattr(self.agent, 'worker_agents'):
+                            for worker_name, worker in self.agent.worker_agents.items():
+                                # Set on the worker agent wrapper
+                                if hasattr(worker, 'current_user_id'):
+                                    worker.current_user_id = query.user_id
+                                # Also set on the actual agent inside SimpleWorkerAgent
+                                if hasattr(worker, 'agent') and hasattr(worker.agent, 'current_user_id'):
+                                    worker.agent.current_user_id = query.user_id
+                                    print(f"\033[94mSet user_id {query.user_id} on worker agent: {worker_name}\033[0m")
+                        print(f"\033[94mUser authenticated: {query.user_id}\033[0m")
+
                     if isinstance(self.agent, OrchestraAgent):
-                        stream = self.agent.run_streamed(query.query)
+                        stream = self.agent.run_streamed(query_with_context)
                     elif isinstance(self.agent, SimpleAgent):
-                        self.agent.input_items.append({"role": "user", "content": query.query})
+                        self.agent.input_items.append({"role": "user", "content": query_with_context})
                         # print in red color
                         print(f"\033[91mInput items: {self.agent.input_items}\033[0m")
                         stream = self.agent.run_streamed(self.agent.input_items)

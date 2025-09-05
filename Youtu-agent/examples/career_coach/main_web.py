@@ -12,8 +12,7 @@ from utu.ui.webui_chatbot import WebUIChatbot
 
 # Load environment variables (including Supabase credentials)
 try:
-    from utu.utils.env import load_env
-    load_env()
+    from utu.utils.env import EnvUtils
     print("✅ Environment variables loaded (including Supabase credentials)")
 except ImportError:
     print("⚠️  Could not load environment variables - Supabase integration may not work")
@@ -27,7 +26,7 @@ def main():
 
     # Verify Supabase environment variables
     supabase_token = os.getenv('SUPABASE_ACCESS_TOKEN')
-    supabase_project = os.getenv('SUPABASE_PROJECT_REF')
+    supabase_project = 'kclhwddhqtlmcjfpebz'  # Hardcoded project ID
 
     if supabase_token and supabase_project:
         print(f"✅ Supabase MCP configured for project: {supabase_project}")

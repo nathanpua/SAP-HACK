@@ -47,6 +47,7 @@ class SimpleAgent(BaseAgent):
         tool_use_behavior: Literal["run_llm_again", "stop_on_first_tool"] | StopAtTools = "run_llm_again",
     ):
         self.config = self._get_config(config)
+        self.current_user_id = None  # Will be set when user authenticates
         if name:
             self.config.agent.name = name
         if instructions:
@@ -142,6 +143,9 @@ class SimpleAgent(BaseAgent):
     async def _load_toolkit(self, toolkit_config: ToolkitConfig) -> AsyncBaseToolkit:
         logger.info(f"Loading builtin toolkit `{toolkit_config.name}` with config {toolkit_config}")
         toolkit = await self._tools_exit_stack.enter_async_context(TOOLKIT_MAP[toolkit_config.name](toolkit_config))
+        # Give toolkit access to the agent for user context
+        if hasattr(toolkit, '_agent'):
+            toolkit._agent = self
         self._toolkits.append(toolkit)
         return toolkit
 

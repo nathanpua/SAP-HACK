@@ -13,6 +13,9 @@ import os
 # Add the project root to Python path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
+# Import env module first to load environment variables
+from utu.utils.env import EnvUtils
+
 from utu.agents import OrchestraAgent
 from utu.config import ConfigLoader
 

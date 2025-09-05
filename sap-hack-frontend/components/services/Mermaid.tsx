@@ -30,6 +30,8 @@ const Mermaid: React.FC<MermaidProps> = React.memo(({ chart }) => {
   const mermaidRef = useRef<HTMLDivElement>(null);
   // const [error, setError] = useState<string | null>(null);
 
+  Mermaid.displayName = 'Mermaid';
+
   useEffect(() => {
     let isMounted = true;
     const element = mermaidRef.current;

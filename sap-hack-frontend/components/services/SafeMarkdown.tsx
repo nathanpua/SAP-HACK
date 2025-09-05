@@ -15,11 +15,11 @@ type CodeProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTML
 };
 
 // Memoized image component to prevent re-renders
-const ImageWithErrorHandling = memo(({ src, alt, ...props }: { src?: string; alt?: string; [key: string]: any }) => {
+const ImageWithErrorHandling = memo(({ src, alt, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => {
   const [hasError, setHasError] = useState(false);
   
   if (hasError || !src) {
-    return <BrokenImagePlaceholder src={src || ''} alt={alt} />;
+    return <BrokenImagePlaceholder src={String(src || '')} alt={alt} />;
   }
   
   return (
@@ -81,9 +81,9 @@ const SafeMarkdown: React.FC<{ children: React.ReactNode }> = memo(({ children }
       // Use memoized image component
       img: ImageWithErrorHandling,
       // Custom heading component to avoid conflicts with Mermaid
-      h1: ({node, ...props}) => <h1 className="markdown-h1" {...props} />,
-      h2: ({node, ...props}) => <h2 className="markdown-h2" {...props} />,
-      h3: ({node, ...props}) => <h3 className="markdown-h3" {...props} />,
+      h1: ({...props}) => <h1 className="markdown-h1" {...props} />,
+      h2: ({...props}) => <h2 className="markdown-h2" {...props} />,
+      h3: ({...props}) => <h3 className="markdown-h3" {...props} />,
     };
 
     return (

@@ -7,6 +7,10 @@ This script demonstrates how to run the Career Coach agent using Youtu-agent fra
 
 import asyncio
 import pathlib
+
+# Import env module first to load environment variables
+from utu.utils.env import EnvUtils
+
 from utu.agents import SimpleAgent
 from utu.config import ConfigLoader
 

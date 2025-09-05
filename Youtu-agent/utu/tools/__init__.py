@@ -18,6 +18,7 @@ from .search_toolkit import SearchToolkit
 from .serper_toolkit import SerperToolkit
 from .tabular_data_toolkit import TabularDataToolkit
 from .user_interaction_toolkit import UserInteractionToolkit as UserInteractionToolkit
+from .user_profile_toolkit import UserProfileToolkit
 from .video_toolkit import VideoToolkit
 from .wikipedia_toolkit import WikipediaSearchTool
 
@@ -41,6 +42,7 @@ TOOLKIT_MAP = {
     "tabular": TabularDataToolkit,
     "memory_simple": SimpleMemoryToolkit,
     "email": EmailToolkit,
+    "user_profile": UserProfileToolkit,
 }
 
 

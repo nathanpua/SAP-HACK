@@ -78,7 +78,10 @@ Let's build your SAP career roadmap together! 🚀`,
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Helper function to truncate text to 5 lines
-  const truncateText = (text: string, maxLines: number = 5): { truncated: string; isTruncated: boolean } => {
+  const truncateText = (text: string | null | undefined, maxLines: number = 5): { truncated: string; isTruncated: boolean } => {
+    if (!text || typeof text !== 'string') {
+      return { truncated: '', isTruncated: false };
+    }
     const lines = text.split('\n');
     if (lines.length <= maxLines) {
       return { truncated: text, isTruncated: false };
@@ -399,11 +402,12 @@ Let's build your SAP career roadmap together! 🚀`,
                         const output = (message.content as ToolCallMessage).toolCallOutput;
                         const { truncated, isTruncated } = truncateText(output);
                         const isExpanded = expandedToolOutputs.has(message.id);
+                        const displayText = (isExpanded || !isTruncated ? output : truncated) || '';
                         return (
                           <>
                             <div className="text-xs font-mono leading-relaxed">
                               <SafeMarkdown>
-                                {isExpanded || !isTruncated ? output : truncated}
+                                {displayText}
                               </SafeMarkdown>
                             </div>
                             {/* Fade overlay for truncated content */}
