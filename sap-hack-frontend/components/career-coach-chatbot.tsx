@@ -87,7 +87,6 @@ Let's build your SAP career roadmap together! 🚀
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const processedMessagesRef = useRef<Set<string>>(new Set());
 
   // Function to create a new conversation session
   const createNewConversation = useCallback(async (title?: string): Promise<string | null> => {
@@ -121,9 +120,20 @@ Let's build your SAP career roadmap together! 🚀
     }
   }, []);
 
+  // Flag to prevent concurrent message logging
+  const isLoggingMessage = useRef(false);
+
   // Function to log a message to the database
   const logMessage = useCallback(async (messageType: 'user' | 'assistant', content: string, metadata?: Record<string, unknown>): Promise<void> => {
     if (!currentSessionId) return;
+
+    // Prevent concurrent logging
+    if (isLoggingMessage.current) {
+      console.log('Message logging already in progress, queuing...');
+      return;
+    }
+
+    isLoggingMessage.current = true;
 
     try {
       const response = await fetch(`/api/conversations/${currentSessionId}/messages`, {
@@ -143,12 +153,14 @@ Let's build your SAP career roadmap together! 🚀
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        console.error('Failed to log message to database:', errorData.error || 'Unknown error');
+        console.error('Failed to log message to database:', errorData.error || 'Unknown error', errorData.details);
         // Don't set error state for individual message logging failures to avoid disrupting the chat
       }
     } catch (error) {
       console.error('Error logging message:', error);
       // Don't set error state for individual message logging failures to avoid disrupting the chat
+    } finally {
+      isLoggingMessage.current = false;
     }
   }, [currentSessionId]);
 
@@ -181,7 +193,6 @@ Let's build your SAP career roadmap together! 🚀
     // Reset conversation state
     setCurrentSessionId(null);
     setConversationStarted(false);
-    processedMessagesRef.current.clear(); // Clear processed messages cache
     setError(null); // Clear any errors
     setMessages([
       {
@@ -850,24 +861,6 @@ Let's continue building your SAP career roadmap together! 🚀`,
     if (lastMessage?.data) {
       try {
         const event: WebUIEvent = JSON.parse(lastMessage.data);
-
-        // Create a unique identifier for this message to prevent duplicates
-        const messageId = `${event.type}-${JSON.stringify(event.data)}`;
-
-        // Check if we've already processed this message
-        if (processedMessagesRef.current.has(messageId)) {
-          console.warn('Duplicate WebSocket message detected, skipping:', messageId);
-          return;
-        }
-
-        // Mark this message as processed
-        processedMessagesRef.current.add(messageId);
-
-        // Clean up old processed messages to prevent memory leaks
-        if (processedMessagesRef.current.size > 100) {
-          const messagesArray = Array.from(processedMessagesRef.current);
-          processedMessagesRef.current = new Set(messagesArray.slice(-50));
-        }
 
         console.log('Processing WebSocket event:', event.type, event.data);
         handleWebUIEvent(event);

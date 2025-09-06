@@ -148,37 +148,28 @@ export async function POST(
       );
     }
 
-    // Get next sequence number
-    const { data: lastMessage } = await serviceSupabase
-      .from('employee_conversation_messages')
-      .select('sequence_number')
-      .eq('session_id', conversation.id)
-      .order('sequence_number', { ascending: false })
-      .limit(1)
-      .single();
-
-    const nextSequenceNumber = (lastMessage?.sequence_number || 0) + 1;
-
-    // Insert new message
+    // Insert new message using atomic function
     const { data: message, error: msgError } = await serviceSupabase
-      .from('employee_conversation_messages')
-      .insert({
-        session_id: conversation.id,
-        message_type,
-        content,
-        sequence_number: nextSequenceNumber,
-        metadata: metadata || {},
-        tool_name,
-        tool_input,
-        tool_output
-      })
-      .select()
-      .single();
+      .rpc('insert_employee_conversation_message', {
+        p_session_id: conversation.id,
+        p_message_type: message_type,
+        p_content: content,
+        p_metadata: metadata || {},
+        p_tool_name: tool_name,
+        p_tool_input: tool_input,
+        p_tool_output: tool_output
+      });
 
     if (msgError) {
       console.error('Error creating message:', msgError);
+      console.error('Message details:', {
+        sessionId: conversation.id,
+        messageType: message_type,
+        contentLength: content?.length,
+        metadata
+      });
       return NextResponse.json(
-        { error: 'Failed to create message' },
+        { error: 'Failed to create message', details: msgError.message },
         { status: 500 }
       );
     }
