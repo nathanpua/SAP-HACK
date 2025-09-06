@@ -68,6 +68,7 @@ Let's build your SAP career roadmap together! 🚀`,
   const [isModelResponding, setIsModelResponding] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected'>('connecting');
   const [expandedToolOutputs, setExpandedToolOutputs] = useState<Set<number>>(new Set());
+  const [expandedReports, setExpandedReports] = useState<Set<number>>(new Set());
 
 
   const { sendQuery, lastMessage, readyState } = useChatWebSocket(wsUrl);
@@ -77,11 +78,166 @@ Let's build your SAP career roadmap together! 🚀`,
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Helper function to truncate text to 5 lines
-  const truncateText = (text: string | null | undefined, maxLines: number = 5): { truncated: string; isTruncated: boolean } => {
+  // Helper function to truncate text to 3 lines (handles both plain text and JSON)
+  const truncateText = (text: string | null | undefined, maxLines: number = 3): { truncated: string; isTruncated: boolean } => {
     if (!text || typeof text !== 'string') {
       return { truncated: '', isTruncated: false };
     }
+
+    // Try to detect if this is JSON
+    const trimmedText = text.trim();
+    if ((trimmedText.startsWith('{') && trimmedText.endsWith('}')) ||
+        (trimmedText.startsWith('[') && trimmedText.endsWith(']'))) {
+      try {
+        // Parse and pretty-print JSON for better truncation
+        const parsed = JSON.parse(trimmedText);
+
+        // Special handling for tool responses that contain nested JSON in text field
+        if (parsed.type === 'text' && parsed.text) {
+          const textContent = parsed.text;
+
+          // Check if the text content is pure JSON
+          if (textContent.trim().startsWith('[') || textContent.trim().startsWith('{')) {
+            try {
+              const innerParsed = JSON.parse(textContent.trim());
+              const prettyInnerJson = JSON.stringify(innerParsed, null, 2);
+              const lines = prettyInnerJson.split('\n');
+
+              if (lines.length <= maxLines) {
+                return { truncated: prettyInnerJson, isTruncated: false };
+              }
+
+              // For nested JSON, show first few lines plus summary
+              const truncatedLines = lines.slice(0, maxLines);
+              let truncatedJson = truncatedLines.join('\n');
+
+              // Try to close JSON structure properly
+              if (prettyInnerJson.startsWith('{') && !truncatedJson.endsWith('}')) {
+                truncatedJson += '\n}';
+              } else if (prettyInnerJson.startsWith('[') && !truncatedJson.endsWith(']')) {
+                truncatedJson += '\n]';
+              }
+
+              return {
+                truncated: truncatedJson + '\n...',
+                isTruncated: true
+              };
+            } catch {
+              // If JSON parsing fails, fall back to text truncation
+            }
+          }
+
+          // Handle text content that may contain embedded JSON
+          const textLines = textContent.split('\n');
+
+          // Check if any line contains a JSON array or object
+          const jsonLineIndex = textLines.findIndex((line: string) =>
+            line.trim().startsWith('[') || line.trim().startsWith('{')
+          );
+
+          if (jsonLineIndex !== -1) {
+            const jsonLine = textLines[jsonLineIndex].trim();
+            if (jsonLine.startsWith('[') || jsonLine.startsWith('{')) {
+              try {
+                const jsonData = JSON.parse(jsonLine);
+                const prettyJson = JSON.stringify(jsonData, null, 2);
+                const jsonLines = prettyJson.split('\n');
+
+                // Calculate how many lines we have before the JSON (excluding empty lines)
+                const nonEmptyLinesBefore = textLines.slice(0, jsonLineIndex).filter((line: string) => line.trim().length > 0).length;
+                const availableLinesForJson = Math.max(1, maxLines - nonEmptyLinesBefore);
+
+                if (nonEmptyLinesBefore >= maxLines) {
+                  // JSON comes after max lines, just truncate text normally
+                  return {
+                    truncated: textLines.slice(0, maxLines).join('\n') + '\n...',
+                    isTruncated: true
+                  };
+                }
+
+                if (jsonLines.length <= availableLinesForJson && textLines.length <= maxLines) {
+                  return { truncated: textContent, isTruncated: false };
+                }
+
+                // Build truncated content with pretty JSON
+                let resultLines: string[] = [];
+
+                // Add non-empty lines before JSON
+                const linesBefore = textLines.slice(0, jsonLineIndex);
+                resultLines.push(...linesBefore.filter((line: string) => line.trim().length > 0));
+
+                // Add JSON content (limited by available space)
+                const remainingSpace = maxLines - resultLines.length;
+                if (remainingSpace > 0) {
+                  if (jsonLines.length <= remainingSpace) {
+                    resultLines.push(...jsonLines);
+
+                    // Add remaining lines after JSON if space allows
+                    const linesAfter = textLines.slice(jsonLineIndex + 1);
+                    const nonEmptyAfter = linesAfter.filter((line: string) => line.trim().length > 0);
+                    const spaceForAfter = maxLines - resultLines.length;
+                    if (spaceForAfter > 0 && nonEmptyAfter.length > 0) {
+                      resultLines.push(...nonEmptyAfter.slice(0, spaceForAfter));
+                    }
+                  } else {
+                    resultLines.push(...jsonLines.slice(0, remainingSpace));
+                  }
+                }
+
+                // Ensure we don't exceed max lines
+                if (resultLines.length > maxLines) {
+                  resultLines = resultLines.slice(0, maxLines);
+                }
+
+                const truncatedContent = resultLines.join('\n') + (resultLines.length >= maxLines ? '\n...' : '');
+
+                return {
+                  truncated: truncatedContent,
+                  isTruncated: true
+                };
+              } catch {
+                // If JSON parsing fails, fall back to text truncation
+              }
+            }
+          }
+
+          // Regular text truncation
+          if (textLines.length <= maxLines) {
+            return { truncated: textContent, isTruncated: false };
+          }
+
+          return {
+            truncated: textLines.slice(0, maxLines).join('\n') + '\n...',
+            isTruncated: true
+          };
+        }
+
+        const prettyJson = JSON.stringify(parsed, null, 2);
+        const lines = prettyJson.split('\n');
+
+        if (lines.length <= maxLines) {
+          return { truncated: prettyJson, isTruncated: false };
+        }
+
+        // For JSON, show first few lines plus summary
+        const truncatedLines = lines.slice(0, maxLines);
+
+        // Try to close JSON structure properly
+        let truncatedJson = truncatedLines.join('\n');
+        if (!truncatedJson.endsWith('}')) {
+          truncatedJson += '\n}';
+        }
+
+        return {
+          truncated: truncatedJson + '\n...',
+          isTruncated: true
+        };
+      } catch {
+        // If JSON parsing fails, fall back to text truncation
+      }
+    }
+
+    // Handle regular text
     const lines = text.split('\n');
     if (lines.length <= maxLines) {
       return { truncated: text, isTruncated: false };
@@ -103,6 +259,32 @@ Let's build your SAP career roadmap together! 🚀`,
       }
       return newSet;
     });
+  };
+
+  // Toggle expand/collapse for reports
+  const toggleReport = (messageId: number) => {
+    setExpandedReports(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(messageId)) {
+        newSet.delete(messageId);
+      } else {
+        newSet.add(messageId);
+      }
+      return newSet;
+    });
+  };
+
+  // Download report as text file
+  const downloadReport = (content: string, messageId: number) => {
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `sap-report-${messageId}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
 
@@ -337,7 +519,63 @@ Let's build your SAP career roadmap together! 🚀`,
             ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white ml-auto"
             : "bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700"
         }`}>
-          {message.type === 'tool_call' ? (
+          {message.type === 'report' ? (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="text-lg">📊</div>
+                  <div className="font-semibold text-sm">Report Generated</div>
+                  <div className="text-xs opacity-70">
+                    {expandedReports.has(message.id) ? 'Expanded' : 'Minimized'}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => toggleReport(message.id)}
+                    className="h-8 px-3 text-xs hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                  >
+                    {expandedReports.has(message.id) ? (
+                      <>
+                        <ChevronUp className="w-4 h-4 mr-1" />
+                        Minimize
+                      </>
+                    ) : (
+                      <>
+                        <ChevronDown className="w-4 h-4 mr-1" />
+                        Expand
+                      </>
+                    )}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => downloadReport(typeof message.content === 'string' ? message.content : JSON.stringify(message.content, null, 2), message.id)}
+                    className="h-8 px-3 text-xs hover:bg-green-50 dark:hover:bg-green-900/20"
+                  >
+                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Download
+                  </Button>
+                </div>
+              </div>
+              {expandedReports.has(message.id) && (
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                  <div className="text-sm leading-relaxed prose prose-sm max-w-none dark:prose-invert">
+                    {typeof message.content === 'string' ? (
+                      <SafeMarkdown>
+                        {message.content}
+                      </SafeMarkdown>
+                    ) : (
+                      JSON.stringify(message.content, null, 2)
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : message.type === 'tool_call' ? (
             <div className="space-y-4 border-l-4 border-green-400 pl-4 bg-gradient-to-r from-green-50/50 to-transparent dark:from-green-950/20 dark:to-transparent rounded-r-lg p-4">
               <div className="flex items-center gap-3">
                 <div className="w-4 h-4 text-green-500">
