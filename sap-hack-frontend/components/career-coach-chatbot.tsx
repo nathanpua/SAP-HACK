@@ -33,6 +33,7 @@ interface OrchestraEventData {
 
 interface CareerCoachChatbotProps {
   wsUrl?: string;
+  loadConversationRef?: React.MutableRefObject<{ loadConversation: (sessionId: string) => void } | null>;
 }
 
 // Helper function to format time consistently
@@ -43,12 +44,19 @@ const formatTime = (date: Date) => {
 };
 
 
-export function CareerCoachChatbot({ wsUrl = 'ws://127.0.0.1:8848/ws' }: CareerCoachChatbotProps) {
+export function CareerCoachChatbot({ wsUrl = 'ws://127.0.0.1:8848/ws', loadConversationRef }: CareerCoachChatbotProps) {
+
+  // State for conversation management
+  const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
+  const [conversationStarted, setConversationStarted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
-      id: 1,
-      content: `👋 Welcome to your SAP Career Coach!
+      id: Date.now(),
+      content: `👋 **New Chat Started**
+
+Welcome to your SAP Career Coach! This is a fresh conversation session.
 
 I'm here to help you navigate your SAP career journey with personalized guidance, certification recommendations, and strategic planning.
 
@@ -57,7 +65,9 @@ I'm here to help you navigate your SAP career journey with personalized guidance
 • "I specialize in SAP HCM and want to transition to SAP SuccessFactors. How should I plan this?"
 • "What SAP certifications should I pursue for a senior technical role?"
 
-Let's build your SAP career roadmap together! 🚀`,
+Let's build your SAP career roadmap together! 🚀
+
+*Use "Load Recent" to continue a previous conversation if needed.*`,
       sender: 'assistant',
       timestamp: new Date(),
       type: 'text'
@@ -77,6 +87,318 @@ Let's build your SAP career roadmap together! 🚀`,
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const processedMessagesRef = useRef<Set<string>>(new Set());
+
+  // Function to create a new conversation session
+  const createNewConversation = useCallback(async (title?: string): Promise<string | null> => {
+    try {
+      setError(null);
+      const response = await fetch('/api/conversations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: title || 'New Career Coach Conversation'
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to create conversation');
+      }
+
+      const data = await response.json();
+      const sessionId = data.conversation.session_id;
+      setCurrentSessionId(sessionId);
+      setConversationStarted(true);
+      return sessionId;
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to create conversation';
+      console.error('Error creating conversation:', error);
+      setError(errorMessage);
+      return null;
+    }
+  }, []);
+
+  // Function to log a message to the database
+  const logMessage = useCallback(async (messageType: 'user' | 'assistant', content: string, metadata?: Record<string, unknown>): Promise<void> => {
+    if (!currentSessionId) return;
+
+    try {
+      const response = await fetch(`/api/conversations/${currentSessionId}/messages`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message_type: messageType,
+          content: content,
+          metadata: metadata || {},
+          tool_name: metadata?.tool_name,
+          tool_input: metadata?.tool_input,
+          tool_output: metadata?.tool_output
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Failed to log message to database:', errorData.error || 'Unknown error');
+        // Don't set error state for individual message logging failures to avoid disrupting the chat
+      }
+    } catch (error) {
+      console.error('Error logging message:', error);
+      // Don't set error state for individual message logging failures to avoid disrupting the chat
+    }
+  }, [currentSessionId]);
+
+  // Function to update conversation title
+  const updateConversationTitle = useCallback(async (title: string) => {
+    if (!currentSessionId) return;
+
+    try {
+      const response = await fetch(`/api/conversations/${currentSessionId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: title.length > 50 ? title.substring(0, 47) + '...' : title
+        }),
+      });
+
+      if (!response.ok) {
+        console.error('Failed to update conversation title');
+      }
+    } catch (error) {
+      console.error('Error updating conversation title:', error);
+    }
+  }, [currentSessionId]);
+
+  // Function to start a new chat
+  const startNewChat = useCallback(async () => {
+    console.log('Starting new chat - resetting to default state');
+    // Reset conversation state
+    setCurrentSessionId(null);
+    setConversationStarted(false);
+    processedMessagesRef.current.clear(); // Clear processed messages cache
+    setError(null); // Clear any errors
+    setMessages([
+      {
+        id: Date.now(),
+        content: `👋 Welcome to your SAP Career Coach!
+
+I'm here to help you navigate your SAP career journey with personalized guidance, certification recommendations, and strategic planning.
+
+💡 **Example questions you can ask:**
+• "I'm an SAP consultant with 3 years experience wanting to become a Solution Architect. What's my path?"
+• "I specialize in SAP HCM and want to transition to SAP SuccessFactors. How should I plan this?"
+• "What SAP certifications should I pursue for a senior technical role?"
+
+Let's build your SAP career roadmap together! 🚀`,
+        sender: 'assistant',
+        timestamp: new Date(),
+        type: 'text'
+      }
+    ]);
+  }, []);
+
+  // Function to load the most recent conversation and its messages
+  const loadRecentConversation = useCallback(async () => {
+    try {
+      const response = await fetch('/api/conversations?page=1&limit=1');
+      if (!response.ok) return;
+
+      const data = await response.json();
+      if (data.conversations && data.conversations.length > 0) {
+        const recentConversation = data.conversations[0];
+        setCurrentSessionId(recentConversation.session_id);
+
+        // Load messages for this conversation
+        const messagesResponse = await fetch(`/api/conversations/${recentConversation.session_id}/messages`);
+        if (messagesResponse.ok) {
+          const messagesData = await messagesResponse.json();
+
+          if (messagesData.messages && messagesData.messages.length > 0) {
+            setConversationStarted(true);
+
+            // Convert database messages to ChatMessage format
+            const conversationMessages: ChatMessage[] = messagesData.messages.map((msg: {
+              message_type: string;
+              content: string;
+              created_at: string;
+              metadata?: Record<string, unknown>;
+              tool_name?: string;
+              tool_input?: string;
+              tool_output?: string;
+            }, index: number) => {
+              const messageId = Date.now() + index;
+
+              // Handle tool call messages
+              if (msg.metadata?.type === 'tool_call') {
+                return {
+                  id: messageId,
+                  content: {
+                    toolName: msg.tool_name || msg.metadata.tool_name,
+                    toolCallArgument: msg.tool_input || msg.metadata.tool_input || '',
+                    toolCallOutput: '',
+                    callid: msg.metadata.callid,
+                  },
+                  sender: 'assistant',
+                  timestamp: new Date(msg.created_at),
+                  type: 'tool_call',
+                  inprogress: false,
+                  callid: msg.metadata.callid,
+                } as ChatMessage;
+              }
+
+              // Handle tool result messages
+              if (msg.metadata?.type === 'tool_result') {
+                return {
+                  id: messageId,
+                  content: {
+                    toolName: msg.tool_name || msg.metadata.tool_name,
+                    toolCallArgument: msg.tool_input || msg.metadata.tool_input || '',
+                    toolCallOutput: msg.tool_output || msg.metadata.tool_output || msg.content,
+                    callid: msg.metadata.callid,
+                  },
+                  sender: 'assistant',
+                  timestamp: new Date(msg.created_at),
+                  type: 'tool_call',
+                  inprogress: false,
+                  callid: msg.metadata.callid,
+                } as ChatMessage;
+              }
+
+              // Handle regular text messages
+              return {
+                id: messageId,
+                content: msg.content,
+                sender: msg.message_type === 'user' ? 'user' : 'assistant',
+                timestamp: new Date(msg.created_at),
+                type: msg.message_type === 'user' ? 'text' : (msg.metadata?.event_type || 'text'),
+              } as ChatMessage;
+            });
+
+            // Replace the welcome message with conversation history
+            setMessages(conversationMessages);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error loading recent conversation:', error);
+    }
+  }, []);
+
+  // Function to load a specific conversation by session ID
+  const loadConversationById = useCallback(async (sessionId: string) => {
+    try {
+      setError(null);
+      setCurrentSessionId(sessionId);
+
+      // Load messages for this conversation
+      const messagesResponse = await fetch(`/api/conversations/${sessionId}/messages`);
+      if (messagesResponse.ok) {
+        const messagesData = await messagesResponse.json();
+
+        if (messagesData.messages && messagesData.messages.length > 0) {
+          setConversationStarted(true);
+
+          // Convert database messages to ChatMessage format
+          const conversationMessages: ChatMessage[] = messagesData.messages.map((msg: {
+            message_type: string;
+            content: string;
+            created_at: string;
+            metadata?: Record<string, unknown>;
+            tool_name?: string;
+            tool_input?: string;
+            tool_output?: string;
+          }, index: number) => {
+            const messageId = Date.now() + index;
+
+            // Handle tool call messages
+            if (msg.metadata?.type === 'tool_call') {
+              return {
+                id: messageId,
+                content: {
+                  toolName: msg.tool_name || msg.metadata.tool_name,
+                  toolCallArgument: msg.tool_input || msg.metadata.tool_input || '',
+                  toolCallOutput: '',
+                  callid: msg.metadata.callid,
+                },
+                sender: 'assistant',
+                timestamp: new Date(msg.created_at),
+                type: 'tool_call',
+                inprogress: false,
+                callid: msg.metadata.callid,
+              } as ChatMessage;
+            }
+
+            // Handle tool result messages
+            if (msg.metadata?.type === 'tool_result') {
+              return {
+                id: messageId,
+                content: {
+                  toolName: msg.tool_name || msg.metadata.tool_name,
+                  toolCallArgument: msg.tool_input || msg.metadata.tool_input || '',
+                  toolCallOutput: msg.tool_output || msg.metadata.tool_output || msg.content,
+                  callid: msg.metadata.callid,
+                },
+                sender: 'assistant',
+                timestamp: new Date(msg.created_at),
+                type: 'tool_call',
+                inprogress: false,
+                callid: msg.metadata.callid,
+              } as ChatMessage;
+            }
+
+            // Handle regular text messages
+            return {
+              id: messageId,
+              content: msg.content,
+              sender: msg.message_type === 'user' ? 'user' : 'assistant',
+              timestamp: new Date(msg.created_at),
+              type: msg.message_type === 'user' ? 'text' : (msg.metadata?.event_type || 'text'),
+            } as ChatMessage;
+          });
+
+          // Replace the welcome message with conversation history
+          setMessages(conversationMessages);
+        } else {
+          // If no messages, start fresh conversation
+          setConversationStarted(false);
+          setMessages([
+            {
+              id: Date.now(),
+              content: `👋 **Conversation Loaded**
+
+Welcome back to your SAP Career Coach! This conversation has been restored.
+
+💡 **Example questions you can ask:**
+• "I'm an SAP consultant with 3 years experience wanting to become a Solution Architect. What's my path?"
+• "I specialize in SAP HCM and want to transition to SAP SuccessFactors. How should I plan this?"
+• "What SAP certifications should I pursue for a senior technical role?"
+
+Let's continue building your SAP career roadmap together! 🚀`,
+              sender: 'assistant',
+              timestamp: new Date(),
+              type: 'text'
+            }
+          ]);
+        }
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to load conversation';
+      console.error('Error loading conversation:', error);
+      setError(errorMessage);
+    }
+  }, []);
+
+  // Function to load the most recent conversation (for manual loading)
+  const loadRecentConversationManually = useCallback(async () => {
+    console.log('Manually loading recent conversation');
+    await loadRecentConversation();
+  }, [loadRecentConversation]);
 
   // Helper function to truncate text to 3 lines (handles both plain text and JSON)
   const truncateText = (text: string | null | undefined, maxLines: number = 3): { truncated: string; isTruncated: boolean } => {
@@ -308,6 +630,9 @@ Let's build your SAP career roadmap together! 🚀`,
     }
   }, [isConnected]);
 
+  // Default to new chat - no automatic conversation loading
+  // Users can manually load previous conversations if needed
+
 
 
 
@@ -328,10 +653,12 @@ Let's build your SAP career roadmap together! 🚀`,
           };
 
           setMessages(prev => {
+            console.log('WebSocket event processing, current messages count:', prev.length);
             const lastMessage = prev[prev.length - 1];
 
             // Handle tool calls
             if (data.type === 'tool_call' && data.delta && data.callid) {
+              console.log('Processing tool_call event:', data.callid);
               const newMessage: ChatMessage = {
                 id: Date.now(),
                 content: {
@@ -346,25 +673,50 @@ Let's build your SAP career roadmap together! 🚀`,
                 inprogress: data.inprogress,
                 callid: data.callid,
               };
+
+              // Log tool call to database
+              if (conversationStarted) {
+                logMessage('assistant', `Tool Call: ${data.delta}`, {
+                  type: 'tool_call',
+                  callid: data.callid,
+                  tool_name: data.delta,
+                  tool_input: data.argument
+                });
+              }
+
               return [...prev, newMessage];
             }
 
             // Handle tool call outputs
             if (data.type === 'tool_call_output' && data.delta && data.callid) {
+              console.log('Processing tool_call_output event:', data.callid);
               const toolCallMessage = prev.find(msg => msg.callid === data.callid && msg.type === 'tool_call');
               if (toolCallMessage) {
                 const messageIndex = prev.findIndex(msg => msg.callid === data.callid && msg.type === 'tool_call');
                 if (messageIndex !== -1) {
                   const updatedMsgs = [...prev];
                   const toolMessage = updatedMsgs[messageIndex];
+                  const updatedContent = {
+                    ...(toolMessage.content as ToolCallMessage),
+                    toolCallOutput: data.delta,
+                  };
+
                   updatedMsgs[messageIndex] = {
                     ...toolMessage,
-                    content: {
-                      ...(toolMessage.content as ToolCallMessage),
-                      toolCallOutput: data.delta,
-                    },
+                    content: updatedContent,
                     inprogress: false,
                   };
+
+                  // Log tool call output to database when complete
+                  if (conversationStarted) {
+                    logMessage('assistant', `Tool Result: ${data.delta}`, {
+                      type: 'tool_result',
+                      callid: data.callid,
+                      tool_name: (toolMessage.content as ToolCallMessage).toolName,
+                      tool_output: data.delta
+                    });
+                  }
+
                   return updatedMsgs;
                 }
               }
@@ -374,6 +726,7 @@ Let's build your SAP career roadmap together! 🚀`,
             // Handle streaming text updates
             if (lastMessage && lastMessage.sender === 'assistant' &&
                 lastMessage.type === data.type && lastMessage.inprogress && data.delta) {
+              console.log('Processing streaming text update');
               const updatedMessages = [...prev];
               updatedMessages[updatedMessages.length - 1] = {
                 ...lastMessage,
@@ -382,6 +735,7 @@ Let's build your SAP career roadmap together! 🚀`,
               };
               return updatedMessages;
             } else if (data.delta) {
+              console.log('Creating new assistant message:', data.type);
               // Create new message for text/reasoning
               const newMessage: ChatMessage = {
                 id: Date.now(),
@@ -391,6 +745,15 @@ Let's build your SAP career roadmap together! 🚀`,
                 type: (data.type as ChatMessage['type']) || 'text',
                 inprogress: data.inprogress,
               };
+
+              // Log assistant message to database
+              if (conversationStarted) {
+                logMessage('assistant', data.delta, {
+                  type: data.type,
+                  inprogress: data.inprogress
+                });
+              }
+
               return [...prev, newMessage];
             }
 
@@ -403,7 +766,9 @@ Let's build your SAP career roadmap together! 🚀`,
         // Handle orchestra events (planner, worker, report)
         if (event.data && typeof event.data === 'object' && 'type' in event.data && 'item' in event.data) {
           const data = event.data as OrchestraEventData;
+          console.log('Processing orchestra event:', data.type);
           setMessages(prev => {
+            console.log('Orchestra event - current messages count:', prev.length);
             let content = '';
             let messageType: ChatMessage['type'] = 'text';
 
@@ -428,6 +793,17 @@ Let's build your SAP career roadmap together! 🚀`,
               timestamp: new Date(),
               type: messageType,
             };
+
+            console.log('Adding orchestra message:', messageType);
+
+            // Log orchestra events to database
+            if (conversationStarted) {
+              logMessage('assistant', content, {
+                event_type: data.type,
+                item: data.item
+              });
+            }
+
             return [...prev, newMessage];
           });
         }
@@ -437,14 +813,24 @@ Let's build your SAP career roadmap together! 🚀`,
         // Handle new agent notifications
         if (event.data && typeof event.data === 'object' && 'name' in event.data) {
           const data = event.data as { name: string };
+          const content = `🔄 **Agent Update**: ${data.name}`;
           setMessages(prev => {
             const newMessage: ChatMessage = {
               id: Date.now(),
-              content: `🔄 **Agent Update**: ${data.name}`,
+              content: content,
               sender: 'assistant',
               timestamp: new Date(),
               type: 'new_agent',
             };
+
+            // Log agent update to database
+            if (conversationStarted) {
+              logMessage('assistant', content, {
+                type: 'new_agent',
+                agent_name: data.name
+              });
+            }
+
             return [...prev, newMessage];
           });
         }
@@ -457,13 +843,33 @@ Let's build your SAP career roadmap together! 🚀`,
       default:
         console.log('Unhandled event type:', event.type);
     }
-  }, []);
+  }, [conversationStarted]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Handle incoming WebSocket messages
   useEffect(() => {
     if (lastMessage?.data) {
       try {
         const event: WebUIEvent = JSON.parse(lastMessage.data);
+
+        // Create a unique identifier for this message to prevent duplicates
+        const messageId = `${event.type}-${JSON.stringify(event.data)}`;
+
+        // Check if we've already processed this message
+        if (processedMessagesRef.current.has(messageId)) {
+          console.warn('Duplicate WebSocket message detected, skipping:', messageId);
+          return;
+        }
+
+        // Mark this message as processed
+        processedMessagesRef.current.add(messageId);
+
+        // Clean up old processed messages to prevent memory leaks
+        if (processedMessagesRef.current.size > 100) {
+          const messagesArray = Array.from(processedMessagesRef.current);
+          processedMessagesRef.current = new Set(messagesArray.slice(-50));
+        }
+
+        console.log('Processing WebSocket event:', event.type, event.data);
         handleWebUIEvent(event);
       } catch (error) {
         console.error('Failed to parse WebSocket message:', error);
@@ -471,8 +877,28 @@ Let's build your SAP career roadmap together! 🚀`,
     }
   }, [lastMessage, handleWebUIEvent]);
 
-  const handleSendMessage = () => {
+  // Expose loadConversationById function to parent component via ref
+  useEffect(() => {
+    if (loadConversationRef) {
+      loadConversationRef.current = {
+        loadConversation: loadConversationById
+      };
+    }
+  }, [loadConversationRef, loadConversationById]);
+
+  const handleSendMessage = async () => {
     if (!inputValue.trim() || isModelResponding || !isConnected) return;
+
+    console.log('Sending message, conversationStarted:', conversationStarted, 'currentSessionId:', currentSessionId);
+
+    // Create a new conversation if this is the first message
+    if (!conversationStarted) {
+      const sessionId = await createNewConversation();
+      if (!sessionId) {
+        console.error('Failed to create conversation');
+        return;
+      }
+    }
 
     const userMessage: ChatMessage = {
       id: Date.now(),
@@ -482,7 +908,20 @@ Let's build your SAP career roadmap together! 🚀`,
       type: 'text'
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    console.log('Adding user message to state:', userMessage);
+    setMessages(prev => {
+      console.log('Previous messages count:', prev.length);
+      return [...prev, userMessage];
+    });
+
+    // Log user message to database
+    await logMessage('user', inputValue);
+
+    // Update conversation title from first user message if this is the first message
+    if (!conversationStarted && currentSessionId) {
+      await updateConversationTitle(inputValue);
+    }
+
     setInputValue('');
     setIsModelResponding(true);
 
@@ -718,11 +1157,55 @@ Let's build your SAP career roadmap together! 🚀`,
                 <p className="text-sm opacity-90">Multi-Agent SAP Career Guidance System</p>
               </div>
             </div>
+            <div className="flex gap-2">
+              <Button
+                onClick={loadRecentConversationManually}
+                variant="secondary"
+                size="sm"
+                className="bg-white/10 hover:bg-white/20 text-white border-white/20 text-xs"
+                title="Load your most recent conversation"
+              >
+                Load Recent
+              </Button>
+              <Button
+                onClick={startNewChat}
+                variant="secondary"
+                size="sm"
+                className="bg-white/20 hover:bg-white/30 text-white border-white/30"
+              >
+                New Chat
+              </Button>
+            </div>
           </CardTitle>
         </CardHeader>
 
         <CardContent className="flex-1 p-0">
           <div className="h-full flex flex-col">
+            {/* Error Banner */}
+            {error && (
+              <div className="bg-red-50 dark:bg-red-950/30 border-l-4 border-red-400 p-4 m-6 rounded-r-lg">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0">
+                    <X className="h-5 w-5 text-red-400" />
+                  </div>
+                  <div className="ml-3">
+                    <p className="text-sm text-red-700 dark:text-red-300">
+                      {error}
+                    </p>
+                  </div>
+                  <div className="ml-auto pl-3">
+                    <button
+                      onClick={() => setError(null)}
+                      className="inline-flex rounded-md bg-red-50 dark:bg-red-950/30 p-1.5 text-red-500 hover:bg-red-100 dark:hover:bg-red-900/50"
+                    >
+                      <span className="sr-only">Dismiss</span>
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Messages Area */}
             <div
               ref={messagesContainerRef}

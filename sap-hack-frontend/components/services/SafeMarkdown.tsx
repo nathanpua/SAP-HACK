@@ -5,6 +5,7 @@ import remarkMath from 'remark-math';
 import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
 import rehypeRaw from 'rehype-raw';
+import Image from 'next/image';
 import Mermaid from './Mermaid';
 import BrokenImagePlaceholder from './BrokenImagePlaceholder';
 
@@ -15,19 +16,24 @@ type CodeProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTML
 };
 
 // Memoized image component to prevent re-renders
-const ImageWithErrorHandling = memo(({ src, alt, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => {
+const ImageWithErrorHandling = memo(({ src, alt, width, height, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => {
   const [hasError, setHasError] = useState(false);
-  
+
   if (hasError || !src) {
-    return <BrokenImagePlaceholder src={String(src || '')} alt={alt} />;
+    return <BrokenImagePlaceholder src={String(src || '')} alt={alt || ''} />;
   }
-  
+
+  // Ensure src is a string for Next.js Image component
+  const imageSrc = typeof src === 'string' ? src : String(src);
+
   return (
-    <img 
-      src={src}
-      alt={alt}
+    <Image
+      src={imageSrc}
+      alt={alt || ''}
       onError={() => setHasError(true)}
-      style={{ maxWidth: '100%' }}
+      style={{ maxWidth: '100%', height: 'auto' }}
+      width={typeof width === 'number' ? width : 500}
+      height={typeof height === 'number' ? height : 300}
       {...props}
     />
   );

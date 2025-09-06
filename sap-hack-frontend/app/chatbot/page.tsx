@@ -1,8 +1,8 @@
 "use client";
 
 import { CareerCoachChatbot } from "@/components/career-coach-chatbot";
-import { Bot, User, Settings, MessageSquare, BookOpen, Target, LogOut, UserCircle } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Bot, User, Settings, MessageSquare, BookOpen, Target, LogOut, UserCircle, Clock } from "lucide-react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import {
@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface UserProfile {
   firstName: string | null;
@@ -19,11 +20,25 @@ interface UserProfile {
   fullName: string;
 }
 
+interface Conversation {
+  id: string;
+  session_id: string;
+  title: string;
+  started_at: string;
+  last_message_at: string;
+  message_count: number;
+  status: string;
+  conversation_type: string;
+}
+
 export default function ChatbotPage() {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [isLoadingProfile, setIsLoadingProfile] = useState(true);
   const [profileError, setProfileError] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [recentConversations, setRecentConversations] = useState<Conversation[]>([]);
+  const [isLoadingConversations, setIsLoadingConversations] = useState(false);
+  const chatbotRef = useRef<{ loadConversation: (sessionId: string) => void } | null>(null);
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -35,6 +50,32 @@ export default function ChatbotPage() {
   const handleViewProfile = () => {
     router.push("/profile");
   };
+
+  // Function to fetch recent conversations
+  const fetchRecentConversations = useCallback(async () => {
+    try {
+      setIsLoadingConversations(true);
+      const response = await fetch('/api/conversations?page=1&limit=3');
+      if (!response.ok) {
+        throw new Error('Failed to fetch conversations');
+      }
+
+      const data = await response.json();
+      setRecentConversations(data.conversations || []);
+    } catch (error) {
+      console.error('Error fetching recent conversations:', error);
+      setRecentConversations([]);
+    } finally {
+      setIsLoadingConversations(false);
+    }
+  }, []);
+
+  // Function to handle clicking on a conversation card
+  const handleConversationClick = useCallback((sessionId: string) => {
+    if (chatbotRef.current) {
+      chatbotRef.current.loadConversation(sessionId);
+    }
+  }, []);
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -68,6 +109,7 @@ export default function ChatbotPage() {
         };
 
         fetchUserProfile();
+        fetchRecentConversations();
       } catch (error) {
         console.error('Error checking authentication:', error);
         setIsAuthenticated(false);
@@ -76,7 +118,7 @@ export default function ChatbotPage() {
     };
 
     checkAuthentication();
-  }, [router]);
+  }, [router, fetchRecentConversations]);
 
   // Show loading while checking authentication
   if (isAuthenticated === null) {
@@ -143,19 +185,47 @@ export default function ChatbotPage() {
             </div>
           </nav>
 
-          {/* Quick Actions */}
+          {/* Recent Chats */}
           <div className="mt-8">
-            <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Quick Actions</h3>
+            <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Recent Chats</h3>
             <div className="space-y-2">
-              <button className="w-full text-left px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                💼 Career Assessment
-              </button>
-              <button className="w-full text-left px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                🎯 Skill Gap Analysis
-              </button>
-              <button className="w-full text-left px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                📈 Certification Path
-              </button>
+              {isLoadingConversations ? (
+                <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
+                  Loading conversations...
+                </div>
+              ) : recentConversations.length === 0 ? (
+                <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
+                  No recent conversations
+                </div>
+              ) : (
+                recentConversations.map((conversation) => (
+                  <Card
+                    key={conversation.id}
+                    className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border-gray-200 dark:border-gray-700"
+                    onClick={() => handleConversationClick(conversation.session_id)}
+                  >
+                    <CardContent className="p-3">
+                      <div className="flex items-start gap-2">
+                        <MessageSquare className="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                            {conversation.title}
+                          </p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Clock className="w-3 h-3 text-gray-400" />
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                              {new Date(conversation.last_message_at).toLocaleDateString()}
+                            </p>
+                            <span className="text-xs text-gray-400 dark:text-gray-500">
+                              {conversation.message_count} messages
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))
+              )}
             </div>
           </div>
         </div>
@@ -206,7 +276,7 @@ export default function ChatbotPage() {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
-        <CareerCoachChatbot />
+        <CareerCoachChatbot loadConversationRef={chatbotRef} />
       </div>
     </div>
   );
