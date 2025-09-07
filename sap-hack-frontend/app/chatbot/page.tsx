@@ -3,7 +3,7 @@
 import { CareerCoachChatbot } from "@/components/career-coach-chatbot";
 import { Bot, User, Settings, MessageSquare, BookOpen, Target, LogOut, UserCircle, Clock, History } from "lucide-react";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { cacheManager } from "@/lib/cache-manager";
 import {
@@ -47,8 +47,10 @@ export default function ChatbotPage() {
   const [recentConversations, setRecentConversations] = useState<Conversation[]>([]);
   const [isLoadingConversations, setIsLoadingConversations] = useState(false);
   const [currentConversation, setCurrentConversation] = useState<CurrentConversation | null>(null);
+  const [hasLoadedFromUrl, setHasLoadedFromUrl] = useState(false);
   const chatbotRef = useRef<{ loadConversation: (sessionId: string) => void } | null>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleLogout = async () => {
     // Invalidate caches before logout
@@ -170,6 +172,48 @@ export default function ChatbotPage() {
 
     checkAuthentication();
   }, [router, fetchRecentConversations]);
+
+  // Handle loading conversation from URL parameters
+  useEffect(() => {
+    const sessionId = searchParams.get('sessionId');
+
+    if (sessionId && !hasLoadedFromUrl && chatbotRef.current && isAuthenticated) {
+      console.log('Loading conversation from URL parameter:', sessionId);
+
+      // Load the conversation
+      chatbotRef.current.loadConversation(sessionId);
+
+      // Fetch conversation details for the current conversation state
+      const fetchConversationDetails = async () => {
+        try {
+          const response = await fetch(`/api/conversations/${sessionId}`);
+          if (response.ok) {
+            const data = await response.json();
+            if (data.conversation) {
+              const conversation = data.conversation;
+              setCurrentConversation({
+                sessionId: conversation.session_id,
+                title: conversation.title,
+                started_at: conversation.started_at,
+                message_count: conversation.message_count
+              });
+              console.log('Updated current conversation from URL:', conversation.title);
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching conversation details from URL:', error);
+        }
+      };
+
+      fetchConversationDetails();
+      setHasLoadedFromUrl(true);
+
+      // Clear the URL parameter to prevent re-loading on navigation
+      const newUrl = new URL(window.location.href);
+      newUrl.searchParams.delete('sessionId');
+      window.history.replaceState({}, '', newUrl.toString());
+    }
+  }, [searchParams, hasLoadedFromUrl, isAuthenticated]);
 
   // Show loading while checking authentication
   if (isAuthenticated === null) {

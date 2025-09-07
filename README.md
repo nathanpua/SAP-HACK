@@ -54,7 +54,9 @@ The backend uses the Youtu-agent framework. You need to install the UI package f
 # Download the prebuilt wheel file from:
 # https://tencentcloudadp.github.io/youtu-agent/frontend/#installation
 # Save it to the project root directory, then install it:
-uv pip install utu_agent_ui-0.1.6-py3-none-any.whl
+
+# cd into Youtu_agent and install the wheel file
+uv pip install utu_agent_ui-0.1.5-py3-none-any.whl
 
 # Navigate to the backend directory
 cd Youtu-agent
