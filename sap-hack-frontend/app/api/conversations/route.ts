@@ -40,6 +40,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get user's conversations with message count
+    console.log('📊 Fetching conversations for employee:', employee.id);
     const { data: conversations, error, count } = await serviceSupabase
       .from('employee_conversation_sessions')
       .select(`
@@ -55,6 +56,10 @@ export async function GET(request: NextRequest) {
       .eq('employee_id', employee.id)
       .order('last_message_at', { ascending: false })
       .range(offset, offset + limit - 1);
+
+    if (conversations) {
+      console.log('📋 Retrieved conversations:', conversations.map(c => ({ id: c.session_id, title: c.title })));
+    }
 
     if (error) {
       console.error('Error fetching conversations:', error);
@@ -125,7 +130,7 @@ export async function POST(request: NextRequest) {
       .insert({
         employee_id: employee.id,
         session_id: sessionId,
-        title: title || 'New Conversation',
+        title: title || 'New Career Coach Chat',
         conversation_type,
         status: 'active'
       })
@@ -153,3 +158,4 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+

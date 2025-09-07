@@ -1,6 +1,24 @@
 import { NextResponse } from "next/server";
 import { createClient, createServiceRoleClient } from "@/lib/supabase/server";
 
+// Cache invalidation utility
+export async function invalidateUserProfileCache(userId: string) {
+  try {
+    // This would typically call a cache invalidation service
+    // For now, we'll rely on the time-based expiration
+    // In production, you might want to:
+    // 1. Use Redis to store/invalidate cache keys
+    // 2. Call a cache purging service
+    // 3. Send cache invalidation events
+
+    console.log(`Cache invalidation requested for user: ${userId}`);
+    return true;
+  } catch (error) {
+    console.error('Cache invalidation failed:', error);
+    return false;
+  }
+}
+
 export async function GET(request: Request) {
   try {
     const authHeader = request.headers.get('authorization');
@@ -66,144 +84,72 @@ export async function GET(request: Request) {
       );
     }
 
-    // Fetch employee skills (separate queries to avoid JOIN ambiguity)
+    // Fetch employee skills with JOIN (more efficient)
     const { data: employeeSkills, error: skillsError } = await supabase
       .from("employee_skills")
-      .select("*")
+      .select(`
+        *,
+        skill:skills(id, name, category, description, skill_type)
+      `)
       .eq("employee_id", employee.id)
       .order("years_of_experience", { ascending: false });
-
-    let skills = null;
-    if (employeeSkills && employeeSkills.length > 0) {
-      // Get unique skill IDs
-      const skillIds = [...new Set(employeeSkills.map(es => es.skill_id))];
-
-      const { data: skillDetails } = await supabase
-        .from("skills")
-        .select("id, name, category, description, skill_type")
-        .in("id", skillIds);
-
-      // Combine the data
-      skills = employeeSkills.map(es => ({
-        ...es,
-        skill: skillDetails?.find(s => s.id === es.skill_id) || null
-      }));
-    }
 
     if (skillsError) {
       console.error("Error fetching employee skills:", skillsError);
     }
 
-    // Fetch employee certifications (separate queries to avoid JOIN ambiguity)
+    // Fetch employee certifications with JOIN (more efficient)
     const { data: employeeCerts, error: certsError } = await supabase
       .from("employee_certifications")
-      .select("*")
+      .select(`
+        *,
+        certification:certifications(id, name, code, description, issuing_authority, certification_level)
+      `)
       .eq("employee_id", employee.id)
       .order("issue_date", { ascending: false });
-
-    let certifications = null;
-    if (employeeCerts && employeeCerts.length > 0) {
-      // Get unique certification IDs
-      const certIds = [...new Set(employeeCerts.map(ec => ec.certification_id))];
-
-      const { data: certDetails } = await supabase
-        .from("certifications")
-        .select("id, name, code, description, issuing_authority, certification_level")
-        .in("id", certIds);
-
-      // Combine the data
-      certifications = employeeCerts.map(ec => ({
-        ...ec,
-        certification: certDetails?.find(c => c.id === ec.certification_id) || null
-      }));
-    }
 
     if (certsError) {
       console.error("Error fetching employee certifications:", certsError);
     }
 
-    // Fetch current projects (separate queries to avoid JOIN ambiguity)
+    // Fetch current projects with JOIN (more efficient)
     const { data: employeeProjects, error: projectsError } = await supabase
       .from("project_assignments")
-      .select("*")
-      .eq("employee_id", employee.id);
-
-    let projects = null;
-    if (employeeProjects && employeeProjects.length > 0) {
-      // Get unique project IDs
-      const projectIds = [...new Set(employeeProjects.map(ep => ep.project_id))];
-
-      const { data: projectDetails } = await supabase
-        .from("projects")
-        .select("id, name, code, description, status, start_date, planned_end_date, sap_module")
-        .in("id", projectIds)
-        .eq("status", "active");
-
-      // Combine the data and filter to active projects
-      projects = employeeProjects
-        .map(ep => ({
-          ...ep,
-          project: projectDetails?.find(p => p.id === ep.project_id) || null
-        }))
-        .filter(ep => ep.project !== null); // Only include projects that are active
-    }
+      .select(`
+        *,
+        project:projects!inner(id, name, code, description, status, start_date, planned_end_date, sap_module)
+      `)
+      .eq("employee_id", employee.id)
+      .eq("project.status", "active");
 
     if (projectsError) {
       console.error("Error fetching employee projects:", projectsError);
     }
 
-    // Fetch performance reviews (avoiding join to prevent column ambiguity)
+    // Fetch performance reviews with reviewer details
     const { data: performance, error: perfError } = await supabase
       .from("performance_reviews")
       .select(`
         *,
-        reviewer_id
+        reviewer:employees!performance_reviews_reviewer_id_fkey(first_name, last_name)
       `)
       .eq("employee_id", employee.id)
       .order("review_date", { ascending: false })
       .limit(1);
 
-    // Fetch reviewer details separately if we have performance data
-    let reviewerDetails = null;
-    if (performance && performance.length > 0 && performance[0].reviewer_id) {
-      const { data: reviewer } = await supabase
-        .from("employees")
-        .select("first_name, last_name")
-        .eq("id", performance[0].reviewer_id)
-        .single();
-
-      if (reviewer) {
-        reviewerDetails = reviewer;
-      }
-    }
-
     if (perfError) {
       console.error("Error fetching performance reviews:", perfError);
     }
 
-    // Fetch training history (separate queries to avoid JOIN ambiguity)
+    // Fetch training history with JOIN (more efficient)
     const { data: employeeTraining, error: trainingError } = await supabase
       .from("employee_training")
-      .select("*")
+      .select(`
+        *,
+        training_program:training_programs(id, name, code, description, provider, duration_hours, sap_module)
+      `)
       .eq("employee_id", employee.id)
       .order("enrollment_date", { ascending: false });
-
-    let training = null;
-    if (employeeTraining && employeeTraining.length > 0) {
-      // Get unique training program IDs
-      const programIds = [...new Set(employeeTraining.map(et => et.training_program_id))];
-
-      const { data: programDetails } = await supabase
-        .from("training_programs")
-        .select("id, name, code, description, provider, duration_hours, sap_module")
-        .in("id", programIds);
-
-      // Combine the data
-      training = employeeTraining.map(et => ({
-        ...et,
-        training_program: programDetails?.find(tp => tp.id === et.training_program_id) || null
-      }));
-    }
 
     if (trainingError) {
       console.error("Error fetching training history:", trainingError);
@@ -214,8 +160,8 @@ export async function GET(request: Request) {
       ? Math.floor((new Date().getTime() - new Date(employee.hire_date).getTime()) / (1000 * 60 * 60 * 24 * 365))
       : 0;
 
-    // Return comprehensive user profile data
-    return NextResponse.json({
+    // Return comprehensive user profile data with caching headers
+    const response = NextResponse.json({
       // Basic Information
       id: employee.id,
       employeeId: employee.employee_id,
@@ -270,26 +216,32 @@ export async function GET(request: Request) {
       timezone: employee.timezone,
 
       // Skills and Certifications
-      skills: skills || [],
-      certifications: certifications || [],
+      skills: employeeSkills || [],
+      certifications: employeeCerts || [],
 
       // Current Projects
-      currentProjects: projects || [],
+      currentProjects: employeeProjects || [],
 
       // Performance & Development
       latestPerformanceReview: performance?.[0] ? {
         ...performance[0],
-        reviewer: reviewerDetails ? {
-          first_name: reviewerDetails.first_name,
-          last_name: reviewerDetails.last_name
+        reviewer: performance[0].reviewer ? {
+          first_name: performance[0].reviewer.first_name,
+          last_name: performance[0].reviewer.last_name
         } : null
       } : null,
-      trainingHistory: training || [],
+      trainingHistory: employeeTraining || [],
 
       // Additional Info
       profilePictureUrl: employee.profile_picture_url,
       onboardingStatus: employee.onboarding_status
     });
+
+    // Add HTTP caching headers
+    // Cache for 5 minutes at CDN/edge, allow stale-while-revalidate for 2 minutes
+    response.headers.set('Cache-Control', 'private, s-maxage=300, stale-while-revalidate=120');
+
+    return response;
 
   } catch (error) {
     console.error("Unexpected error:", error);

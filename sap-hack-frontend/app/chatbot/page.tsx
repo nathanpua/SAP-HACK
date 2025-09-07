@@ -1,10 +1,11 @@
 "use client";
 
 import { CareerCoachChatbot } from "@/components/career-coach-chatbot";
-import { Bot, User, Settings, MessageSquare, BookOpen, Target, LogOut, UserCircle, Clock } from "lucide-react";
+import { Bot, User, Settings, MessageSquare, BookOpen, Target, LogOut, UserCircle, Clock, History } from "lucide-react";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { cacheManager } from "@/lib/cache-manager";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,6 +32,13 @@ interface Conversation {
   conversation_type: string;
 }
 
+interface CurrentConversation {
+  sessionId: string;
+  title: string;
+  started_at: string;
+  message_count: number;
+}
+
 export default function ChatbotPage() {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [isLoadingProfile, setIsLoadingProfile] = useState(true);
@@ -38,10 +46,14 @@ export default function ChatbotPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [recentConversations, setRecentConversations] = useState<Conversation[]>([]);
   const [isLoadingConversations, setIsLoadingConversations] = useState(false);
+  const [currentConversation, setCurrentConversation] = useState<CurrentConversation | null>(null);
   const chatbotRef = useRef<{ loadConversation: (sessionId: string) => void } | null>(null);
   const router = useRouter();
 
   const handleLogout = async () => {
+    // Invalidate caches before logout
+    await cacheManager.invalidateUserCaches();
+
     const supabase = createClient();
     await supabase.auth.signOut();
     router.push("/auth/login");
@@ -53,6 +65,7 @@ export default function ChatbotPage() {
 
   // Function to fetch recent conversations
   const fetchRecentConversations = useCallback(async () => {
+    console.log('🔄 Fetching recent conversations...');
     try {
       setIsLoadingConversations(true);
       const response = await fetch('/api/conversations?page=1&limit=3');
@@ -61,9 +74,10 @@ export default function ChatbotPage() {
       }
 
       const data = await response.json();
+      console.log('📋 Fetched conversations:', data.conversations?.map((c: Conversation) => ({ id: c.session_id, title: c.title })));
       setRecentConversations(data.conversations || []);
     } catch (error) {
-      console.error('Error fetching recent conversations:', error);
+      console.error('❌ Error fetching recent conversations:', error);
       setRecentConversations([]);
     } finally {
       setIsLoadingConversations(false);
@@ -74,6 +88,43 @@ export default function ChatbotPage() {
   const handleConversationClick = useCallback((sessionId: string) => {
     if (chatbotRef.current) {
       chatbotRef.current.loadConversation(sessionId);
+      // Clear current conversation when switching to another conversation
+      setCurrentConversation(null);
+    }
+  }, []);
+
+  // Function to handle when a new conversation is created
+  const handleConversationCreated = useCallback(() => {
+    console.log('New conversation created, refreshing conversations list');
+    fetchRecentConversations();
+  }, [fetchRecentConversations]);
+
+  // Function to handle when conversation title is updated
+  const handleConversationTitleUpdated = useCallback(() => {
+    console.log('Conversation title updated, refreshing conversations list');
+    fetchRecentConversations();
+  }, [fetchRecentConversations]);
+
+  // Function to update current conversation title
+  const handleCurrentConversationTitleUpdate = useCallback(async (sessionId: string) => {
+    try {
+      console.log('Fetching updated conversation details for sessionId:', sessionId);
+      const response = await fetch(`/api/conversations/${sessionId}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.conversation) {
+          const conversation = data.conversation;
+          setCurrentConversation({
+            sessionId: conversation.session_id,
+            title: conversation.title,
+            started_at: conversation.started_at,
+            message_count: conversation.message_count
+          });
+          console.log('Updated current conversation title to:', conversation.title);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching updated conversation:', error);
     }
   }, []);
 
@@ -169,6 +220,11 @@ export default function ChatbotPage() {
               <span className="font-medium">Chat</span>
             </div>
 
+            <div className="flex items-center gap-3 px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer" onClick={() => router.push('/chat-history')}>
+              <History className="w-5 h-5" />
+              <span>Chat History</span>
+            </div>
+
             <div className="flex items-center gap-3 px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer">
               <BookOpen className="w-5 h-5" />
               <span>Reports</span>
@@ -185,6 +241,34 @@ export default function ChatbotPage() {
             </div>
           </nav>
 
+          {/* Current Conversation */}
+          {currentConversation && (
+            <div className="mt-8">
+              <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                Current Chat
+              </h3>
+              <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border-blue-200 dark:border-blue-800">
+                <CardContent className="p-3">
+                  <div className="flex items-start gap-2">
+                    <MessageSquare className="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 dark:text-white leading-relaxed break-words">
+                        {currentConversation.title.replace(/^["']|["']$/g, '')}
+                      </p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <Clock className="w-3 h-3 text-gray-400" />
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          {new Date(currentConversation.started_at).toLocaleDateString()} {new Date(currentConversation.started_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
           {/* Recent Chats */}
           <div className="mt-8">
             <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Recent Chats</h3>
@@ -198,7 +282,9 @@ export default function ChatbotPage() {
                   No recent conversations
                 </div>
               ) : (
-                recentConversations.map((conversation) => (
+                recentConversations
+                  .filter(conversation => conversation.session_id !== currentConversation?.sessionId)
+                  .map((conversation) => (
                   <Card
                     key={conversation.id}
                     className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border-gray-200 dark:border-gray-700"
@@ -208,17 +294,14 @@ export default function ChatbotPage() {
                       <div className="flex items-start gap-2">
                         <MessageSquare className="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                            {conversation.title}
+                          <p className="text-sm font-medium text-gray-900 dark:text-white leading-relaxed break-words">
+                            {conversation.title.replace(/^["']|["']$/g, '')}
                           </p>
                           <div className="flex items-center gap-2 mt-1">
                             <Clock className="w-3 h-3 text-gray-400" />
                             <p className="text-xs text-gray-500 dark:text-gray-400">
-                              {new Date(conversation.last_message_at).toLocaleDateString()}
+                              {new Date(conversation.last_message_at).toLocaleDateString()} {new Date(conversation.last_message_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </p>
-                            <span className="text-xs text-gray-400 dark:text-gray-500">
-                              {conversation.message_count} messages
-                            </span>
                           </div>
                         </div>
                       </div>
@@ -276,7 +359,12 @@ export default function ChatbotPage() {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
-        <CareerCoachChatbot loadConversationRef={chatbotRef} />
+        <CareerCoachChatbot
+          loadConversationRef={chatbotRef}
+          onConversationCreated={handleConversationCreated}
+          onConversationTitleUpdated={handleConversationTitleUpdated}
+          onCurrentConversationTitleUpdate={handleCurrentConversationTitleUpdate}
+        />
       </div>
     </div>
   );

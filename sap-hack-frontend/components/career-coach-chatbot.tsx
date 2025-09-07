@@ -34,6 +34,9 @@ interface OrchestraEventData {
 interface CareerCoachChatbotProps {
   wsUrl?: string;
   loadConversationRef?: React.MutableRefObject<{ loadConversation: (sessionId: string) => void } | null>;
+  onConversationCreated?: () => void;
+  onConversationTitleUpdated?: () => void;
+  onCurrentConversationTitleUpdate?: (sessionId: string) => void;
 }
 
 // Helper function to format time consistently
@@ -44,7 +47,7 @@ const formatTime = (date: Date) => {
 };
 
 
-export function CareerCoachChatbot({ wsUrl = 'ws://127.0.0.1:8848/ws', loadConversationRef }: CareerCoachChatbotProps) {
+export function CareerCoachChatbot({ wsUrl = 'ws://127.0.0.1:8848/ws', loadConversationRef, onConversationCreated, onConversationTitleUpdated, onCurrentConversationTitleUpdate }: CareerCoachChatbotProps) {
 
   // State for conversation management
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
@@ -98,7 +101,7 @@ Let's build your SAP career roadmap together! 🚀
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          title: title || 'New Career Coach Conversation'
+          title: title // Let the API handle the default title
         }),
       });
 
@@ -110,7 +113,14 @@ Let's build your SAP career roadmap together! 🚀
       const data = await response.json();
       const sessionId = data.conversation.session_id;
       setCurrentSessionId(sessionId);
-      setConversationStarted(true);
+      // Don't set conversationStarted to true here - let the first message handler do it
+      console.log('Conversation created with sessionId:', sessionId);
+
+      // Notify parent component that a new conversation was created
+      if (onConversationCreated) {
+        onConversationCreated();
+      }
+
       return sessionId;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to create conversation';
@@ -118,14 +128,19 @@ Let's build your SAP career roadmap together! 🚀
       setError(errorMessage);
       return null;
     }
-  }, []);
+  }, [onConversationCreated]);
 
   // Flag to prevent concurrent message logging
   const isLoggingMessage = useRef(false);
 
   // Function to log a message to the database
-  const logMessage = useCallback(async (messageType: 'user' | 'assistant', content: string, metadata?: Record<string, unknown>): Promise<void> => {
-    if (!currentSessionId) return;
+  const logMessage = useCallback(async (messageType: 'user' | 'assistant', content: string, metadata?: Record<string, unknown>, sessionId?: string): Promise<void> => {
+    const targetSessionId = sessionId || currentSessionId;
+
+    if (!targetSessionId) {
+      console.log('logMessage: No sessionId available, skipping message logging');
+      return;
+    }
 
     // Prevent concurrent logging
     if (isLoggingMessage.current) {
@@ -136,7 +151,7 @@ Let's build your SAP career roadmap together! 🚀
     isLoggingMessage.current = true;
 
     try {
-      const response = await fetch(`/api/conversations/${currentSessionId}/messages`, {
+      const response = await fetch(`/api/conversations/${targetSessionId}/messages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -165,27 +180,56 @@ Let's build your SAP career roadmap together! 🚀
   }, [currentSessionId]);
 
   // Function to update conversation title
-  const updateConversationTitle = useCallback(async (title: string) => {
-    if (!currentSessionId) return;
+  const updateConversationTitle = useCallback(async (message: string, sessionId?: string) => {
+    const targetSessionId = sessionId || currentSessionId;
+
+    console.log('updateConversationTitle called with message:', message.substring(0, 50) + '...');
+    console.log('Using sessionId for title update:', targetSessionId);
+
+    if (!targetSessionId) {
+      console.log('No sessionId available for title update, skipping');
+      return;
+    }
+
+    console.log('Making API call to update title for sessionId:', targetSessionId);
 
     try {
-      const response = await fetch(`/api/conversations/${currentSessionId}`, {
-        method: 'PATCH',
+      const response = await fetch('/api/conversations/generate-title', {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          title: title.length > 50 ? title.substring(0, 47) + '...' : title
+          message: message,
+          sessionId: targetSessionId
         }),
       });
 
+      console.log('API response status:', response.status);
+
       if (!response.ok) {
-        console.error('Failed to update conversation title');
+        const errorText = await response.text();
+        console.error('Failed to update conversation title:', response.status, errorText);
+      } else {
+        const data = await response.json();
+        console.log('Conversation title updated successfully to:', data.title);
+
+        // Notify parent component that conversation title was updated
+        if (onConversationTitleUpdated) {
+          console.log('Notifying parent component of title update');
+          onConversationTitleUpdated();
+        }
+
+        // Notify parent component of current conversation title update
+        if (onCurrentConversationTitleUpdate && targetSessionId) {
+          console.log('Notifying parent component of current conversation title update');
+          onCurrentConversationTitleUpdate(targetSessionId);
+        }
       }
     } catch (error) {
-      console.error('Error updating conversation title:', error);
+      console.error('Network error updating conversation title:', error);
     }
-  }, [currentSessionId]);
+  }, [currentSessionId, onConversationTitleUpdated, onCurrentConversationTitleUpdate]);
 
   // Function to start a new chat
   const startNewChat = useCallback(async () => {
@@ -214,92 +258,6 @@ Let's build your SAP career roadmap together! 🚀`,
     ]);
   }, []);
 
-  // Function to load the most recent conversation and its messages
-  const loadRecentConversation = useCallback(async () => {
-    try {
-      const response = await fetch('/api/conversations?page=1&limit=1');
-      if (!response.ok) return;
-
-      const data = await response.json();
-      if (data.conversations && data.conversations.length > 0) {
-        const recentConversation = data.conversations[0];
-        setCurrentSessionId(recentConversation.session_id);
-
-        // Load messages for this conversation
-        const messagesResponse = await fetch(`/api/conversations/${recentConversation.session_id}/messages`);
-        if (messagesResponse.ok) {
-          const messagesData = await messagesResponse.json();
-
-          if (messagesData.messages && messagesData.messages.length > 0) {
-            setConversationStarted(true);
-
-            // Convert database messages to ChatMessage format
-            const conversationMessages: ChatMessage[] = messagesData.messages.map((msg: {
-              message_type: string;
-              content: string;
-              created_at: string;
-              metadata?: Record<string, unknown>;
-              tool_name?: string;
-              tool_input?: string;
-              tool_output?: string;
-            }, index: number) => {
-              const messageId = Date.now() + index;
-
-              // Handle tool call messages
-              if (msg.metadata?.type === 'tool_call') {
-                return {
-                  id: messageId,
-                  content: {
-                    toolName: msg.tool_name || msg.metadata.tool_name,
-                    toolCallArgument: msg.tool_input || msg.metadata.tool_input || '',
-                    toolCallOutput: '',
-                    callid: msg.metadata.callid,
-                  },
-                  sender: 'assistant',
-                  timestamp: new Date(msg.created_at),
-                  type: 'tool_call',
-                  inprogress: false,
-                  callid: msg.metadata.callid,
-                } as ChatMessage;
-              }
-
-              // Handle tool result messages
-              if (msg.metadata?.type === 'tool_result') {
-                return {
-                  id: messageId,
-                  content: {
-                    toolName: msg.tool_name || msg.metadata.tool_name,
-                    toolCallArgument: msg.tool_input || msg.metadata.tool_input || '',
-                    toolCallOutput: msg.tool_output || msg.metadata.tool_output || msg.content,
-                    callid: msg.metadata.callid,
-                  },
-                  sender: 'assistant',
-                  timestamp: new Date(msg.created_at),
-                  type: 'tool_call',
-                  inprogress: false,
-                  callid: msg.metadata.callid,
-                } as ChatMessage;
-              }
-
-              // Handle regular text messages
-              return {
-                id: messageId,
-                content: msg.content,
-                sender: msg.message_type === 'user' ? 'user' : 'assistant',
-                timestamp: new Date(msg.created_at),
-                type: msg.message_type === 'user' ? 'text' : (msg.metadata?.event_type || 'text'),
-              } as ChatMessage;
-            });
-
-            // Replace the welcome message with conversation history
-            setMessages(conversationMessages);
-          }
-        }
-      }
-    } catch (error) {
-      console.error('Error loading recent conversation:', error);
-    }
-  }, []);
 
   // Function to load a specific conversation by session ID
   const loadConversationById = useCallback(async (sessionId: string) => {
@@ -404,12 +362,6 @@ Let's continue building your SAP career roadmap together! 🚀`,
       setError(errorMessage);
     }
   }, []);
-
-  // Function to load the most recent conversation (for manual loading)
-  const loadRecentConversationManually = useCallback(async () => {
-    console.log('Manually loading recent conversation');
-    await loadRecentConversation();
-  }, [loadRecentConversation]);
 
   // Helper function to truncate text to 3 lines (handles both plain text and JSON)
   const truncateText = (text: string | null | undefined, maxLines: number = 3): { truncated: string; isTruncated: boolean } => {
@@ -812,7 +764,8 @@ Let's continue building your SAP career roadmap together! 🚀`,
 
             // Handle streaming text updates
             if (lastMessage && lastMessage.sender === 'assistant' &&
-                lastMessage.type === data.type && lastMessage.inprogress && data.delta) {
+                lastMessage.inprogress && data.delta &&
+                ['text', 'reason', 'raw'].includes(data.type || '')) {
               console.log('Processing streaming text update');
               const updatedMessages = [...prev];
               updatedMessages[updatedMessages.length - 1] = {
@@ -968,13 +921,20 @@ Let's continue building your SAP career roadmap together! 🚀`,
 
     console.log('Sending message, conversationStarted:', conversationStarted, 'currentSessionId:', currentSessionId);
 
+    let sessionIdForTitleUpdate = currentSessionId;
+
     // Create a new conversation if this is the first message
     if (!conversationStarted) {
-      const sessionId = await createNewConversation();
-      if (!sessionId) {
+      console.log('Creating new conversation...');
+      const newSessionId = await createNewConversation();
+      if (!newSessionId) {
         console.error('Failed to create conversation');
         return;
       }
+      console.log('Conversation created successfully with sessionId:', newSessionId);
+      sessionIdForTitleUpdate = newSessionId;
+    } else {
+      console.log('Using existing conversation, sessionId:', currentSessionId);
     }
 
     const userMessage: ChatMessage = {
@@ -992,11 +952,35 @@ Let's continue building your SAP career roadmap together! 🚀`,
     });
 
     // Log user message to database
-    await logMessage('user', inputValue);
+    await logMessage('user', inputValue, undefined, sessionIdForTitleUpdate || undefined);
 
     // Update conversation title from first user message if this is the first message
-    if (!conversationStarted && currentSessionId) {
-      await updateConversationTitle(inputValue);
+    console.log('Checking title update conditions:', {
+      conversationStarted,
+      currentSessionId,
+      sessionIdForTitleUpdate,
+      inputValue: inputValue.substring(0, 50) + '...'
+    });
+
+    if (!conversationStarted) {
+      if (sessionIdForTitleUpdate) {
+        console.log('Calling updateConversationTitle with sessionId:', sessionIdForTitleUpdate);
+        await updateConversationTitle(inputValue, sessionIdForTitleUpdate);
+        // Now mark conversation as started after title update
+        setConversationStarted(true);
+        console.log('Conversation marked as started after title update');
+      } else {
+        console.error('ERROR: Conversation was created but sessionId is still null!');
+        console.log('This indicates a timing issue with React state updates');
+        // Fallback: try using currentSessionId from state (might work if state updated)
+        if (currentSessionId) {
+          console.log('Fallback: Using currentSessionId from state:', currentSessionId);
+          await updateConversationTitle(inputValue, currentSessionId);
+          setConversationStarted(true);
+        }
+      }
+    } else {
+      console.log('Conversation already started, skipping title update');
     }
 
     setInputValue('');
@@ -1005,7 +989,7 @@ Let's continue building your SAP career roadmap together! 🚀`,
     sendQuery(inputValue);
   };
 
-  const handleStopMessage = () => {
+  const handleStopMessage = () => { 
     setIsModelResponding(false);
   };
 
@@ -1235,15 +1219,6 @@ Let's continue building your SAP career roadmap together! 🚀`,
               </div>
             </div>
             <div className="flex gap-2">
-              <Button
-                onClick={loadRecentConversationManually}
-                variant="secondary"
-                size="sm"
-                className="bg-white/10 hover:bg-white/20 text-white border-white/20 text-xs"
-                title="Load your most recent conversation"
-              >
-                Load Recent
-              </Button>
               <Button
                 onClick={startNewChat}
                 variant="secondary"

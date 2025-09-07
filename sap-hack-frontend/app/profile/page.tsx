@@ -183,11 +183,14 @@ export default function ProfilePage() {
         const fetchUserProfile = async () => {
           try {
             const response = await fetch('/api/user-profile');
+
             if (!response.ok) {
               throw new Error('Failed to fetch user profile');
             }
+
             const data = await response.json();
             setUserProfile(data);
+
           } catch (error) {
             console.error('Error fetching user profile:', error);
             setProfileError('Failed to load user profile');
@@ -491,8 +494,8 @@ export default function ProfilePage() {
                     <div key={skillItem.id} className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                       <div className="flex items-start justify-between">
                         <div>
-                          <h4 className="font-medium text-gray-900 dark:text-white">{skillItem.skill.name}</h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">{skillItem.skill.category}</p>
+                          <h4 className="font-medium text-gray-900 dark:text-white">{skillItem.skill?.name || 'Unknown Skill'}</h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{skillItem.skill?.category || 'Unknown Category'}</p>
                         </div>
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                           skillItem.final_proficiency === 'expert' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
@@ -526,9 +529,9 @@ export default function ProfilePage() {
                     <div key={cert.id} className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                       <div className="flex items-start justify-between">
                         <div>
-                          <h4 className="font-medium text-gray-900 dark:text-white">{cert.certification.name}</h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">{cert.certification.issuing_authority}</p>
-                          {cert.certification.certification_level && (
+                          <h4 className="font-medium text-gray-900 dark:text-white">{cert.certification?.name || 'Unknown Certification'}</h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{cert.certification?.issuing_authority || 'Unknown Authority'}</p>
+                          {cert.certification?.certification_level && (
                             <span className="inline-flex px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 mt-1">
                               {cert.certification.certification_level}
                             </span>
@@ -570,8 +573,8 @@ export default function ProfilePage() {
                     <div key={projectAssignment.id} className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                       <div className="flex items-start justify-between">
                         <div>
-                          <h4 className="font-medium text-gray-900 dark:text-white">{projectAssignment.project.name}</h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">{projectAssignment.project.code}</p>
+                          <h4 className="font-medium text-gray-900 dark:text-white">{projectAssignment.project?.name || 'Unknown Project'}</h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{projectAssignment.project?.code || 'Unknown Code'}</p>
                           <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{projectAssignment.role_in_project}</p>
                         </div>
                         <div className="text-right">
@@ -601,7 +604,9 @@ export default function ProfilePage() {
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Reviewed by {userProfile.latestPerformanceReview.reviewer.first_name} {userProfile.latestPerformanceReview.reviewer.last_name}
+                        Reviewed by {userProfile.latestPerformanceReview.reviewer ?
+                          `${userProfile.latestPerformanceReview.reviewer.first_name} ${userProfile.latestPerformanceReview.reviewer.last_name}` :
+                          'Unknown Reviewer'}
                       </p>
                       <p className="text-sm text-gray-600 dark:text-gray-400">
                         {new Date(userProfile.latestPerformanceReview.review_date).toLocaleDateString()}
@@ -643,9 +648,9 @@ export default function ProfilePage() {
                     <div key={training.id} className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                       <div className="flex items-start justify-between">
                         <div>
-                          <h4 className="font-medium text-gray-900 dark:text-white">{training.training_program.name}</h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">{training.training_program.provider}</p>
-                          {training.training_program.duration_hours && (
+                          <h4 className="font-medium text-gray-900 dark:text-white">{training.training_program?.name || 'Unknown Training Program'}</h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{training.training_program?.provider || 'Unknown Provider'}</p>
+                          {training.training_program?.duration_hours && (
                             <p className="text-sm text-gray-600 dark:text-gray-400">
                               {training.training_program.duration_hours} hours
                             </p>

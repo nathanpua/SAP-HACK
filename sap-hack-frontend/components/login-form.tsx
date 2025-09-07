@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import { cacheManager } from "@/lib/cache-manager";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -38,6 +39,10 @@ export function LoginForm({
         password,
       });
       if (error) throw error;
+
+      // Invalidate caches after successful login to ensure fresh data
+      await cacheManager.invalidateUserCaches();
+
       // Redirect to chatbot endpoint after successful login
       router.push("/chatbot");
     } catch (error: unknown) {
