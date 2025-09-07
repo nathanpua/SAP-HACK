@@ -64,7 +64,23 @@ class ConversationTitleGenerator {
         return null;
       }
 
-      const prompt = `Generate a concise, descriptive title (max 8 words) for a conversation based on this user message about SAP career development. Focus on the main topic, intent, or goal. Be specific but brief.
+      const prompt = `Generate a concise, descriptive title (max 8 words) for a conversation based on this user message about SAP career development. Assume that the user is an SAP employee and their query is related to SAP career or skills development. Focus on the main topic, intent, or goal. Be specific but brief.
+
+Examples:
+User message: "I have 3 years of experience in SAP ABAP development and want to transition to SAP Fiori development"
+Title: SAP ABAP Developer to Fiori Developer Transition
+
+User message: "What certifications should I get to become an SAP Solution Architect?"
+Title: SAP Solution Architect Certification Path
+
+User message: "I'm a junior SAP consultant looking to specialize in SAP HANA"
+Title: SAP HANA Specialization for Juniors
+
+User message: "How can I prepare for SAP C_TS4CO_2023 certification exam?"
+Title: SAP CO Certification Preparation
+
+User message: "I want to move from SAP Basis to SAP Security role"
+Title: SAP Basis to Security Career Move
 
 User message: "${message}"
 

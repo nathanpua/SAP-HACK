@@ -231,32 +231,6 @@ Let's build your SAP career roadmap together! 🚀
     }
   }, [currentSessionId, onConversationTitleUpdated, onCurrentConversationTitleUpdate]);
 
-  // Function to start a new chat
-  const startNewChat = useCallback(async () => {
-    console.log('Starting new chat - resetting to default state');
-    // Reset conversation state
-    setCurrentSessionId(null);
-    setConversationStarted(false);
-    setError(null); // Clear any errors
-    setMessages([
-      {
-        id: Date.now(),
-        content: `👋 Welcome to your SAP Career Coach!
-
-I'm here to help you navigate your SAP career journey with personalized guidance, certification recommendations, and strategic planning.
-
-💡 **Example questions you can ask:**
-• "I'm an SAP consultant with 3 years experience wanting to become a Solution Architect. What's my path?"
-• "I specialize in SAP HCM and want to transition to SAP SuccessFactors. How should I plan this?"
-• "What SAP certifications should I pursue for a senior technical role?"
-
-Let's build your SAP career roadmap together! 🚀`,
-        sender: 'assistant',
-        timestamp: new Date(),
-        type: 'text'
-      }
-    ]);
-  }, []);
 
 
   // Function to load a specific conversation by session ID
@@ -1217,16 +1191,6 @@ Let's continue building your SAP career roadmap together! 🚀`,
                 <h1 className="text-xl font-bold">SAP Career Coach</h1>
                 <p className="text-sm opacity-90">Multi-Agent SAP Career Guidance System</p>
               </div>
-            </div>
-            <div className="flex gap-2">
-              <Button
-                onClick={startNewChat}
-                variant="secondary"
-                size="sm"
-                className="bg-white/20 hover:bg-white/30 text-white border-white/30"
-              >
-                New Chat
-              </Button>
             </div>
           </CardTitle>
         </CardHeader>

@@ -17,6 +17,12 @@ export default function ProtectedLayout({
           <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
             <div className="flex gap-5 items-center font-semibold">
               <Link href={"/"}>Next.js Supabase Starter</Link>
+              <div className="flex items-center gap-4 ml-8">
+                <Link href="/protected" className="hover:text-blue-600 transition-colors">Dashboard</Link>
+                <Link href="/chatbot" className="hover:text-blue-600 transition-colors">Chatbot</Link>
+                <Link href="/reports" className="hover:text-blue-600 transition-colors">Reports</Link>
+                <Link href="/profile" className="hover:text-blue-600 transition-colors">Profile</Link>
+              </div>
               <div className="flex items-center gap-2">
                 <DeployButton />
               </div>

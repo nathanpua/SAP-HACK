@@ -1,5 +1,38 @@
 [
   {
+    "question": "What SAP certifications do I need for a Solution Architect role?",
+    "available_agents": [
+      {
+        "agent_name": "ResearchAgent",
+        "description": "SAP Research specialist for gathering SAP-specific career information"
+      }
+    ],
+    "analysis": "Simple certification research query. Only ResearchAgent needed for gathering certification requirements and market information.",
+    "plan": "- ResearchAgent: Research SAP Solution Architect certification requirements, exam details, preparation resources, prerequisites, and career benefits"
+  },
+  {
+    "question": "Can you analyze my current SAP skills and identify gaps?",
+    "available_agents": [
+      {
+        "agent_name": "AnalysisAgent",
+        "description": "SAP Career analysis specialist for SAP employee profiles and skill assessment"
+      }
+    ],
+    "analysis": "Profile-focused query requiring skill analysis. AnalysisAgent can handle profile assessment and gap identification using database queries.",
+    "plan": "- AnalysisAgent: Analyze user profile, assess current SAP skills, identify certification and experience gaps, and provide personalized skill development recommendations"
+  },
+  {
+    "question": "What SAP training courses should I take for S/4HANA?",
+    "available_agents": [
+      {
+        "agent_name": "SkillsDevelopmentAgent",
+        "description": "SAP Skills development specialist for training resources and learning pathways"
+      }
+    ],
+    "analysis": "Training-focused query. SkillsDevelopmentAgent specializes in learning resources and can provide course recommendations without needing research or analysis.",
+    "plan": "- SkillsDevelopmentAgent: Research SAP S/4HANA training courses, certification paths, hands-on learning opportunities, and cost-effective skill development options"
+  },
+  {
     "question": "I'm an SAP consultant wanting to transition to SAP Solution Architect role",
     "available_agents": [
       {
@@ -15,103 +48,63 @@
         "description": "SAP Career integration specialist for comprehensive SAP career guidance"
       }
     ],
-    "analysis": "SAP career transition requires comprehensive research, analysis, and strategic planning. Each agent should provide complete coverage in single calls to optimize efficiency.",
-    "plan": [
-      {"agent_name": "ResearchAgent", "task": "Research SAP Solution Architect certification requirements, career progression, current salary ranges, and job market demand for SAP architects - provide comprehensive market intelligence covering all aspects", "completed": false},
-      {"agent_name": "AnalysisAgent", "task": "Assess user's current SAP certifications, project experience, and technical skills against Solution Architect requirements - provide complete career analysis with gap identification", "completed": false},
-      {"agent_name": "SynthesisAgent", "task": "Create detailed transition plan with SAP training roadmap, certification timeline, and implementation strategy - provide comprehensive strategic guidance", "completed": false}
-    ]
+    "analysis": "Complex career transition requiring multiple perspectives. All three agents needed for comprehensive guidance: research for market intel, analysis for gap assessment, synthesis for strategic planning.",
+    "plan": "- ResearchAgent: Research SAP Solution Architect certification requirements, career progression, current salary ranges, and job market demand for SAP architects - provide comprehensive market intelligence covering all aspects\n- AnalysisAgent: Assess user's current SAP certifications, project experience, and technical skills against Solution Architect requirements - provide complete career analysis with gap identification\n- SynthesisAgent: Create detailed transition plan with SAP training roadmap, certification timeline, and implementation strategy - provide comprehensive strategic guidance"
   },
   {
-    "question": "Help me advance from SAP Developer to SAP Technical Lead",
+    "question": "What skills do I need to advance from SAP Developer to Technical Lead?",
+    "available_agents": [
+      {
+        "agent_name": "AnalysisAgent",
+        "description": "SAP Career analysis specialist for SAP employee profiles and skill assessment"
+      },
+      {
+        "agent_name": "SkillsDevelopmentAgent",
+        "description": "SAP Skills development specialist for training resources and learning pathways"
+      }
+    ],
+    "analysis": "Leadership advancement query focusing on skills and development. AnalysisAgent for assessing current capabilities, SkillsDevelopmentAgent for training recommendations.",
+    "plan": "- AnalysisAgent: Evaluate user's technical leadership potential, team management experience, and identify specific skills needed for SAP Technical Lead role\n- SkillsDevelopmentAgent: Research leadership development training, technical skill enhancement courses, and hands-on projects for SAP Technical Lead advancement"
+  },
+  {
+    "question": "How can I get started with SAP S/4HANA development?",
+    "available_agents": [
+      {
+        "agent_name": "SkillsDevelopmentAgent",
+        "description": "SAP Skills development specialist for training resources and learning pathways"
+      }
+    ],
+    "analysis": "Learning-focused query about getting started with S/4HANA. SkillsDevelopmentAgent can provide the best learning pathways and resources without needing extensive research or analysis.",
+    "plan": "- SkillsDevelopmentAgent: Research SAP S/4HANA development training courses, certification paths, hands-on practice opportunities, and beginner-friendly learning resources"
+  },
+  {
+    "question": "What are the current salary ranges for SAP Solution Architects?",
     "available_agents": [
       {
         "agent_name": "ResearchAgent",
         "description": "SAP Research specialist for gathering SAP-specific career information"
-      },
+      }
+    ],
+    "analysis": "Simple market research query focused on salary data. ResearchAgent can efficiently gather and provide this information without needing analysis or synthesis.",
+    "plan": "- ResearchAgent: Research current SAP Solution Architect salary ranges, compensation trends, geographic variations, and factors affecting SAP architect compensation"
+  },
+  {
+    "question": "I want to become an SAP presales consultant - what's the best path?",
+    "available_agents": [
       {
         "agent_name": "AnalysisAgent",
-        "description": "SAP Career analysis specialist for SAP employee profiles and trajectories"
+        "description": "SAP Career analysis specialist for SAP employee profiles and skill assessment"
+      },
+      {
+        "agent_name": "ResearchAgent",
+        "description": "SAP Research specialist for gathering SAP-specific career information"
       },
       {
         "agent_name": "SynthesisAgent",
         "description": "SAP Career integration specialist for comprehensive SAP career guidance"
       }
     ],
-    "analysis": "SAP leadership transition requires comprehensive research, analysis, and strategic planning. Each agent should provide complete coverage in single calls to optimize efficiency.",
-    "plan": [
-      {"agent_name": "ResearchAgent", "task": "Research SAP Technical Lead role requirements, responsibilities, SAP leadership development programs, and mentoring opportunities - provide complete leadership pathway analysis covering all aspects", "completed": false},
-      {"agent_name": "AnalysisAgent", "task": "Evaluate user's technical leadership potential and team management experience - provide complete leadership assessment with development recommendations", "completed": false},
-      {"agent_name": "SynthesisAgent", "task": "Develop leadership development plan with SAP-specific training and project assignments - provide comprehensive leadership transition strategy", "completed": false}
-    ]
-  },
-  {
-    "question": "I want to specialize in SAP S/4HANA implementation projects",
-    "available_agents": [
-      {
-        "agent_name": "ResearchAgent",
-        "description": "SAP Research specialist for gathering SAP-specific career information"
-      },
-      {
-        "agent_name": "AnalysisAgent",
-        "description": "SAP Career analysis specialist for SAP employee profiles and trajectories"
-      },
-      {
-        "agent_name": "SynthesisAgent",
-        "description": "SAP Career integration specialist for comprehensive SAP career guidance"
-      }
-    ],
-    "analysis": "SAP S/4HANA specialization requires comprehensive research, analysis, and strategic planning. Each agent should provide complete coverage in single calls to optimize efficiency.",
-    "plan": [
-      {"agent_name": "ResearchAgent", "task": "Research SAP S/4HANA certification paths, specialization areas, industry demand for S/4HANA skills, and emerging implementation patterns - provide comprehensive specialization roadmap covering all aspects", "completed": false},
-      {"agent_name": "AnalysisAgent", "task": "Assess user's current SAP ERP experience and identify S/4HANA knowledge gaps - provide complete skills assessment with specialization recommendations", "completed": false},
-      {"agent_name": "SynthesisAgent", "task": "Create specialization roadmap with hands-on projects and certification strategy - provide comprehensive S/4HANA specialization plan", "completed": false}
-    ]
-  },
-  {
-    "question": "How can I transition from SAP functional consultant to SAP cloud solutions",
-    "available_agents": [
-      {
-        "agent_name": "ResearchAgent",
-        "description": "SAP Research specialist for gathering SAP-specific career information"
-      },
-      {
-        "agent_name": "AnalysisAgent",
-        "description": "SAP Career analysis specialist for SAP employee profiles and trajectories"
-      },
-      {
-        "agent_name": "SynthesisAgent",
-        "description": "SAP Career integration specialist for comprehensive SAP career guidance"
-      }
-    ],
-    "analysis": "SAP cloud transition requires comprehensive research, analysis, and strategic planning. Each agent should provide complete coverage in single calls to optimize efficiency.",
-    "plan": [
-      {"agent_name": "ResearchAgent", "task": "Research SAP cloud certification programs, cloud solution architecture, SAP cloud project opportunities, and partner ecosystem - provide complete cloud transition intelligence covering all aspects", "completed": false},
-      {"agent_name": "AnalysisAgent", "task": "Evaluate user's functional expertise and identify cloud technology gaps - provide complete cloud readiness assessment with transition recommendations", "completed": false},
-      {"agent_name": "SynthesisAgent", "task": "Develop cloud transition strategy with SAP Cloud Platform training and certification plan - provide comprehensive cloud transition roadmap", "completed": false}
-    ]
-  },
-  {
-    "question": "I want to become an SAP presales consultant",
-    "available_agents": [
-      {
-        "agent_name": "ResearchAgent",
-        "description": "SAP Research specialist for gathering SAP-specific career information"
-      },
-      {
-        "agent_name": "AnalysisAgent",
-        "description": "SAP Career analysis specialist for SAP employee profiles and trajectories"
-      },
-      {
-        "agent_name": "SynthesisAgent",
-        "description": "SAP Career integration specialist for comprehensive SAP career guidance"
-      }
-    ],
-    "analysis": "SAP presales transition requires comprehensive research, analysis, and strategic planning. Each agent should provide complete coverage in single calls to optimize efficiency.",
-    "plan": [
-      {"agent_name": "ResearchAgent", "task": "Research SAP presales career paths, required competencies, SAP presales salary data, and career progression opportunities - provide comprehensive presales market analysis covering all aspects", "completed": false},
-      {"agent_name": "AnalysisAgent", "task": "Assess user's sales potential, technical knowledge, and customer-facing experience - provide complete presales readiness assessment with development recommendations", "completed": false},
-      {"agent_name": "SynthesisAgent", "task": "Create presales development plan with SAP solution knowledge and sales training - provide comprehensive presales transition strategy", "completed": false}
-    ]
+    "analysis": "Complex career transition requiring assessment of current skills, market research, and strategic planning. Multiple agents needed for comprehensive presales career guidance.",
+    "plan": "- AnalysisAgent: Assess user's sales potential, technical knowledge, and customer-facing experience against SAP presales requirements\n- ResearchAgent: Research SAP presales career paths, required competencies, salary data, and progression opportunities\n- SynthesisAgent: Create comprehensive presales development plan with SAP solution knowledge and sales training roadmap"
   }
 ]

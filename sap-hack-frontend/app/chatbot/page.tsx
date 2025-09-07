@@ -19,6 +19,11 @@ interface UserProfile {
   lastName: string | null;
   email: string;
   fullName: string;
+  role?: {
+    title: string;
+    code: string;
+    career_level: string;
+  } | null;
 }
 
 interface Conversation {
@@ -269,7 +274,7 @@ export default function ChatbotPage() {
               <span>Chat History</span>
             </div>
 
-            <div className="flex items-center gap-3 px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer">
+            <div className="flex items-center gap-3 px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer" onClick={() => router.push('/reports')}>
               <BookOpen className="w-5 h-5" />
               <span>Reports</span>
             </div>
@@ -380,8 +385,10 @@ export default function ChatbotPage() {
                       "Loading..."
                     ) : profileError ? (
                       "Offline"
+                    ) : userProfile?.role?.title ? (
+                      userProfile.role.title
                     ) : (
-                      "Online"
+                      "Employee"
                     )}
                   </p>
                 </div>

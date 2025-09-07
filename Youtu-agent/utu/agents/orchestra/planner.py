@@ -8,9 +8,10 @@ from .common import AgentInfo, CreatePlanResult, OrchestraTaskRecorder, Subtask
 
 
 class OutputParser:
-    def __init__(self):
+    def __init__(self, available_agents=None):
         self.analysis_pattern = r"<analysis>(.*?)</analysis>"
-        self.plan_pattern = r"<plan>\s*\[(.*?)\]\s*</plan>"
+        self.plan_pattern = r"<plan>(.*?)</plan>"
+        self.available_agents = available_agents or []
         # self.next_step_pattern = r'<next_step>\s*<agent>\s*(.*?)\s*</agent>\s*<task>\s*(.*?)\s*</task>\s*</next_step>'
         # self.task_finished_pattern = r'<task_finished>\s*</task_finished>'
 
@@ -29,33 +30,43 @@ class OutputParser:
         match = re.search(self.plan_pattern, text, re.DOTALL)
         if not match:
             print(f"⚠️ No plan tags found in response. Looking for fallback patterns...")
-            # Fallback: try to extract JSON-like content from the entire response
+            # Fallback: try to extract todo list content from the entire response
             return self._extract_plan_fallback(text)
 
         plan_content = match.group(1).strip()
         tasks = []
-        task_pattern = r'\{"agent_name":\s*"([^"]+)",\s*"task":\s*"([^"]+)",\s*"completed":\s*(true|false)\s*\}'
-        task_matches = re.findall(task_pattern, plan_content, re.IGNORECASE)
+        # Parse todo list format: "- AgentName: responsibilities"
+        task_pattern = r'^\s*-\s*([A-Za-z]+Agent):\s*(.+?)(?=\n\s*-\s*[A-Za-z]+Agent:|\s*$)'
+        task_matches = re.findall(task_pattern, plan_content, re.MULTILINE)
 
         if not task_matches:
-            print(f"⚠️ No valid tasks found in plan content. Trying fallback...")
+            print(f"⚠️ No valid todo items found in plan content. Trying fallback...")
             return self._extract_plan_fallback(text)
 
-        for agent_name, task_desc, completed_str in task_matches:
-            completed = completed_str.lower() == "true"
-            tasks.append(Subtask(agent_name=agent_name, task=task_desc, completed=completed))
+        for agent_name, task_desc in task_matches:
+            tasks.append(Subtask(agent_name=agent_name, task=task_desc.strip(), completed=False))
         return tasks
 
     def _extract_plan_fallback(self, text: str) -> list[Subtask]:
         """Fallback method to extract plan when proper XML format is not used"""
         tasks = []
 
-        # Look for agent mentions and try to create tasks
-        agent_names = ["ResearchAgent", "AnalysisAgent", "SynthesisAgent"]
+        # Get agent names from available agents (dynamic list)
+        agent_names = [agent.name for agent in self.available_agents] if self.available_agents else ["ResearchAgent", "AnalysisAgent", "SkillsDevelopmentAgent", "SynthesisAgent"]
 
+        # Try to parse todo list format even without proper XML tags
+        task_pattern = r'^\s*-\s*([A-Za-z]+Agent):\s*(.+?)(?=\n\s*-\s*[A-Za-z]+Agent:|\s*$)'
+        task_matches = re.findall(task_pattern, text, re.MULTILINE)
+
+        if task_matches:
+            for agent_name, task_desc in task_matches:
+                tasks.append(Subtask(agent_name=agent_name, task=task_desc.strip(), completed=False))
+                print(f"✅ Extracted fallback todo for {agent_name}: {task_desc.strip()[:100]}...")
+            return tasks
+
+        # Fallback: Look for patterns like "ResearchAgent will..." or "ResearchAgent: ..."
         for agent_name in agent_names:
-            # Look for patterns like "ResearchAgent will..." or "ResearchAgent: ..."
-            agent_pattern = rf'{agent_name}[\s:]+(.*?)(?=(?:{agent_names[0]}|{agent_names[1]}|{agent_names[2]}|$))'
+            agent_pattern = rf'{agent_name}[\s:]+(.*?)(?=(?:{"|".join(agent_names)}|$))'
             match = re.search(agent_pattern, text, re.DOTALL | re.IGNORECASE)
 
             if match:
@@ -63,15 +74,18 @@ class OutputParser:
                 if task_desc:
                     tasks.append(Subtask(agent_name=agent_name, task=task_desc, completed=False))
                     print(f"✅ Extracted fallback task for {agent_name}: {task_desc[:100]}...")
-            else:
-                # If no specific task found, create a generic one
-                generic_tasks = {
-                    "ResearchAgent": "Research SAP career acceleration strategies, certification requirements, and market trends",
-                    "AnalysisAgent": "Analyze current skills, identify gaps, and assess career progression potential",
-                    "SynthesisAgent": "Create comprehensive career development plan with actionable steps"
-                }
-                tasks.append(Subtask(agent_name=agent_name, task=generic_tasks[agent_name], completed=False))
-                print(f"⚠️ Using generic task for {agent_name}")
+                # Note: No longer forcing all agents - only add if mentioned in the response
+
+        # If no agents were found in the text, this indicates a problem with the LLM response
+        if not tasks:
+            print("⚠️ No agents found in LLM response, using minimal fallback")
+            # Use first available agent as fallback, not hardcoded
+            fallback_agent = agent_names[0] if agent_names else "ResearchAgent"
+            tasks.append(Subtask(
+                agent_name=fallback_agent,
+                task="Research SAP career information and provide relevant guidance",
+                completed=False
+            ))
 
         return tasks
 
@@ -80,10 +94,10 @@ class PlannerAgent:
     def __init__(self, config: AgentConfig):
         self.config = config
         self.llm = SimplifiedAsyncOpenAI(**self.config.planner_model.model_provider.model_dump())
-        self.output_parser = OutputParser()
         self.jinja_env = get_jinja_env(pathlib.Path(__file__).parent / "prompts")
         self.planner_examples = self._load_planner_examples()
         self.available_agents = self._load_available_agents()
+        self.output_parser = OutputParser(available_agents=self.available_agents)
 
     @property
     def name(self) -> str:
