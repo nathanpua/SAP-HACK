@@ -644,9 +644,85 @@ Let's continue building your SAP career roadmap together! 🚀`,
   // Default to new chat - no automatic conversation loading
   // Users can manually load previous conversations if needed
 
+  // Track the previous message state to detect completion
+  const [, setPreviousMessages] = useState<ChatMessage[]>([]);
 
+  // Effect to detect when messages are completed and log them
+  useEffect(() => {
+    setPreviousMessages(currentPrev => {
+      // Compare current messages with previous state to find completed messages
+      if (currentPrev.length > 0 && messages.length > 0) {
+        // Find messages that were previously in progress but are now complete
+        const completedMessages = messages.filter(currentMsg => {
+          const previousMsg = currentPrev.find(prev => prev.id === currentMsg.id);
+          // Message was in progress before but is now complete
+          return previousMsg && previousMsg.inprogress === true && currentMsg.inprogress === false;
+        });
 
+        // Log completed messages
+        completedMessages.forEach(message => {
+          if (conversationStarted && message.sender === 'assistant') {
+            console.log('Logging completed message:', message.id, 'Type:', message.type, 'Content type:', typeof message.content);
 
+            // Handle different message content types
+            let contentToLog: string;
+            if (typeof message.content === 'string') {
+              contentToLog = message.content;
+            } else {
+              // For complex message types, create a readable string representation
+              contentToLog = JSON.stringify(message.content, null, 2);
+            }
+
+            console.log('Logging completed message:', message.id, 'Content length:', contentToLog.length);
+            logMessage('assistant', contentToLog, {
+              type: message.type,
+              completed_at: new Date().toISOString(),
+              final_content: true
+            });
+          }
+        });
+
+        // Also check for stale in-progress messages (fallback for missed finish events)
+        const now = Date.now();
+        const staleMessages = messages.filter(currentMsg => {
+          // Find messages that have been in progress for more than 30 seconds
+          return currentMsg.sender === 'assistant' &&
+                 currentMsg.inprogress === true &&
+                 (now - currentMsg.timestamp.getTime()) > 30000; // 30 seconds
+        });
+
+        // Log stale messages as completed (fallback mechanism)
+        staleMessages.forEach(message => {
+          if (conversationStarted && message.sender === 'assistant') {
+            console.log('Logging stale message (fallback):', message.id, 'Type:', message.type);
+
+            let contentToLog: string;
+            if (typeof message.content === 'string') {
+              contentToLog = message.content;
+            } else {
+              contentToLog = JSON.stringify(message.content, null, 2);
+            }
+
+            logMessage('assistant', contentToLog, {
+              type: message.type,
+              completed_at: new Date().toISOString(),
+              final_content: true,
+              fallback_logging: true,
+              reason: 'stale_message_timeout'
+            });
+
+            // Mark the message as completed in the UI
+            setMessages(prev => prev.map(msg =>
+              msg.id === message.id ? { ...msg, inprogress: false } : msg
+            ));
+          }
+        });
+      }
+
+      // Return new previous messages state
+      return messages;
+    });
+  }, [messages, conversationStarted, logMessage]);
 
   const handleWebUIEvent = useCallback((event: WebUIEvent) => {
     console.log('Received event:', event);
@@ -757,14 +833,7 @@ Let's continue building your SAP career roadmap together! 🚀`,
                 inprogress: data.inprogress,
               };
 
-              // Log assistant message to database
-              if (conversationStarted) {
-                logMessage('assistant', data.delta, {
-                  type: data.type,
-                  inprogress: data.inprogress
-                });
-              }
-
+              // Don't log here - wait for message completion
               return [...prev, newMessage];
             }
 
@@ -849,6 +918,21 @@ Let's continue building your SAP career roadmap together! 🚀`,
 
       case 'finish':
         setIsModelResponding(false);
+        // Mark the last assistant message as completed
+        setMessages(prev => {
+          if (prev.length > 0) {
+            const lastMessage = prev[prev.length - 1];
+            if (lastMessage.sender === 'assistant' && lastMessage.inprogress) {
+              const updatedMessages = [...prev];
+              updatedMessages[updatedMessages.length - 1] = {
+                ...lastMessage,
+                inprogress: false
+              };
+              return updatedMessages;
+            }
+          }
+          return prev;
+        });
         break;
 
       default:
