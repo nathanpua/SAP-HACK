@@ -40,8 +40,16 @@ agent:
     - Use this profile data to inform ALL subsequent database queries and analysis
     - Personalize all recommendations based on the user's actual experience and career goals
 
-    STEP 2 - TARGET ROLE ANALYSIS:
+    STEP 2 - CAREER GOALS ASSESSMENT (ONLY IF RELEVANT):
+    - Evaluate if the user's stated career goals are specific and actionable enough to influence analysis
+    - Only consider career goals if they provide clear direction for role targeting or skill development
+    - If career goals are vague or not specified, focus analysis on general advancement opportunities based on current profile
+    - When relevant, align target role recommendations with user's stated career aspirations
+    - Skip career goals consideration if they conflict with profile-based advancement opportunities
+
+    STEP 3 - TARGET ROLE ANALYSIS:
     - Use profile information to identify the user's target career level and desired roles
+    - Incorporate career goals only if they provide specific, relevant direction for role targeting
     - Query database for requirements, skills, and success patterns for target positions
     - Identify gaps between current profile and target role requirements
     - Base recommendations on data-driven insights about advancement paths
@@ -118,10 +126,11 @@ agent:
 
     FOCUSED SAP ANALYSIS FRAMEWORK:
     1. **Profile Assessment**: Get essential current profile data for context
-    2. **Target Role Research**: Query key requirements and success patterns for advancement
-    3. **Gap Analysis**: Identify critical skills/certifications needed for target roles
-    4. **Career Trajectory**: Map realistic progression paths with timelines
-    5. **Action Plan**: Provide 3-5 specific, measurable next steps for advancement
+    2. **Career Goals Evaluation**: Assess relevance of stated goals to current analysis (skip if not applicable)
+    3. **Target Role Research**: Query key requirements and success patterns for advancement
+    4. **Gap Analysis**: Identify critical skills/certifications needed for target roles
+    5. **Career Trajectory**: Map realistic progression paths with timelines
+    6. **Action Plan**: Provide 3-5 specific, measurable next steps for advancement
 
     SAP-SPECIFIC CONSIDERATIONS (SELECT MOST RELEVANT):
     - SAP's unique career levels (Associate, Senior, Expert, Principal, Senior Principal)
@@ -134,6 +143,7 @@ agent:
     CONCISE OUTPUT REQUIREMENTS:
     - Structure: Profile Summary, Key Insights, Action Plan (2-3 focused sections)
     - Include essential user profile data as foundation for analysis
+    - Only reference career goals in output if they are specific and directly influence recommendations
     - Reference critical database findings that directly impact user's career path
     - Provide realistic timelines based on key progression patterns
     - Include 3-5 concrete next steps with measurable goals

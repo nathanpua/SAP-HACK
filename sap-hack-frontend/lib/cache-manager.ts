@@ -20,8 +20,8 @@ export class CacheManager {
    */
   async invalidateUserCaches(): Promise<void> {
     try {
-      // Invalidate user profile cache by making a cache-busting request
-      await this.invalidateUserProfileCache();
+      // Clear local user profile cache
+      this.clearUserProfile();
 
       // Clear any client-side caches
       if (typeof window !== 'undefined') {
@@ -40,7 +40,10 @@ export class CacheManager {
    */
   async invalidateUserProfileCache(): Promise<void> {
     try {
-      // Make a request that will bypass cache
+      // Clear local cache
+      this.clearUserProfile();
+
+      // Make a request that will bypass server cache
       const timestamp = Date.now();
       const response = await fetch(`/api/user-profile?_t=${timestamp}`, {
         method: 'GET',
@@ -106,6 +109,62 @@ export class CacheManager {
       }
     } catch (error) {
       console.error(`❌ Failed to refresh cache for ${endpoint}:`, error);
+    }
+  }
+
+  /**
+   * Get cached user profile
+   */
+  getUserProfile(): Record<string, unknown> | null {
+    if (typeof window === 'undefined') return null;
+
+    try {
+      const cached = localStorage.getItem(`${this.cacheVersion}_user_profile`);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        // Check if cache is still valid (24 hours)
+        if (parsed.timestamp && Date.now() - parsed.timestamp < 24 * 60 * 60 * 1000) {
+          return parsed.data;
+        } else {
+          // Cache expired, remove it
+          localStorage.removeItem(`${this.cacheVersion}_user_profile`);
+        }
+      }
+    } catch (error) {
+      console.warn('⚠️ Failed to get cached user profile:', error);
+    }
+    return null;
+  }
+
+  /**
+   * Set cached user profile
+   */
+  setUserProfile(profile: Record<string, unknown>): void {
+    if (typeof window === 'undefined') return;
+
+    try {
+      const cacheData = {
+        data: profile,
+        timestamp: Date.now()
+      };
+      localStorage.setItem(`${this.cacheVersion}_user_profile`, JSON.stringify(cacheData));
+      console.log('💾 User profile cached');
+    } catch (error) {
+      console.warn('⚠️ Failed to cache user profile:', error);
+    }
+  }
+
+  /**
+   * Clear cached user profile
+   */
+  clearUserProfile(): void {
+    if (typeof window === 'undefined') return;
+
+    try {
+      localStorage.removeItem(`${this.cacheVersion}_user_profile`);
+      console.log('🗑️ User profile cache cleared');
+    } catch (error) {
+      console.warn('⚠️ Failed to clear user profile cache:', error);
     }
   }
 

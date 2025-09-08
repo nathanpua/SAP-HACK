@@ -1,23 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient, createServiceRoleClient } from "@/lib/supabase/server";
 
-// Cache invalidation utility
-export async function invalidateUserProfileCache(userId: string) {
-  try {
-    // This would typically call a cache invalidation service
-    // For now, we'll rely on the time-based expiration
-    // In production, you might want to:
-    // 1. Use Redis to store/invalidate cache keys
-    // 2. Call a cache purging service
-    // 3. Send cache invalidation events
-
-    console.log(`Cache invalidation requested for user: ${userId}`);
-    return true;
-  } catch (error) {
-    console.error('Cache invalidation failed:', error);
-    return false;
-  }
-}
 
 export async function GET(request: Request) {
   try {

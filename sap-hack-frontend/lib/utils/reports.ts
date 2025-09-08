@@ -9,7 +9,7 @@ export interface Report {
   content: string | null;
   tool_name: string | null;
   tool_output: string | null;
-  metadata: Record<string, any> | null;
+  metadata: Record<string, unknown> | null;
   created_at: string;
   session_started_at: string;
 }

@@ -56,6 +56,7 @@ export async function updateSession(request: NextRequest) {
     !request.nextUrl.pathname.startsWith("/api/user-profile") &&
     !request.nextUrl.pathname.startsWith("/api/conversations") &&
     !request.nextUrl.pathname.startsWith("/api/career-coach") &&
+    !request.nextUrl.pathname.startsWith("/api/career-goals") &&
     !request.nextUrl.pathname.startsWith("/api/reports") &&
     !request.nextUrl.pathname.startsWith("/api/test-openrouter")
   ) {
