@@ -3,7 +3,7 @@ defaults:
   - /model/base
   - /tools/search@toolkits.search
   - /tools/document@toolkits.document
-  - /tools/memory_simple@toolkits.memory
+  - /tools/memory_enhanced@toolkits.memory
   - /tools/email@toolkits.email
   - _self_
 

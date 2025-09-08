@@ -80,12 +80,12 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                         # print in red color
                         print(f"\033[91mInput items: {self.agent.input_items}\033[0m")
                         stream = self.agent.run_streamed(self.agent.input_items)
+                        print(f"🤖 SimpleAgent stream created: {stream}")
                     else:
                         raise ValueError(f"Unsupported agent type: {type(self.agent).__name__}")
 
                     async for event in stream.stream_events():
                         event_to_send = None
-                        print(f"--------------------\n{event}")
                         if isinstance(event, ag.RawResponsesStreamEvent):
                             event_to_send = await handle_raw_stream_events(event)
                         elif isinstance(event, ag.RunItemStreamEvent):
@@ -93,14 +93,11 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                         elif isinstance(event, ag.AgentUpdatedStreamEvent):
                             event_to_send = await handle_new_agent(event)
                         elif isinstance(event, OrchestraStreamEvent):
+                            print(f"🎭 Processing OrchestraStreamEvent: {event.name}")
                             event_to_send = await handle_orchestra_events(event)
-                        else:
-                            pass
+                            print(f"🎭 Orchestra event processed: {event_to_send}")
                         if event_to_send:
-                            # print(f"Sending event: {asdict(event_to_send)}")
                             await self.send_event(event_to_send)
-                    else:
-                        pass
                     event_to_send = Event(type="finish")
                     # self.write_message(asdict(event_to_send))
                     await self.send_event(event_to_send)

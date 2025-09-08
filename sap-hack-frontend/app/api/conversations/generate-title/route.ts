@@ -95,7 +95,7 @@ Title:`;
           'X-Title': 'SAP Career Coach Title Generator'
         },
         body: JSON.stringify({
-          model: "meta-llama/llama-3.3-8b-instruct:free",
+          model: "microsoft/phi-3-medium-128k-instruct",
           messages: [{ role: "user", content: prompt }],
           max_tokens: 100,
           temperature: 0.3,

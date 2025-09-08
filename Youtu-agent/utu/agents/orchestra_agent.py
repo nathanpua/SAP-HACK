@@ -3,7 +3,7 @@ import json
 
 from agents import AgentUpdatedStreamEvent, trace
 from agents._run_impl import QueueCompleteSentinel
-from agents.tracing import function_span
+from agents.tracing import function_span, agent_span
 
 from ..config import AgentConfig, ConfigLoader
 from ..utils import AgentsUtils, get_logger
@@ -68,6 +68,9 @@ class OrchestraAgent(BaseAgent):
         2. sequentially execute subtasks
         3. synthesize results
         """
+        # Ensure agent is built before running (MEMORY INTEGRATION - CRITICAL)
+        await self.build()
+
         # setup
         trace_id = trace_id or AgentsUtils.gen_trace_id()
         logger.info(f"> trace_id: {trace_id}")
@@ -88,9 +91,14 @@ class OrchestraAgent(BaseAgent):
 
         with trace(workflow_name="orchestra_agent", trace_id=trace_id):
             task_recorder = OrchestraTaskRecorder(task=input, trace_id=trace_id)
-            # Kick off the actual agent loop in the background and return the streamed result object.
-            task_recorder._run_impl_task = asyncio.create_task(self._start_streaming(task_recorder))
+            # Ensure agent is built before running streamed (MEMORY INTEGRATION - CRITICAL)
+            task_recorder._run_impl_task = asyncio.create_task(self._ensure_built_and_start_streaming(task_recorder))
         return task_recorder
+
+    async def _ensure_built_and_start_streaming(self, task_recorder: OrchestraTaskRecorder):
+        """Ensure agent is built before starting streaming"""
+        await self.build()
+        await self._start_streaming(task_recorder)
 
     async def _start_streaming(self, task_recorder: OrchestraTaskRecorder):
         task_recorder._event_queue.put_nowait(AgentUpdatedStreamEvent(new_agent=self.planner_agent))
@@ -118,7 +126,7 @@ class OrchestraAgent(BaseAgent):
 
     async def plan(self, task_recorder: OrchestraTaskRecorder) -> CreatePlanResult:
         """Step1: Plan"""
-        with function_span("planner") as span_planner:
+        with agent_span(name=self.planner_agent.name) as span_planner:
             plan = await self.planner_agent.create_plan(task_recorder)
             assert all(t.agent_name in self.worker_agents for t in plan.todo), (
                 f"agent_name in plan.todo must be in worker_agents, get {plan.todo}"

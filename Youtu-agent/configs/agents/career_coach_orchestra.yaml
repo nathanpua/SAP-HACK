@@ -1,6 +1,5 @@
-# SAP Career Coach Orchestra Agent Configuration - Enhanced with Skills Development Focus
+# SAP Career Coach Orchestra Agent Configuration - Memory-Enhanced with SAPPlannerAgent
 defaults:
-  - /model/base@planner_model
   - /simple_agents/sap_research_agent@workers.ResearchAgent
   - /simple_agents/sap_analysis_agent@workers.AnalysisAgent
   - /simple_agents/sap_synthesis_agent@workers.SynthesisAgent
@@ -8,6 +7,9 @@ defaults:
   - _self_
 
 type: orchestra
+
+# Planner Configuration
+planner: sap_planner_agent
 
 # Interactive Configuration
 interactive_config:
@@ -20,6 +22,15 @@ planner_config:
   examples_path: examples/career_coach/planner_examples.json
   interactive_mode: true
   allow_clarification: true
+  name: SAPPlannerAgent  # Use the YAML-configured SAPPlannerAgent
+  memory_enabled: true   # Enable memory integration for the planner
+
+toolkits:
+  memory:
+    name: memory_enhanced
+    mode: builtin
+    activated_tools: null
+    config: null
 
 reporter_model:
   model_provider:

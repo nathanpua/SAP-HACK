@@ -132,11 +132,14 @@ async def handle_raw_stream_events(event: ag.RawResponsesStreamEvent) -> Event |
 async def handle_orchestra_events(event: OrchestraStreamEvent) -> Event | None:
     item = event.item
     if event.name == "plan":
+        print(f"📋 Processing plan: analysis length={len(item.analysis)}, todo count={len(item.todo)}")
         todo_str = []
-        for subtask in item.todo:
+        for i, subtask in enumerate(item.todo):
+            print(f"📋 Subtask {i}: agent={subtask.agent_name}, task={subtask.task[:50]}...")
             task_info = f"{subtask.task} ({subtask.agent_name})"
             todo_str.append(task_info)
         plan_item = PlanItem(analysis=item.analysis, todo=todo_str)
+        print(f"📋 Final plan item: analysis={item.analysis[:50]}..., todo_strings={len(todo_str)}")
         event_to_send = Event(type="orchestra", data=OrchestraContent(type="plan", item=plan_item))
     elif event.name == "worker":
         worker_item = WorkerItem(task=item.task, output=item.output)

@@ -781,7 +781,13 @@ Let's continue building your SAP career roadmap together! 🚀`,
 
             if (data.type === 'plan' && 'analysis' in data.item && 'todo' in data.item) {
               const item = data.item as PlanItem;
-              content = `📋 **Plan Generated**\n\n${item.analysis}\n\n**Tasks:**\n${item.todo.map((task: string) => `• ${task}`).join('\n')}`;
+              console.log('🎯 Processing plan item:', item);
+              console.log('🎯 Todo items:', item.todo);
+              console.log('🎯 Todo item types:', item.todo.map(t => typeof t));
+
+              // Preserve the original markdown format from the planner
+              content = `## Query Analysis\n\n${item.analysis}\n\n## Agent Action Plan\n\n${item.todo.map((task: string, index: number) => `${index + 1}. ${task}`).join('\n')}`;
+              console.log('🎯 Generated content:', content);
               messageType = 'plan';
             } else if (data.type === 'worker' && 'task' in data.item && 'output' in data.item) {
               const item = data.item as WorkerItem;

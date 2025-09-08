@@ -71,7 +71,42 @@ class SimpleAgent(BaseAgent):
     def _get_config(self, config: AgentConfig | str | None) -> AgentConfig:
         if isinstance(config, AgentConfig):
             return config
-        return ConfigLoader.load_agent_config(config or "base")
+
+        loaded_config = ConfigLoader.load_agent_config(config or "base")
+
+        # Dynamically add toolkits based on environment variables
+        if hasattr(loaded_config, 'toolkits') and loaded_config.toolkits is not None:
+            self._add_dynamic_toolkits(loaded_config)
+
+        return loaded_config
+
+    def _add_dynamic_toolkits(self, config: AgentConfig):
+        """Add toolkits dynamically based on environment variables"""
+        import os
+
+        # Add Supabase toolkit if credentials are available
+        if os.getenv('SUPABASE_ACCESS_TOKEN'):
+            from ..config import ToolkitConfig
+            supabase_config = ToolkitConfig(
+                mode="mcp",
+                name="supabase",
+                activated_tools=["list_tables", "execute_sql"],
+                config={
+                    "command": "npx",
+                    "args": ["-y", "@supabase/mcp-server-supabase@latest",
+                            "--access-token", os.getenv('SUPABASE_ACCESS_TOKEN'),
+                            "--project-ref", os.getenv('SUPABASE_PROJECT_REF', 'kclhwddhqtlmcjfpebz')],
+                    "env": {
+                        "SUPABASE_ACCESS_TOKEN": os.getenv('SUPABASE_ACCESS_TOKEN')
+                    }
+                }
+            )
+            if not hasattr(config, 'toolkits') or config.toolkits is None:
+                config.toolkits = {}
+            config.toolkits['supabase'] = supabase_config
+            logger.info("✅ Supabase toolkit added dynamically (credentials found)")
+        else:
+            logger.info("⚠️ Supabase toolkit not added (SUPABASE_ACCESS_TOKEN not found)")
 
     def _get_model(self, config: AgentConfig, model: str | Model | None = None) -> Model:
         if isinstance(model, Model):

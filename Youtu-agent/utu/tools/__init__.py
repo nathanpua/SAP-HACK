@@ -12,7 +12,7 @@ from .github_toolkit import GitHubToolkit
 from .image_toolkit import ImageToolkit
 from .outlook_calendar_toolkit import OutlookCalendarToolkit
 from .teams_calendar_toolkit import TeamsCalendarToolkit
-from .memory_toolkit import SimpleMemoryToolkit
+from .memory_toolkit import SimpleMemoryToolkit, EnhancedMemoryToolkit
 from .python_executor_toolkit import PythonExecutorToolkit
 from .search_toolkit import SearchToolkit
 from .serper_toolkit import SerperToolkit
@@ -41,6 +41,7 @@ TOOLKIT_MAP = {
     "serper": SerperToolkit,
     "tabular": TabularDataToolkit,
     "memory_simple": SimpleMemoryToolkit,
+    "memory_enhanced": EnhancedMemoryToolkit,
     "email": EmailToolkit,
     "user_profile": UserProfileToolkit,
 }

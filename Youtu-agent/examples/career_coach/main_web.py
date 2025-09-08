@@ -6,6 +6,7 @@ import os
 # Add the project root to Python path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
+import asyncio
 from utu.agents import OrchestraAgent
 from utu.config import ConfigLoader
 from utu.ui.webui_chatbot import WebUIChatbot
@@ -39,9 +40,6 @@ def main():
     config = ConfigLoader.load_agent_config("career_coach_orchestra")
     config.planner_config["examples_path"] = pathlib.Path(__file__).parent / "planner_examples.json"
 
-    # Create the orchestra agent
-    runner = OrchestraAgent(config)
-
     # Create data directory if it doesn't exist
     data_dir = pathlib.Path(__file__).parent / "data"
     data_dir.mkdir(exist_ok=True)
@@ -62,10 +60,39 @@ def main():
     print("- 'Analyze certification completion rates by department'")
     print()
 
-    # Launch the WebUI
+    # Initialize the agent with proper async context manager
+    async def initialize_agent():
+        """Initialize the agent with memory toolkit using async context manager"""
+        runner = None
+        try:
+            # Create orchestra agent
+            runner = OrchestraAgent(config)
+
+            # Build the agent explicitly (don't use async context manager)
+            await runner.build()
+
+            # Keep the agent alive for the WebUI
+            return runner
+        except Exception as e:
+            print(f"⚠️ Agent initialization warning: {e}")
+            # Return the runner even if initialization had issues
+            return runner
+
+    # Initialize agent asynchronously
+    runner = asyncio.run(initialize_agent())
+    if runner is None:
+        print("❌ Failed to initialize OrchestraAgent")
+        return
+
+    # Launch the WebUI after agent is initialized
     ui = WebUIChatbot(runner, example_query=question)
-    print(f"🌐 Launching WebUI at http://{config.frontend_ip}:{config.frontend_port}")
-    ui.launch(port=config.frontend_port, ip=config.frontend_ip)
+
+    # Ensure proper IP and port values
+    ip = config.frontend_ip or "127.0.0.1"
+    port = config.frontend_port or 8848
+
+    print(f"🌐 Launching WebUI at http://{ip}:{port}")
+    ui.launch(port=port, ip=ip)
 
 
 if __name__ == "__main__":

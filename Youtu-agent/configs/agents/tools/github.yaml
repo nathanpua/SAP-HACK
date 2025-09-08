@@ -2,5 +2,5 @@ name: github
 mode: builtin
 activated_tools: null
 config: 
-  github_token: "${oc.env:GITHUB_TOKEN}"
+  # github_token: "${oc.env:GITHUB_TOKEN}"  # Commented out to avoid env var requirement
 config_llm: null
