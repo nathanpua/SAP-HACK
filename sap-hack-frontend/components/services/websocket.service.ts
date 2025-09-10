@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { createClient } from '@/lib/supabase/client';
+import { ChatMessage } from '@/lib/websocket-service';
 
 export const useChatWebSocket = (ws_url: string) => {
   const { sendMessage, lastMessage, readyState, getWebSocket } = useWebSocket(ws_url, {
@@ -15,8 +16,8 @@ export const useChatWebSocket = (ws_url: string) => {
     reconnectInterval: 3000, // Wait 3 seconds between reconnection attempts
   });
 
-  // Send a query to the server with user authentication
-  const sendQuery = useCallback(async (query: string) => {
+  // Send a query to the server with user authentication and conversation history
+  const sendQuery = useCallback(async (query: string, conversationHistory?: ChatMessage[]) => {
     if (readyState === ReadyState.OPEN) {
       try {
         // Get current user from Supabase
@@ -28,10 +29,19 @@ export const useChatWebSocket = (ws_url: string) => {
           return false;
         }
 
+        // Prepare conversation history (last 5 messages for context)
+        const recentHistory = conversationHistory?.slice(-5) || [];
+
         const message = JSON.stringify({
           type: 'query',
           query: query,
-          user_id: user?.id || null
+          user_id: user?.id || null,
+          conversation_history: recentHistory.map(msg => ({
+            content: typeof msg.content === 'string' ? msg.content : JSON.stringify(msg.content),
+            sender: msg.sender,
+            timestamp: msg.timestamp.toISOString(),
+            type: msg.type || 'text'
+          }))
         });
         sendMessage(message);
         return true;

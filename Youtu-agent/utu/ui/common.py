@@ -18,7 +18,7 @@ class TextDeltaContent:
 @dataclass
 class PlanItem:
     analysis: str
-    todo: list[str]
+    todo: str
 
 
 @dataclass
@@ -61,6 +61,7 @@ class UserQuery:
     type: Literal["query"]
     query: str
     user_id: str | None = None
+    conversation_history: list[dict] | None = None
 
 
 async def handle_raw_stream_events(event: ag.RawResponsesStreamEvent) -> Event | None:
@@ -132,11 +133,10 @@ async def handle_raw_stream_events(event: ag.RawResponsesStreamEvent) -> Event |
 async def handle_orchestra_events(event: OrchestraStreamEvent) -> Event | None:
     item = event.item
     if event.name == "plan":
-        todo_str = []
-        for subtask in item.todo:
-            task_info = f"{subtask.task} ({subtask.agent_name})"
-            todo_str.append(task_info)
-        plan_item = PlanItem(analysis=item.analysis, todo=todo_str)
+        todo_str = ""
+        for i, subtask in enumerate(item.todo, 1):
+            todo_str += f"{i}. {subtask.agent_name}: {subtask.task}\n"
+        plan_item = PlanItem(analysis=item.analysis, todo=todo_str.strip())
         event_to_send = Event(type="orchestra", data=OrchestraContent(type="plan", item=plan_item))
     elif event.name == "worker":
         worker_item = WorkerItem(task=item.task, output=item.output)

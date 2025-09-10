@@ -30,12 +30,21 @@ class OrchestraAgent(BaseAgent):
             config = ConfigLoader.load_agent_config(config)
         self.config = config
         self.current_user_id = None  # Will be set when user authenticates
+        self.conversation_context = ""  # Store immediate conversation context
         # init subagents
         self.planner_agent = PlannerAgent(config)
         self.worker_agents = self._setup_workers()
 
     def set_planner(self, planner: PlannerAgent):
         self.planner_agent = planner
+
+    def set_conversation_context(self, context: str):
+        """Set immediate conversation context for this session"""
+        self.conversation_context = context
+        # Also set it on the planner if it has the capability
+        if hasattr(self.planner_agent, 'conversation_context'):
+            self.planner_agent.conversation_context = context
+        print(f"🗣️ Set conversation context ({len(context)} chars)")
 
     def _setup_workers(self) -> dict[str, BaseWorkerAgent]:
         workers = {}
@@ -82,12 +91,22 @@ class OrchestraAgent(BaseAgent):
             task_recorder.set_final_output(result.output)
         return task_recorder
 
-    def run_streamed(self, input: str, trace_id: str = None) -> OrchestraTaskRecorder:
+    def run_streamed(self, input: str | dict, trace_id: str = None) -> OrchestraTaskRecorder:
         trace_id = trace_id or AgentsUtils.gen_trace_id()
         logger.info(f"> trace_id: {trace_id}")
 
+        # Handle conversation context
+        if isinstance(input, dict):
+            query = input.get("query", "")
+            context = input.get("context", "")
+            if context:
+                self.set_conversation_context(context)
+            task_input = query
+        else:
+            task_input = input
+
         with trace(workflow_name="orchestra_agent", trace_id=trace_id):
-            task_recorder = OrchestraTaskRecorder(task=input, trace_id=trace_id)
+            task_recorder = OrchestraTaskRecorder(task=task_input, trace_id=trace_id)
             # Kick off the actual agent loop in the background and return the streamed result object.
             task_recorder._run_impl_task = asyncio.create_task(self._start_streaming(task_recorder))
         return task_recorder
@@ -141,8 +160,12 @@ class OrchestraAgent(BaseAgent):
             # Combine all worker outputs into a comprehensive response
             synthesis_parts = []
 
-            # Add original question for context
-            synthesis_parts.append(f"## Original Question\n{task_recorder.task}\n")
+            # Add original question for context (extract just the question, not conversation context)
+            original_question = task_recorder.task
+            if "CURRENT QUERY:" in task_recorder.task:
+                # Extract only the current query part, not the conversation context
+                original_question = task_recorder.task.split("CURRENT QUERY:", 1)[1].strip()
+            synthesis_parts.append(f"## Original Question\n{original_question}\n")
 
             # Add plan summary
             if task_recorder.plan and task_recorder.plan.analysis:

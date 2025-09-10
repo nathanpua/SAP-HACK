@@ -30,10 +30,10 @@ class CreatePlanResult(DataClassWithStreamEvents):
 
     @property
     def trajectory(self):
-        todos_str = []
+        todos_str = ""
         for i, subtask in enumerate(self.todo, 1):
-            todos_str.append(f"{i}. {subtask.task} ({subtask.agent_name})")
-        todos_str = "\n".join(todos_str)
+            todos_str += f"{i}. {subtask.agent_name}: {subtask.task}\n"
+        todos_str = todos_str.strip()
         return {
             "agent": "planner",
             "trajectory": [

@@ -781,7 +781,8 @@ Let's continue building your SAP career roadmap together! 🚀`,
 
             if (data.type === 'plan' && 'analysis' in data.item && 'todo' in data.item) {
               const item = data.item as PlanItem;
-              content = `📋 **Plan Generated**\n\n${item.analysis}\n\n**Tasks:**\n${item.todo.map((task: string) => `• ${task}`).join('\n')}`;
+              // Preserve the original markdown format from the planner
+              content = `## Query Analysis\n\n${item.analysis}\n\n## Agent Action Plan\n\n${item.todo}`;
               messageType = 'plan';
             } else if (data.type === 'worker' && 'task' in data.item && 'output' in data.item) {
               const item = data.item as WorkerItem;
@@ -960,7 +961,14 @@ Let's continue building your SAP career roadmap together! 🚀`,
     setInputValue('');
     setIsModelResponding(true);
 
-    sendQuery(inputValue);
+    // Pass conversation history for context (exclude the current message and initial welcome message)
+    const conversationHistory = messages.filter(msg =>
+      msg.id !== userMessage.id &&
+      !(typeof msg.content === 'string' &&
+        (msg.content.includes('👋 **New Chat Started**') ||
+         msg.content.includes('Welcome to your SAP Career Coach')))
+    );
+    sendQuery(inputValue, conversationHistory);
   };
 
   const handleStopMessage = () => { 

@@ -55,8 +55,28 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                     # print(f"Received query: {query.query}")
                     # Echo back the query in the response
 
-                    # Prepare query with user context
-                    query_with_context = query.query
+                    # Build conversation context from history
+                    context_parts = []
+                    if query.conversation_history:
+                        print(f"📚 Building context from {len(query.conversation_history)} previous messages")
+                        for msg in query.conversation_history:
+                            role = "user" if msg["sender"] == "user" else "assistant"
+                            content = msg["content"]
+                            # Handle different content types
+                            if isinstance(content, str):
+                                context_parts.append(f"{role}: {content}")
+                            else:
+                                # Handle structured content (PlanItem, WorkerItem, etc.)
+                                context_parts.append(f"{role}: {str(content)}")
+
+                    # Combine context with current query
+                    if context_parts:
+                        full_context = "\n\n".join(context_parts)
+                        query_with_context = f"CONVERSATION CONTEXT:\n{full_context}\n\nCURRENT QUERY: {query.query}"
+                        print(f"🧠 Context length: {len(full_context)} characters")
+                    else:
+                        query_with_context = query.query
+
                     if query.user_id:
                         # Store user context in agent and its workers for toolkit access
                         if hasattr(self.agent, 'current_user_id'):

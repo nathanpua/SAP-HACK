@@ -22,7 +22,7 @@ export interface ExampleContent {
 
 export interface PlanItem {
   analysis: string;
-  todo: string[];
+  todo: string;
 }
 
 export interface WorkerItem {

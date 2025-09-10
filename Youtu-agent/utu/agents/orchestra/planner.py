@@ -9,8 +9,9 @@ from .common import AgentInfo, CreatePlanResult, OrchestraTaskRecorder, Subtask
 
 class OutputParser:
     def __init__(self, available_agents=None):
-        self.analysis_pattern = r"<analysis>(.*?)</analysis>"
-        self.plan_pattern = r"<plan>(.*?)</plan>"
+        # Patterns for both XML tags and markdown format
+        self.analysis_pattern = r"<analysis>(.*?)</analysis>|## Query Analysis\s*\n(.*?)(?=\n##|\n\d+\.|\Z)"
+        self.plan_pattern = r"<plan>(.*?)</plan>|## Agent Action Plan\s*\n(.*?)(?=\n##|\Z)"
         self.available_agents = available_agents or []
         # self.next_step_pattern = r'<next_step>\s*<agent>\s*(.*?)\s*</agent>\s*<task>\s*(.*?)\s*</task>\s*</next_step>'
         # self.task_finished_pattern = r'<task_finished>\s*</task_finished>'
@@ -23,7 +24,10 @@ class OutputParser:
     def _extract_analysis(self, text: str) -> str:
         match = re.search(self.analysis_pattern, text, re.DOTALL)
         if match:
-            return match.group(1).strip()
+            # Return the first non-None capture group (either XML or markdown format)
+            for group in match.groups():
+                if group is not None:
+                    return group.strip()
         return ""
 
     def _extract_plan(self, text: str) -> list[Subtask]:
@@ -33,28 +37,44 @@ class OutputParser:
             # Fallback: try to extract todo list content from the entire response
             return self._extract_plan_fallback(text)
 
-        plan_content = match.group(1).strip()
+        # Get the first non-None capture group (either XML or markdown format)
+        plan_content = ""
+        for group in match.groups():
+            if group is not None:
+                plan_content = group.strip()
+                break
         tasks = []
-        # Parse todo list format: "- AgentName: responsibilities"
-        task_pattern = r'^\s*-\s*([A-Za-z]+Agent):\s*(.+?)(?=\n\s*-\s*[A-Za-z]+Agent:|\s*$)'
-        task_matches = re.findall(task_pattern, plan_content, re.MULTILINE)
+        # Parse numbered format: "1. AgentName: responsibilities"
+        numbered_pattern = r'^\s*\d+\.\s*([A-Za-z]+Agent):\s*(.+?)(?=\n\s*\d+\.\s*[A-Za-z]+Agent:|\Z)'
+        numbered_matches = re.findall(numbered_pattern, plan_content, re.MULTILINE | re.DOTALL)
 
-        if not task_matches:
-            print(f"⚠️ No valid todo items found in plan content. Trying fallback...")
-            return self._extract_plan_fallback(text)
+        if numbered_matches:
+            print(f"✅ Found {len(numbered_matches)} numbered tasks")
+            for agent_name, task_desc in numbered_matches:
+                tasks.append(Subtask(agent_name=agent_name, task=task_desc.strip(), completed=False))
+            return tasks
 
-        for agent_name, task_desc in task_matches:
-            tasks.append(Subtask(agent_name=agent_name, task=task_desc.strip(), completed=False))
-        return tasks
+        print(f"⚠️ No valid numbered tasks found in plan content. Trying fallback...")
+        return self._extract_plan_fallback(text)
 
     def _extract_plan_fallback(self, text: str) -> list[Subtask]:
-        """Fallback method to extract plan when proper XML format is not used"""
+        """Fallback method to extract plan when proper markdown format is not used"""
         tasks = []
 
         # Get agent names from available agents (dynamic list)
         agent_names = [agent.name for agent in self.available_agents] if self.available_agents else ["ResearchAgent", "AnalysisAgent", "SkillsDevelopmentAgent", "SynthesisAgent"]
 
-        # Try to parse todo list format even without proper XML tags
+        # Try to parse numbered format: "1. AgentName: ..."
+        numbered_pattern = r'^\s*\d+\.\s*([A-Za-z]+Agent):\s*(.+?)(?=\n\s*\d+\.\s*[A-Za-z]+Agent:|\Z)'
+        numbered_matches = re.findall(numbered_pattern, text, re.MULTILINE | re.DOTALL)
+
+        if numbered_matches:
+            print(f"✅ Found {len(numbered_matches)} numbered tasks in fallback")
+            for agent_name, task_desc in numbered_matches:
+                tasks.append(Subtask(agent_name=agent_name, task=task_desc.strip(), completed=False))
+            return tasks
+
+        # Fallback to bullet point format: "- AgentName: ..."
         task_pattern = r'^\s*-\s*([A-Za-z]+Agent):\s*(.+?)(?=\n\s*-\s*[A-Za-z]+Agent:|\s*$)'
         task_matches = re.findall(task_pattern, text, re.MULTILINE)
 
@@ -99,6 +119,12 @@ class PlannerAgent:
         self.available_agents = self._load_available_agents()
         self.output_parser = OutputParser(available_agents=self.available_agents)
 
+        # Memory toolkit for context awareness
+        self.memory_toolkit = None
+        self.memory_context = ""
+        self.conversation_history = []
+        self.conversation_context = ""  # Immediate conversation context
+
     @property
     def name(self) -> str:
         return self.config.planner_config.get("name", "planner")
@@ -125,10 +151,19 @@ class PlannerAgent:
         sp = self.jinja_env.get_template("planner_sp.j2").render(
             planning_examples=self._format_planner_examples(self.planner_examples)
         )
+        # Inject memory context and conversation context into the user prompt
+        background_info = self.memory_context if self.memory_context else ""
+
+        # Add conversation context if available
+        if self.conversation_context:
+            if background_info:
+                background_info += "\n\n"
+            background_info += f"RECENT CONVERSATION CONTEXT:\n{self.conversation_context}\n\nINSTRUCTIONS: Use this recent conversation context to understand the current query in relation to previous messages. Reference ongoing discussions and build upon previous responses."
+
         up = self.jinja_env.get_template("planner_up.j2").render(
             available_agents=self._format_available_agents(self.available_agents),
             question=task_recorder.task,
-            background_info="",  # TODO: add background info?
+            background_info=background_info,
         )
         messages = [{"role": "system", "content": sp}, {"role": "user", "content": up}]
         response = await self.llm.query_one(messages=messages, **self.config.planner_model.model_params.model_dump())
@@ -140,10 +175,18 @@ class PlannerAgent:
         for example in examples:
             # Handle both 'question' and 'user_query' keys for compatibility
             question = example.get('question') or example.get('user_query', 'Unknown question')
+
+            # Format the plan as numbered list instead of JSON
+            plan_str = ""
+            if 'plan' in example and isinstance(example['plan'], list):
+                for i, plan_item in enumerate(example['plan'], 1):
+                    if isinstance(plan_item, dict) and 'agent_name' in plan_item and 'task' in plan_item:
+                        plan_str += f"{i}. {plan_item['agent_name']}: {plan_item['task']}\n"
+
             examples_str.append(
                 f"Question: {question}\n"
                 f"<analysis>{example['analysis']}</analysis>\n"
-                f"<plan>{json.dumps(example['plan'], ensure_ascii=False)}</plan>\n"
+                f"<plan>{plan_str.strip()}</plan>\n"
             )
         return "\n".join(examples_str)
 
