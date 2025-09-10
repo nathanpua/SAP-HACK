@@ -82,6 +82,8 @@ Let's build your SAP career roadmap together! 🚀
   const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected'>('connecting');
   const [expandedToolOutputs, setExpandedToolOutputs] = useState<Set<number>>(new Set());
   const [expandedReports, setExpandedReports] = useState<Set<number>>(new Set());
+  const [isNearBottom, setIsNearBottom] = useState(true);
+  const [showScrollToBottom, setShowScrollToBottom] = useState(false);
 
 
   const { sendQuery, lastMessage, readyState } = useChatWebSocket(wsUrl);
@@ -548,16 +550,64 @@ Let's continue building your SAP career roadmap together! 🚀`,
 
 
 
-  const scrollToBottom = () => {
+  // Check if user is near the bottom of the scroll area
+  const checkIfNearBottom = useCallback(() => {
     if (messagesContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
+      const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+      const isNear = distanceFromBottom < 100; // Consider "near bottom" if within 100px
+      setIsNearBottom(isNear);
+      setShowScrollToBottom(!isNear && messages.length > 1);
+      return isNear;
+    }
+    return true;
+  }, [messages.length]);
+
+  const scrollToBottom = useCallback(() => {
+    if (messagesContainerRef.current && isNearBottom) {
       // Scroll the messages container directly
       messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      setShowScrollToBottom(false);
     }
-  };
+  }, [isNearBottom]);
 
+  // Handle scroll events to detect user intent
+  const handleScroll = useCallback(() => {
+    checkIfNearBottom();
+  }, [checkIfNearBottom]);
+
+  // Add scroll event listener
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    const scrollContainer = messagesContainerRef.current;
+    if (scrollContainer) {
+      scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
+
+      // Initial check
+      checkIfNearBottom();
+
+      return () => {
+        scrollContainer.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, [handleScroll, checkIfNearBottom]);
+
+  // Auto-scroll only when user is near bottom
+  useEffect(() => {
+    if (isNearBottom) {
+      scrollToBottom();
+    }
+  }, [messages, isNearBottom, scrollToBottom]);
+
+  // When streaming starts, if user is near bottom, ensure we stay at bottom
+  useEffect(() => {
+    if (isModelResponding && isNearBottom) {
+      // Small delay to ensure new content has been rendered
+      const timeoutId = setTimeout(() => {
+        scrollToBottom();
+      }, 50);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [isModelResponding, isNearBottom, scrollToBottom]);
 
   useEffect(() => {
     if (isConnected) {
@@ -1231,15 +1281,16 @@ Let's continue building your SAP career roadmap together! 🚀`,
             )}
 
             {/* Messages Area */}
-            <div
-              ref={messagesContainerRef}
-              className="flex-1 overflow-y-auto p-6 space-y-1"
-              style={{
-                scrollBehavior: 'smooth',
-                overscrollBehavior: 'contain',
-                maxHeight: 'calc(100vh - 200px)' // Ensure it doesn't exceed viewport
-              }}
-            >
+            <div className="flex-1 relative">
+              <div
+                ref={messagesContainerRef}
+                className="overflow-y-auto p-6 space-y-1"
+                style={{
+                  scrollBehavior: 'smooth',
+                  overscrollBehavior: 'contain',
+                  maxHeight: 'calc(100vh - 200px)' // Ensure it doesn't exceed viewport
+                }}
+              >
               {messages.map(renderMessage)}
 
               {isModelResponding && (
@@ -1258,9 +1309,26 @@ Let's continue building your SAP career roadmap together! 🚀`,
                 </div>
               )}
 
-              <div ref={messagesEndRef} />
-            </div>
+                <div ref={messagesEndRef} />
+              </div>
 
+              {/* Scroll to Bottom Button */}
+              {showScrollToBottom && (
+                <div className="absolute bottom-24 right-6 z-10">
+                <Button
+                  onClick={() => {
+                    setIsNearBottom(true);
+                    scrollToBottom();
+                  }}
+                  size="sm"
+                  className="rounded-full shadow-lg bg-blue-600 hover:bg-blue-700 text-white h-12 w-12 p-0"
+                  title="Scroll to bottom"
+                >
+                  <ChevronDown className="w-5 h-5" />
+                </Button>
+                </div>
+              )}
+            </div>
 
             {/* Input Area */}
             <div className="border-t p-6 bg-gray-50/50 dark:bg-gray-800/50 rounded-b-xl">
