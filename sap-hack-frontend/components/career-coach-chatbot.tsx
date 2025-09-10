@@ -86,7 +86,7 @@ Let's build your SAP career roadmap together! 🚀
   const [showScrollToBottom, setShowScrollToBottom] = useState(false);
 
 
-  const { sendQuery, lastMessage, readyState } = useChatWebSocket(wsUrl);
+  const { sendQuery, sendFinishEvent, lastMessage, readyState } = useChatWebSocket(wsUrl);
 
   const isConnected = readyState === ReadyState.OPEN;
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -1021,8 +1021,18 @@ Let's continue building your SAP career roadmap together! 🚀`,
     sendQuery(inputValue, conversationHistory);
   };
 
-  const handleStopMessage = () => { 
+  const handleStopMessage = () => {
+    console.log('Stop button clicked - sending finish event');
+    console.log('WebSocket connected:', isConnected);
+    console.log('Is model responding:', isModelResponding);
+
+    // Send finish event to server (same as Ctrl+C)
+    const success = sendFinishEvent();
+    console.log('Send finish event result:', success);
+
+    // Set local state
     setIsModelResponding(false);
+    console.log('Set isModelResponding to false');
   };
 
 

@@ -54,8 +54,27 @@ export const useChatWebSocket = (ws_url: string) => {
     return false;
   }, [readyState, sendMessage]);
 
+  // Send a finish event to stop current generation (same as Ctrl+C)
+  const sendFinishEvent = useCallback(() => {
+    console.log('sendFinishEvent called, readyState:', readyState, 'WebSocket OPEN state:', ReadyState.OPEN);
+
+    if (readyState === ReadyState.OPEN) {
+      const message = JSON.stringify({
+        type: 'finish',
+        data: null
+      });
+      console.log('Sending finish message to server:', message);
+      sendMessage(message);
+      console.log('Finish message sent to WebSocket');
+      return true;
+    }
+    console.error('WebSocket is not connected, cannot send finish event. Current state:', readyState);
+    return false;
+  }, [readyState, sendMessage]);
+
   return {
     sendQuery,
+    sendFinishEvent,
     lastMessage,
     readyState,
     getWebSocket,

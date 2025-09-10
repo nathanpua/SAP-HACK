@@ -27,6 +27,8 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
     def initialize(self, agent: SimpleAgent | OrchestraAgent, example_query: str = ""):
         self.agent: SimpleAgent | OrchestraAgent = agent
         self.example_query = example_query
+        self.stream_task = None  # Track the current streaming task
+        self.finish_requested = False  # Flag to indicate finish was requested
 
     def check_origin(self, origin):
         # Allow all origins to connect
@@ -41,6 +43,55 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         # print in green color
         print(f"\033[92mSending event: {asdict(event)}\033[0m")
         self.write_message(asdict(event))
+
+    async def stream_responses(self, stream):
+        """Stream responses and handle interruption"""
+        print("\033[94mStarting streaming task\033[0m")
+        try:
+            async for event in stream.stream_events():
+                # Check if finish was requested
+                if self.finish_requested:
+                    print("\033[93mStreaming interrupted by finish request\033[0m")
+                    break
+
+                event_to_send = None
+                print(f"--------------------\n{event}")
+                if isinstance(event, ag.RawResponsesStreamEvent):
+                    event_to_send = await handle_raw_stream_events(event)
+                elif isinstance(event, ag.RunItemStreamEvent):
+                    event_to_send = await handle_tool_call_output(event)
+                elif isinstance(event, ag.AgentUpdatedStreamEvent):
+                    event_to_send = await handle_new_agent(event)
+                elif isinstance(event, OrchestraStreamEvent):
+                    event_to_send = await handle_orchestra_events(event)
+                else:
+                    pass
+                if event_to_send:
+                    # print(f"Sending event: {asdict(event_to_send)}")
+                    await self.send_event(event_to_send)
+            else:
+                # Only send finish if not interrupted
+                if not self.finish_requested:
+                    print("\033[94mStreaming completed naturally\033[0m")
+                    event_to_send = Event(type="finish")
+                    await self.send_event(event_to_send)
+                    print(f"\033[92mSending event: {asdict(event_to_send)}\033[0m")
+                else:
+                    print("\033[93mStreaming completed due to interruption\033[0m")
+        except asyncio.CancelledError:
+            print("\033[93mStream task cancelled via asyncio\033[0m")
+            # Send finish event when cancelled
+            if self.finish_requested:
+                event_to_send = Event(type="finish")
+                try:
+                    await self.send_event(event_to_send)
+                    print(f"\033[92mSending finish event after cancellation: {asdict(event_to_send)}\033[0m")
+                except Exception as e:
+                    print(f"Error sending finish event after cancellation: {e}")
+            raise
+        except Exception as e:
+            print(f"Error in stream_responses: {e}")
+            raise
 
     async def on_message(self, message: str):
         try:
@@ -93,6 +144,15 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                                     print(f"\033[94mSet user_id {query.user_id} on worker agent: {worker_name}\033[0m")
                         print(f"\033[94mUser authenticated: {query.user_id}\033[0m")
 
+                    # Cancel any existing stream task
+                    if self.stream_task and not self.stream_task.done():
+                        print("\033[93mCancelling previous stream task\033[0m")
+                        self.stream_task.cancel()
+                        # Don't await here - just cancel and move on
+
+                    # Reset finish flag for new query
+                    self.finish_requested = False
+
                     if isinstance(self.agent, OrchestraAgent):
                         stream = self.agent.run_streamed(query_with_context)
                     elif isinstance(self.agent, SimpleAgent):
@@ -103,38 +163,51 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                     else:
                         raise ValueError(f"Unsupported agent type: {type(self.agent).__name__}")
 
-                    async for event in stream.stream_events():
-                        event_to_send = None
-                        print(f"--------------------\n{event}")
-                        if isinstance(event, ag.RawResponsesStreamEvent):
-                            event_to_send = await handle_raw_stream_events(event)
-                        elif isinstance(event, ag.RunItemStreamEvent):
-                            event_to_send = await handle_tool_call_output(event)
-                        elif isinstance(event, ag.AgentUpdatedStreamEvent):
-                            event_to_send = await handle_new_agent(event)
-                        elif isinstance(event, OrchestraStreamEvent):
-                            event_to_send = await handle_orchestra_events(event)
-                        else:
-                            pass
-                        if event_to_send:
-                            # print(f"Sending event: {asdict(event_to_send)}")
-                            await self.send_event(event_to_send)
-                    else:
-                        pass
-                    event_to_send = Event(type="finish")
-                    # self.write_message(asdict(event_to_send))
-                    await self.send_event(event_to_send)
-                    if isinstance(self.agent, SimpleAgent):
-                        input_list = stream.to_input_list()
-                        self.agent.input_items = input_list
-                        # print in red
-                        print(f"\033[91mInput list: {input_list}\033[0m")
-                        self.agent.current_agent = stream.last_agent
+                    # Start streaming in a separate task (non-blocking)
+                    self.stream_task = asyncio.create_task(self.stream_responses(stream))
+
+                    # IMPORTANT: Don't await the task here - let it run in background
+                    # This allows other messages (like finish) to be processed immediately
+
+                    # Schedule cleanup when task completes (but don't block)
+                    def cleanup_task(task):
+                        try:
+                            # Handle post-stream cleanup
+                            if isinstance(self.agent, SimpleAgent) and not self.finish_requested:
+                                input_list = stream.to_input_list()
+                                self.agent.input_items = input_list
+                                # print in red
+                                print(f"\033[91mInput list: {input_list}\033[0m")
+                                self.agent.current_agent = stream.last_agent
+                        except Exception as e:
+                            print(f"Error in cleanup_task: {e}")
+
+                    self.stream_task.add_done_callback(cleanup_task)
                 except TypeError as e:
                     print(f"Invalid query format: {e}")
                     # stack trace
                     print(traceback.format_exc())
                     self.close(1002, "Invalid query format")
+            elif data.get("type") == "finish":
+                # Handle finish event from client (same as Ctrl+C)
+                print(f"\033[93mReceived finish event from client: {data}\033[0m")
+
+                # Set flag to indicate finish was requested
+                self.finish_requested = True
+
+                # Cancel the current streaming task if it exists
+                if self.stream_task and not self.stream_task.done():
+                    print("\033[93mCancelling streaming task due to finish request\033[0m")
+                    self.stream_task.cancel()
+                    # Don't await here - just cancel and let the task handle cleanup
+                    print("\033[93mStream task cancellation requested\033[0m")
+
+                # Send finish event back to client to complete the response
+                event_to_send = Event(type="finish")
+                await self.send_event(event_to_send)
+
+                # Log the finish event (same format as Ctrl+C)
+                print(f"\033[92mSending event: {asdict(event_to_send)}\033[0m")
             else:
                 # print(f"Unhandled message type: {data.get('type')}")
                 # self.close(1002, "Unhandled message type")
@@ -150,6 +223,10 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def on_close(self):
         # print("WebSocket closed")
+        # Cancel any running streaming task
+        if self.stream_task and not self.stream_task.done():
+            print("\033[93mCancelling streaming task due to connection close\033[0m")
+            self.stream_task.cancel()
         pass
 
 
