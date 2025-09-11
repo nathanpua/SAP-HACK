@@ -64,7 +64,7 @@ class ConversationTitleGenerator {
         return null;
       }
 
-      const prompt = `Generate a concise, descriptive title (max 8 words) for a conversation based on this user message about SAP career development. Assume that the user is an SAP employee and their query is related to SAP career or skills development. Focus on the main topic, intent, or goal. Be specific but brief.
+      const prompt = `You are an internal SAP career coach. Generate a concise, descriptive title (max 8 words) for a conversation based on this user message about SAP career development. Assume that the user is an SAP employee and their query is related to SAP career or skills development. Focus on the main topic, intent, or goal. Be specific but brief. After generating the title, evaluate the title and check if it is sound and relevant on its own. If not, generate a new title.
 
 Examples:
 User message: "I have 3 years of experience in SAP ABAP development and want to transition to SAP Fiori development"
@@ -95,7 +95,7 @@ Title:`;
           'X-Title': 'SAP Career Coach Title Generator'
         },
         body: JSON.stringify({
-          model: "meta-llama/llama-3.3-8b-instruct:free",
+          model: "microsoft/phi-3-medium-128k-instruct",  
           messages: [{ role: "user", content: prompt }],
           max_tokens: 100,
           temperature: 0.3,
