@@ -1,0 +1,18 @@
+# Frontend Environment Variables (for Vercel)
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+CAREER_COACH_WS_URL=ws://your-railway-app.up.railway.app:8848/ws
+
+# Backend Environment Variables (for Railway)
+UTU_LLM_TYPE=chat.completions
+UTU_LLM_MODEL=gpt-4o-mini
+UTU_LLM_API_KEY=your-openai-api-key
+SUPABASE_ACCESS_TOKEN=your-supabase-access-token
+SERPER_API_KEY=your-serper-api-key
+JINA_API_KEY=your-jina-api-key
+FRONTEND_IP=0.0.0.0
+FRONTEND_PORT=8848
+
+# Optional Variables
+GITHUB_TOKEN=your-github-token
+GOOGLE_API_KEY=your-google-api-key
