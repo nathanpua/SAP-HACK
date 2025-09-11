@@ -123,6 +123,9 @@ function ChatbotPageContent() {
     );
   }
 
+  // Get the WebSocket URL from environment variables
+  const wsUrl = process.env.NEXT_PUBLIC_CAREER_COACH_WS_URL || 'ws://127.0.0.1:8848/ws';
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex">
       <AppSidebar
@@ -138,6 +141,7 @@ function ChatbotPageContent() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         <CareerCoachChatbot
+          wsUrl={wsUrl}
           loadConversationRef={chatbotRef}
           onConversationCreated={handleConversationCreated}
           onConversationTitleUpdated={handleConversationTitleUpdated}

@@ -1,5 +1,5 @@
 [build]
-builder = "NIXPACKS"
+builder = "DOCKERFILE"
 
 [build.env]
 PYTHON_VERSION = "3.12"
@@ -7,12 +7,12 @@ PYTHON_VERSION = "3.12"
 [deploy]
 startCommand = "python examples/career_coach/main_web.py"
 healthcheckPath = "/"
-healthcheckTimeout = 300
+healthcheckTimeout = 60
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
 
 [environments.production]
 UTU_LLM_TYPE = "chat.completions"
-UTU_LLM_MODEL = "gpt-4o-mini"
+UTU_LLM_MODEL = "deepseek-chat"
 FRONTEND_IP = "0.0.0.0"
-FRONTEND_PORT = "8848"
+PORT = "8080"
