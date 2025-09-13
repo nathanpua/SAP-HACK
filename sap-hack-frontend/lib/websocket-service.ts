@@ -67,7 +67,7 @@ export interface UserQuery {
   query: string;
 }
 
-export const useCareerCoachWebSocket = (wsUrl: string = 'ws://127.0.0.1:8848/ws') => {
+export const useCareerCoachWebSocket = (wsUrl: string = 'ws://127.0.0.1:8080/ws') => {
   const { sendMessage, lastMessage, readyState, getWebSocket } = useWebSocket(wsUrl, {
     onError: (event) => {
       console.error('WebSocket error:', event);

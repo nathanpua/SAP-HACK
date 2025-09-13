@@ -47,7 +47,7 @@ const formatTime = (date: Date) => {
 };
 
 
-export function CareerCoachChatbot({ wsUrl = 'ws://127.0.0.1:8848/ws', loadConversationRef, onConversationCreated, onConversationTitleUpdated, onCurrentConversationTitleUpdate }: CareerCoachChatbotProps) {
+export function CareerCoachChatbot({ wsUrl = 'ws://127.0.0.1:8080/ws', loadConversationRef, onConversationCreated, onConversationTitleUpdated, onCurrentConversationTitleUpdate }: CareerCoachChatbotProps) {
 
   // State for conversation management
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);

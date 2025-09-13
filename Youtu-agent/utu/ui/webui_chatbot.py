@@ -1,10 +1,12 @@
 import asyncio
 import json
+import time
 import traceback
 from dataclasses import asdict
 from importlib import resources
 
 import agents as ag
+import tornado.httputil
 import tornado.web
 import tornado.websocket
 
@@ -230,6 +232,12 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         pass
 
 
+class HealthHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.set_header("Content-Type", "application/json")
+        self.write({"status": "healthy", "timestamp": tornado.httputil.format_timestamp(time.time())})
+
+
 class WebUIChatbot:
     def __init__(self, agent: SimpleAgent | OrchestraAgent, example_query: str = ""):
         self.agent = agent
@@ -241,6 +249,7 @@ class WebUIChatbot:
     def make_app(self) -> tornado.web.Application:
         return tornado.web.Application(
             [
+                (r"/health", HealthHandler),
                 (r"/ws", WebSocketHandler, {"agent": self.agent, "example_query": self.example_query}),
                 (
                     r"/",

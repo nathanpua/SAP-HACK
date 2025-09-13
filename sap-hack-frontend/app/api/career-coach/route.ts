@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET() {
   try {
     // Check if Career Coach WebUI is running
-    const wsUrl = process.env.CAREER_COACH_WS_URL || 'ws://127.0.0.1:8848/ws';
+    const wsUrl = process.env.CAREER_COACH_WS_URL || 'ws://127.0.0.1:8080/ws';
 
     // You could implement a health check here
     // For now, we'll just return the expected connection info

@@ -124,7 +124,7 @@ function ChatbotPageContent() {
   }
 
   // Get the WebSocket URL from environment variables
-  const wsUrl = process.env.NEXT_PUBLIC_CAREER_COACH_WS_URL || 'ws://127.0.0.1:8848/ws';
+  const wsUrl = process.env.NEXT_PUBLIC_CAREER_COACH_WS_URL || 'ws://127.0.0.1:8080/ws';
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex">
