@@ -4,6 +4,7 @@ import { CareerCoachChatbot } from "@/components/career-coach-chatbot";
 import AppSidebar from "@/components/app-sidebar";
 import { useUserProfile } from "@/lib/hooks/use-user-profile";
 import { useConversations } from "@/lib/hooks/use-conversations";
+import { getClientWebSocketUrl } from "@/lib/websocket-config";
 import { useEffect, useState, useRef, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -123,8 +124,8 @@ function ChatbotPageContent() {
     );
   }
 
-  // Get the WebSocket URL from environment variables
-  const wsUrl = process.env.NEXT_PUBLIC_CAREER_COACH_WS_URL || 'ws://127.0.0.1:8080/ws';
+  // Get the WebSocket URL from centralized configuration
+  const wsUrl = getClientWebSocketUrl();
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex">

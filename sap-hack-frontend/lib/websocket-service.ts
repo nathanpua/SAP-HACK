@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { getClientWebSocketUrl } from './websocket-config';
 
 // Event types from WebUI system
 export interface WebUIEvent {
@@ -67,8 +68,10 @@ export interface UserQuery {
   query: string;
 }
 
-export const useCareerCoachWebSocket = (wsUrl: string = 'ws://127.0.0.1:8080/ws') => {
-  const { sendMessage, lastMessage, readyState, getWebSocket } = useWebSocket(wsUrl, {
+export const useCareerCoachWebSocket = (wsUrl?: string) => {
+  // Use provided URL or get from centralized config
+  const finalWsUrl = wsUrl || getClientWebSocketUrl();
+  const { sendMessage, lastMessage, readyState, getWebSocket } = useWebSocket(finalWsUrl, {
     onError: (event) => {
       console.error('WebSocket error:', event);
     },

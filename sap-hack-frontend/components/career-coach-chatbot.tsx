@@ -47,7 +47,11 @@ const formatTime = (date: Date) => {
 };
 
 
-export function CareerCoachChatbot({ wsUrl = 'ws://127.0.0.1:8080/ws', loadConversationRef, onConversationCreated, onConversationTitleUpdated, onCurrentConversationTitleUpdate }: CareerCoachChatbotProps) {
+import { getClientWebSocketUrl } from '@/lib/websocket-config';
+
+export function CareerCoachChatbot({ wsUrl, loadConversationRef, onConversationCreated, onConversationTitleUpdated, onCurrentConversationTitleUpdate }: CareerCoachChatbotProps) {
+  // Use provided URL or get from centralized config
+  const finalWsUrl = wsUrl || getClientWebSocketUrl();
 
   // State for conversation management
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
@@ -86,7 +90,7 @@ Let's build your SAP career roadmap together! 🚀
   const [showScrollToBottom, setShowScrollToBottom] = useState(false);
 
 
-  const { sendQuery, sendFinishEvent, lastMessage, readyState } = useChatWebSocket(wsUrl);
+  const { sendQuery, sendFinishEvent, lastMessage, readyState } = useChatWebSocket(finalWsUrl);
 
   const isConnected = readyState === ReadyState.OPEN;
   const messagesEndRef = useRef<HTMLDivElement>(null);
