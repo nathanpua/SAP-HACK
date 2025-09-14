@@ -52,6 +52,36 @@ export function LoginForm({
     }
   };
 
+  const handleDemoLogin = async () => {
+    const demoEmail = "npua271@gmail.com";
+    const demoPassword = "password";
+
+    setEmail(demoEmail);
+    setPassword(demoPassword);
+    setIsLoading(true);
+    setError(null);
+
+    const supabase = createClient();
+
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: demoEmail,
+        password: demoPassword,
+      });
+      if (error) throw error;
+
+      // Invalidate caches after successful login to ensure fresh data
+      await cacheManager.invalidateUserCaches();
+
+      // Redirect to chatbot endpoint after successful login
+      router.push("/chatbot");
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : "Demo login failed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -96,6 +126,15 @@ export function LoginForm({
               {error && <p className="text-sm text-red-500">{error}</p>}
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Logging in..." : "Login"}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                onClick={handleDemoLogin}
+                disabled={isLoading}
+              >
+                {isLoading ? "Logging in..." : "🚀 Demo Login"}
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">

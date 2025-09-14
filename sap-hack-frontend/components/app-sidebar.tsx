@@ -1,6 +1,6 @@
 'use client';
 
-import { Bot, User, Settings, MessageSquare, BookOpen, Target, LogOut, UserCircle, Clock, History } from "lucide-react";
+import { Bot, User, MessageSquare, BookOpen, Target, LogOut, UserCircle, Clock, History } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { cacheManager } from "@/lib/cache-manager";
@@ -216,12 +216,6 @@ export default function AppSidebar({
       icon: User,
       path: '/profile'
     },
-    {
-      id: 'settings',
-      label: 'Settings',
-      icon: Settings,
-      path: '#'
-    }
   ];
 
   return (

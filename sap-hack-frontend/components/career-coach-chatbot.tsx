@@ -61,20 +61,7 @@ export function CareerCoachChatbot({ wsUrl, loadConversationRef, onConversationC
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: Date.now(),
-      content: `👋 **New Chat Started**
-
-Welcome to Deep SAP! This is a fresh conversation session.
-
-I'm here to help you navigate your SAP career journey with personalized guidance, certification recommendations, and strategic planning.
-
-💡 **Example questions you can ask:**
-• "I'm an SAP consultant with 3 years experience wanting to become a Solution Architect. What's my path?"
-• "I specialize in SAP HCM and want to transition to SAP SuccessFactors. How should I plan this?"
-• "What SAP certifications should I pursue for a senior technical role?"
-
-Let's build your SAP career roadmap together! 🚀
-
-*Use "Load Recent" to continue a previous conversation if needed.*`,
+      content: `👋 Hi, I'm Deep SAP!`,
       sender: 'assistant',
       timestamp: new Date(),
       type: 'text'
@@ -88,7 +75,7 @@ Let's build your SAP career roadmap together! 🚀
   const [expandedReports, setExpandedReports] = useState<Set<number>>(new Set());
   const [isNearBottom, setIsNearBottom] = useState(true);
   const [showScrollToBottom, setShowScrollToBottom] = useState(false);
-
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const { sendQuery, sendFinishEvent, lastMessage, readyState } = useChatWebSocket(finalWsUrl);
 
@@ -319,16 +306,7 @@ Let's build your SAP career roadmap together! 🚀
           setMessages([
             {
               id: Date.now(),
-              content: `👋 **Conversation Loaded**
-
-Welcome back to Deep SAP! This conversation has been restored.
-
-💡 **Example questions you can ask:**
-• "I'm an SAP consultant with 3 years experience wanting to become a Solution Architect. What's my path?"
-• "I specialize in SAP HCM and want to transition to SAP SuccessFactors. How should I plan this?"
-• "What SAP certifications should I pursue for a senior technical role?"
-
-Let's continue building your SAP career roadmap together! 🚀`,
+              content: `👋 Hi, I'm Deep SAP! Welcome back!`,
               sender: 'assistant',
               timestamp: new Date(),
               type: 'text'
@@ -601,6 +579,16 @@ Let's continue building your SAP career roadmap together! 🚀`,
       scrollToBottom();
     }
   }, [messages, isNearBottom, scrollToBottom]);
+
+  // Focus input field when in collapsed mode
+  useEffect(() => {
+    if (!isExpanded && inputRef.current && isConnected) {
+      // Small delay to ensure the component is rendered
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+    }
+  }, [isExpanded, isConnected]);
 
   // When streaming starts, if user is near bottom, ensure we stay at bottom
   useEffect(() => {
@@ -950,6 +938,11 @@ Let's continue building your SAP career roadmap together! 🚀`,
 
     console.log('Sending message, conversationStarted:', conversationStarted, 'currentSessionId:', currentSessionId);
 
+    // Expand the chatbot interface when sending the first message
+    if (!isExpanded) {
+      setIsExpanded(true);
+    }
+
     let sessionIdForTitleUpdate = currentSessionId;
 
     // Create a new conversation if this is the first message
@@ -1020,7 +1013,7 @@ Let's continue building your SAP career roadmap together! 🚀`,
       msg.id !== userMessage.id &&
       !(typeof msg.content === 'string' &&
         (msg.content.includes('👋 **New Chat Started**') ||
-         msg.content.includes('Welcome to Deep SAP')))
+         msg.content.includes("👋 Hi, I'm Deep SAP")))
     );
     sendQuery(inputValue, conversationHistory);
   };
@@ -1250,8 +1243,106 @@ Let's continue building your SAP career roadmap together! 🚀`,
 
 
 
+  // Collapsed input-only interface
+  if (!isExpanded) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 overflow-hidden">
+        <div className="w-full max-w-4xl mx-4">
+          {/* Centered branding and input */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-3 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full px-6 py-3 mb-6 shadow-lg">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                <Sparkles className="w-6 h-6 text-white" />
+              </div>
+              <div className="text-left">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  Deep SAP
+                </h1>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Multi-Agent SAP Career Guidance System
+                </p>
+              </div>
+            </div>
+            <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
+              👋 Hi, I&apos;m Deep SAP!
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
+              Ask me anything about SAP careers, certifications, job transitions, and strategic planning
+            </p>
+          </div>
+
+          {/* Input area */}
+          <Card className="shadow-2xl border-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm">
+            <CardContent className="p-8">
+              <div className="flex gap-4">
+                <Input
+                  ref={inputRef}
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="What SAP career advice are you looking for today?"
+                  className="flex-1 border-gray-300 dark:border-gray-600 focus:border-blue-500 h-14 text-lg px-6 rounded-full shadow-sm"
+                  disabled={!isConnected}
+                />
+                <Button
+                  onClick={handleSendMessage}
+                  disabled={!inputValue.trim() || !isConnected}
+                  size="lg"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 h-14 rounded-full shadow-lg disabled:opacity-50"
+                  title="Send message"
+                >
+                  <Send className="w-6 h-6" />
+                </Button>
+              </div>
+
+              {/* Connection status */}
+              <div className="text-center mt-6">
+                <div className="flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                  <div className={`w-2 h-2 rounded-full ${
+                    connectionStatus === 'connected' ? 'bg-green-400' :
+                    connectionStatus === 'connecting' ? 'bg-yellow-400 animate-pulse' :
+                    'bg-red-400'
+                  }`} />
+                  {connectionStatus === 'connected' ? 'Ready to assist' :
+                   connectionStatus === 'connecting' ? 'Connecting...' :
+                   'Connection lost'}
+                </div>
+              </div>
+
+              {/* Example prompts */}
+              <div className="mt-8">
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 text-center">Try asking:</p>
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {[
+                    "How can I transition to data science roles within SAP?",
+                    "Analyze my performance reviews and suggest how I can improve",
+                    "What certifications should I pursue to achieve my career goals?"
+                  ].map((prompt, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setInputValue(prompt);
+                        // Small delay to ensure input value is set before sending
+                        setTimeout(() => handleSendMessage(), 10);
+                      }}
+                      className="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors shadow-sm"
+                      disabled={!isConnected}
+                    >
+                      {prompt}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  // Expanded full chatbot interface
   return (
-    <div className="h-screen flex flex-col overflow-hidden">
+    <div className="h-screen flex flex-col overflow-hidden animate-in fade-in-0 zoom-in-95 duration-500">
       <Card className="flex-1 flex flex-col shadow-2xl border-0 bg-white dark:bg-gray-900">
         <CardHeader className="border-b bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 text-white rounded-t-xl">
           <CardTitle className="flex items-center justify-between">
@@ -1264,6 +1355,15 @@ Let's continue building your SAP career roadmap together! 🚀`,
                 <p className="text-sm opacity-90">Multi-Agent SAP Career Guidance System</p>
               </div>
             </div>
+            <Button
+              onClick={() => setIsExpanded(false)}
+              size="sm"
+              variant="ghost"
+              className="text-white/80 hover:text-white hover:bg-white/10 rounded-full p-2"
+              title="Minimize to input mode"
+            >
+              <X className="w-4 h-4" />
+            </Button>
           </CardTitle>
         </CardHeader>
 

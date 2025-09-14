@@ -98,7 +98,7 @@ function ChatbotPageContent() {
       newUrl.searchParams.delete('sessionId');
       window.history.replaceState({}, '', newUrl.toString());
     }
-  }, [searchParams, hasLoadedFromUrl, isAuthenticated]);
+  }, [searchParams, hasLoadedFromUrl, isAuthenticated, setCurrentConversation]);
 
   // Show loading while checking authentication
   if (isAuthenticated === null) {

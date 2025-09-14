@@ -66,5 +66,246 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
   }
+}
+
+/* Custom animations and styles for FastMVP landing page */
+.animate-fade-in {
+  animation: fade-in 0.7s ease-out forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-card-enter {
+  animation: card-enter 0.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+/* Stacking cards effect */
+.perspective-1000 {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Improve animation performance */
+.absolute {
+  backface-visibility: hidden;
+}
+
+/* Card shadows */
+.shadow-elegant {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-elegant-hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .button-primary, .button-secondary {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
+    width: 100%; /* Full width buttons on mobile */
+  }
+
+  /* Enhanced padding for mobile */
+  .section-container {
+    padding: 1.5rem 1rem;
+  }
+
+  /* Better touch targets for mobile */
+  .nav-link, button, a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Adjust text sizes for mobile */
+  .section-title {
+    font-size: 1.75rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .section-subtitle {
+    font-size: 1rem !important;
+  }
+}
+
+/* Robot Showcase Section */
+.robot-image-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  transition: transform 0.5s ease;
+}
+
+.robot-image-container:hover {
+  transform: scale(1.02);
+}
+
+.feature-item {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Enhanced mobile optimizations */
+@media (max-width: 640px) {
+  .robot-image-container {
+    border-radius: 16px;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Optimize spacing in card layouts */
+  .card, .feature-card {
+    padding: 1.25rem;
+  }
+
+  /* Better form inputs on mobile */
+  input, textarea, select {
+    font-size: 16px !important; /* Prevents iOS zoom on focus */
+    padding: 0.75rem !important;
+  }
+
+  /* Fix for mobile overflow issues */
+  .overflow-hidden {
+    overflow-x: hidden;
+  }
+
+  /* Make rounded corners more subtle on mobile */
+  .rounded-3xl {
+    border-radius: 1rem !important;
+  }
+}
+
+/* Disable parallax on mobile for better performance */
+@media (max-width: 768px) {
+  .parallax {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Pulse chip styling */
+.pulse-chip {
+  @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800;
+}
+
+/* Section container utilities */
+.section-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12;
+}
+
+.section-title {
+  @apply text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight;
+}
+
+.section-subtitle {
+  @apply text-lg md:text-xl text-gray-600 mt-4 max-w-3xl;
+}
+
+/* Glass card effect */
+.glass-card {
+  @apply bg-white/70 backdrop-blur-sm border border-white/20 rounded-2xl shadow-elegant transition-all duration-300 hover:shadow-elegant-hover;
+}
+
+/* Feature card styling */
+.feature-card {
+  @apply p-6 rounded-2xl transition-all duration-500 hover:translate-y-[-5px];
+}
+
+/* Navigation link styling */
+.nav-link {
+  @apply text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200;
+}
+
+/* Parallax element styling */
+.parallax {
+  transition: transform 0.3s ease;
+}
+
+/* Custom scrollbar styling for enhanced scroll integration */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.6), rgba(147, 51, 234, 0.6));
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.8), rgba(147, 51, 234, 0.8));
+}
+
+::-webkit-scrollbar-corner {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.4), rgba(147, 51, 234, 0.4));
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.6), rgba(147, 51, 234, 0.6));
+}
+
+.dark ::-webkit-scrollbar-corner {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Pulse gradient background */
+.bg-pulse-gradient {
+  background: linear-gradient(180deg, rgba(249,115,22,0.8) 0%, rgba(249,115,22,0) 100%);
 }

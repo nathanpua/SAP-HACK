@@ -102,7 +102,7 @@ export async function GET(request: NextRequest) {
 
     let careerGuidanceQuery = serviceSupabase
       .from('employee_conversation_messages')
-      .select('id, session_id, message_type, content, created_at, tool_name, tool_output')
+      .select('id, session_id, message_type, content, created_at, tool_name, tool_output', { count: 'exact' })
       .eq('message_type', 'assistant')
       .or('content.ilike.%## Executive Summary%,content.ilike.%## Career Guidance%,content.ilike.%📊 **Report Generated**%,content.ilike.%## Career Development Plan%');
 
@@ -111,6 +111,18 @@ export async function GET(request: NextRequest) {
       careerGuidanceQuery = careerGuidanceQuery.in('session_id', sessionIds);
     }
 
+    // First, get the total count without pagination
+    const { count: totalCount, error: countError } = await careerGuidanceQuery;
+
+    if (countError) {
+      console.log('Count query error:', countError);
+      return NextResponse.json(
+        { error: 'Failed to fetch report count', details: countError.message },
+        { status: 500 }
+      );
+    }
+
+    // Then, get the paginated results
     const { data: careerGuidanceMessages, error: careerGuidanceError } = await careerGuidanceQuery
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
@@ -124,13 +136,10 @@ export async function GET(request: NextRequest) {
     }
 
     // Use the career guidance messages directly
-    const allMessages = careerGuidanceMessages || [];
+    const messages = careerGuidanceMessages || [];
 
-    // Apply pagination to the results
-    const messages = allMessages.slice(offset, offset + limit);
-
-    console.log('Found career guidance reports:', careerGuidanceMessages?.length || 0);
-    console.log('Total career guidance reports:', messages?.length || 0);
+    console.log('Found career guidance reports:', messages.length);
+    console.log('Total career guidance reports:', totalCount || 0);
 
     // Create a lookup map for sessions
     const sessionMap = new Map(sessions.map(s => [s.id, s]));
@@ -153,16 +162,15 @@ export async function GET(request: NextRequest) {
       };
     }) || [];
 
-    // Calculate total count from career guidance reports
-    const totalCount = careerGuidanceMessages?.length || 0;
+    // Total count is already calculated from the count query above
 
     return NextResponse.json({
       reports: formattedReports,
       pagination: {
         page,
         limit,
-        total: totalCount,
-        total_pages: Math.ceil(totalCount / limit)
+        total: totalCount ?? 0,
+        total_pages: Math.ceil((totalCount ?? 0) / limit)
       }
     });
 
