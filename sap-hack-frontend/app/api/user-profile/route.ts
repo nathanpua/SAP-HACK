@@ -36,10 +36,7 @@ export async function GET(request: Request) {
         );
       }
     } else {
-      // Regular user request - use service role client to bypass RLS for employee_profiles view
-      supabase = createServiceRoleClient();
-
-      // Still need to authenticate the user
+      // Regular user request - authenticate user first
       const authClient = await createClient();
       const { data: { user }, error: userError } = await authClient.auth.getUser();
 
@@ -51,12 +48,22 @@ export async function GET(request: Request) {
       }
 
       targetUserId = user.id;
+
+      // Use service role client if available, otherwise regular client
+      supabase = process.env.SUPABASE_SERVICE_ROLE_KEY ? createServiceRoleClient() : authClient;
+      if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+        console.warn('SUPABASE_SERVICE_ROLE_KEY not set, using regular client for profile queries');
+      }
     }
 
-    // Fetch comprehensive employee profile data from employee_profiles table
-    const { data: employee, error: employeeError } = await supabase
-      .from("employee_profiles")
-      .select("*")
+    // Fetch comprehensive employee profile data with RLS-compatible JOINs
+    const { data: employee, error: employeeError } = await supabase!
+      .from("employees")
+      .select(`
+        *,
+        department:departments(id, name, code, description, location, business_unit),
+        manager:employees!manager_id(id, first_name, last_name, email)
+      `)
       .eq("auth_user_id", targetUserId)
       .single();
 
@@ -68,8 +75,20 @@ export async function GET(request: Request) {
       );
     }
 
+    // Fetch role information separately (roles table has RLS but no policies)
+    let roleInfo = null;
+    if (employee.current_role_id && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      const serviceClient = createServiceRoleClient();
+      const { data: role } = await serviceClient
+        .from("roles")
+        .select("id, title, code, description, career_level, min_experience_years, max_experience_years")
+        .eq("id", employee.current_role_id)
+        .single();
+      roleInfo = role;
+    }
+
     // Fetch employee skills with JOIN (more efficient)
-    const { data: employeeSkills, error: skillsError } = await supabase
+    const { data: employeeSkills, error: skillsError } = await supabase!
       .from("employee_skills")
       .select(`
         *,
@@ -83,7 +102,7 @@ export async function GET(request: Request) {
     }
 
     // Fetch employee certifications with JOIN (more efficient)
-    const { data: employeeCerts, error: certsError } = await supabase
+    const { data: employeeCerts, error: certsError } = await supabase!
       .from("employee_certifications")
       .select(`
         *,
@@ -97,7 +116,7 @@ export async function GET(request: Request) {
     }
 
     // Fetch current projects with JOIN (more efficient)
-    const { data: employeeProjects, error: projectsError } = await supabase
+    const { data: employeeProjects, error: projectsError } = await supabase!
       .from("project_assignments")
       .select(`
         *,
@@ -111,7 +130,7 @@ export async function GET(request: Request) {
     }
 
     // Fetch performance reviews with reviewer details
-    const { data: performance, error: perfError } = await supabase
+    const { data: performance, error: perfError } = await supabase!
       .from("performance_reviews")
       .select(`
         *,
@@ -126,7 +145,7 @@ export async function GET(request: Request) {
     }
 
     // Fetch training history with JOIN (more efficient)
-    const { data: employeeTraining, error: trainingError } = await supabase
+    const { data: employeeTraining, error: trainingError } = await supabase!
       .from("employee_training")
       .select(`
         *,
@@ -169,28 +188,28 @@ export async function GET(request: Request) {
       costCenter: employee.cost_center,
       companyCode: employee.company_code,
 
-      // Organizational Information (from employee_profiles table)
-      department: employee.department_name ? {
-        id: employee.current_department_id,
-        name: employee.department_name,
-        code: employee.department_code,
-        description: null,
-        location: null,
-        business_unit: null
+      // Organizational Information (from JOINs)
+      department: employee.department ? {
+        id: employee.department.id,
+        name: employee.department.name,
+        code: employee.department.code,
+        description: employee.department.description,
+        location: employee.department.location,
+        business_unit: employee.department.business_unit
       } : null,
-      role: employee.role_title ? {
-        id: employee.current_role_id,
-        title: employee.role_title,
-        code: employee.role_code,
-        description: null,
-        career_level: employee.career_level,
-        min_experience_years: null,
-        max_experience_years: null
+      role: roleInfo ? {
+        id: roleInfo.id,
+        title: roleInfo.title,
+        code: roleInfo.code,
+        description: roleInfo.description,
+        career_level: roleInfo.career_level,
+        min_experience_years: roleInfo.min_experience_years,
+        max_experience_years: roleInfo.max_experience_years
       } : null,
-      manager: employee.manager_first_name ? {
-        id: employee.manager_id,
-        fullName: `${employee.manager_first_name} ${employee.manager_last_name || ''}`.trim(),
-        email: employee.manager_email
+      manager: employee.manager ? {
+        id: employee.manager.id,
+        fullName: `${employee.manager.first_name} ${employee.manager.last_name || ''}`.trim(),
+        email: employee.manager.email
       } : null,
 
       // Professional Information
