@@ -36,11 +36,12 @@ export async function GET(request: Request) {
         );
       }
     } else {
-      // Regular user request
-      supabase = await createClient();
+      // Regular user request - use service role client to bypass RLS for employee_profiles view
+      supabase = createServiceRoleClient();
 
-      // Get the current user
-      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      // Still need to authenticate the user
+      const authClient = await createClient();
+      const { data: { user }, error: userError } = await authClient.auth.getUser();
 
       if (userError || !user) {
         return NextResponse.json(
