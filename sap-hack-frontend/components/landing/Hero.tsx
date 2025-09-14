@@ -130,18 +130,26 @@ const Hero = () => {
             <div className="relative z-10 animate-fade-in" style={{ animationDelay: "0.9s" }}>
               <div className="relative">
                 <div
-                  className="rounded-2xl sm:rounded-3xl bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 p-8 shadow-2xl border border-gray-200 dark:border-gray-700"
+                  className="rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700"
                   style={{ width: '100%', maxWidth: '28rem', height: 'auto', display: 'block', margin: '0 auto' }}
                 >
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center">
-                      <svg className="w-8 h-8" fill="none" stroke="white" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Deep SAP AI</h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">Your personal Deep SAP advisor</p>
-                  </div>
+                  <video
+                    ref={imageRef}
+                    className="w-full h-auto object-cover parallax"
+                    data-speed="0.1"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    style={{
+                      filter: 'brightness(1.1) contrast(1.05)',
+                      transform: 'perspective(1000px) rotateY(0deg) rotateX(0deg) scale3d(1, 1, 1)',
+                      transition: 'transform 0.1s ease-out'
+                    }}
+                  >
+                    <source src="/Steps.webm" type="video/webm" />
+                    Your browser does not support the video tag.
+                  </video>
                 </div>
               </div>
             </div>
