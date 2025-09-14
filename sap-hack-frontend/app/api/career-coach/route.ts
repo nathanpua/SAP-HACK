@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerWebSocketUrl } from "@/lib/websocket-config";
 
-// API route for managing Career Coach WebUI connection
+// API route for managing Deep SAP WebUI connection
 export async function GET() {
   try {
-    // Check if Career Coach WebUI is running
+    // Check if Deep SAP WebUI is running
     const wsUrl = getServerWebSocketUrl();
 
     // You could implement a health check here
@@ -13,17 +13,17 @@ export async function GET() {
     return NextResponse.json({
       status: 'ready',
       wsUrl: wsUrl,
-      message: 'SAP Career Coach WebUI is ready for connection',
+      message: 'Deep SAP WebUI is ready for connection',
       instructions: {
         frontend: 'Navigate to /chatbot to access the chat interface',
-        backend: 'Run the Career Coach orchestra agent with main_web.py',
+        backend: 'Run the Deep SAP orchestra agent with main_web.py',
         connection: `Connect to ${wsUrl} for real-time communication`
       }
     });
   } catch (error) {
-    console.error('Career Coach API error:', error);
+    console.error('Deep SAP API error:', error);
     return NextResponse.json(
-      { error: 'Failed to check Career Coach status' },
+      { error: 'Failed to check Deep SAP status' },
       { status: 500 }
     );
   }
@@ -35,20 +35,20 @@ export async function POST(request: NextRequest) {
 
     switch (action) {
       case 'start':
-        // This would start the Career Coach WebUI server
+        // This would start the Deep SAP WebUI server
         // In a real implementation, you might use child_process to start the Python server
         return NextResponse.json({
           success: true,
-          message: 'Career Coach WebUI server started',
+          message: 'Deep SAP WebUI server started',
           command: 'python main_web.py',
-          note: 'Run this command in your terminal to start the Career Coach agent'
+          note: 'Run this command in your terminal to start the Deep SAP agent'
         });
 
       case 'stop':
-        // This would stop the Career Coach WebUI server
+        // This would stop the Deep SAP WebUI server
         return NextResponse.json({
           success: true,
-          message: 'Career Coach WebUI server stopped'
+          message: 'Deep SAP WebUI server stopped'
         });
 
       case 'health':
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
           status: 'healthy',
           timestamp: new Date().toISOString(),
-          services: ['career-coach', 'websocket', 'orchestra-agent']
+          services: ['deep-sap', 'websocket', 'orchestra-agent']
         });
 
       case 'generate-mock-report':
@@ -149,7 +149,7 @@ This comprehensive SAP Career Assessment Report has been generated based on your
         );
     }
   } catch (error) {
-    console.error('Career Coach API error:', error);
+    console.error('Deep SAP API error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

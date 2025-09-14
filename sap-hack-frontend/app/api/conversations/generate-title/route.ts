@@ -92,7 +92,7 @@ Title:`;
           'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
           'Content-Type': 'application/json',
           'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-          'X-Title': 'SAP Career Coach Title Generator'
+          'X-Title': 'Deep SAP Title Generator'
         },
         body: JSON.stringify({
           model: "microsoft/phi-3-medium-128k-instruct",  

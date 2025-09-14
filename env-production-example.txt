@@ -1,18 +1,71 @@
-# Frontend Environment Variables (for Vercel)
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
-CAREER_COACH_WS_URL=ws://your-railway-app.up.railway.app:8848/ws
+# Update these with your Supabase details from your project settings > API
+# https://app.supabase.com/project/_/settings/api
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_OR_ANON_KEY=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+# ==========================================================================
+# we provide basic environment variables here, see .env.full for full list
+# 
+# - for basic useage, setting llm and tools configs are enough
+# - set OTEL tracing, set the tracing section
+# ==========================================================================
 
-# Backend Environment Variables (for Railway)
-UTU_LLM_TYPE=chat.completions
-UTU_LLM_MODEL=gpt-4o-mini
-UTU_LLM_API_KEY=your-openai-api-key
-SUPABASE_ACCESS_TOKEN=your-supabase-access-token
-SERPER_API_KEY=your-serper-api-key
-JINA_API_KEY=your-jina-api-key
-FRONTEND_IP=0.0.0.0
-FRONTEND_PORT=8848
+# llm
+# setup your LLM config , ref https://api-docs.deepseek.com/
+UTU_LLM_TYPE=
+UTU_LLM_MODEL=
+UTU_LLM_BASE_URL=
+UTU_LLM_API_KEY=
 
-# Optional Variables
-GITHUB_TOKEN=your-github-token
-GOOGLE_API_KEY=your-google-api-key
+# OpenAI
+OPENAI_API_KEY=
+OPENROUTER_API_KEY=
+
+# tools
+# serper api key, ref https://serper.dev/playground
+SERPER_API_KEY=
+# jina api key, ref https://jina.ai/reader
+JINA_API_KEY=
+
+# tracing
+# OTEL endpoint, ref https://arize.com/docs/phoenix if use Phoenix   
+# PHOENIX_ENDPOINT=http://localhost:6006/v1/traces
+# PHOENIX_BASE_URL=http://localhost:6006
+PHOENIX_ENDPOINT=
+PHOENIX_BASE_URL=
+PHOENIX_API_KEY=
+PHOENIX_PROJECT_NAME=
+
+# misc
+# database url, e.g., SQLite, PostgreSQL
+DB_URL=sqlite:///test.db
+UTU_LOG_LEVEL=WARNING
+
+# OUTLOOK AND TEAMS INTEGRATION
+OUTLOOK_CLIENT_ID=
+OUTLOOK_CLIENT_SECRET=
+OUTLOOK_TENANT_ID=
+
+# Teams Calendar
+TEAMS_CLIENT_ID=
+TEAMS_CLIENT_SECRET=
+TEAMS_TENANT_ID=
+
+# Optional: Direct access tokens
+OUTLOOK_ACCESS_TOKEN="your-access-token"
+TEAMS_ACCESS_TOKEN="your-access-token"
+# Add debug logging and sampling configuration to .env
+
+# Supabase
+SUPABASE_ACCESS_TOKEN=
+SUPABASE_PROJECT_REF=
+SUPABASE_SERVICE_ROLE_KEY=
+
+# Optional (for additional security)
+SUPABASE_PROJECT_URL=
+SUPABASE_READ_ONLY=true  # Limit to read-only operations
+
+
+USER_PROFILE_API_URL=
+CAREER_COACH_WS_URL=

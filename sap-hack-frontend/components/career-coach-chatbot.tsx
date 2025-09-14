@@ -63,7 +63,7 @@ export function CareerCoachChatbot({ wsUrl, loadConversationRef, onConversationC
       id: Date.now(),
       content: `👋 **New Chat Started**
 
-Welcome to your SAP Career Coach! This is a fresh conversation session.
+Welcome to Deep SAP! This is a fresh conversation session.
 
 I'm here to help you navigate your SAP career journey with personalized guidance, certification recommendations, and strategic planning.
 
@@ -321,7 +321,7 @@ Let's build your SAP career roadmap together! 🚀
               id: Date.now(),
               content: `👋 **Conversation Loaded**
 
-Welcome back to your SAP Career Coach! This conversation has been restored.
+Welcome back to Deep SAP! This conversation has been restored.
 
 💡 **Example questions you can ask:**
 • "I'm an SAP consultant with 3 years experience wanting to become a Solution Architect. What's my path?"
@@ -1020,7 +1020,7 @@ Let's continue building your SAP career roadmap together! 🚀`,
       msg.id !== userMessage.id &&
       !(typeof msg.content === 'string' &&
         (msg.content.includes('👋 **New Chat Started**') ||
-         msg.content.includes('Welcome to your SAP Career Coach')))
+         msg.content.includes('Welcome to Deep SAP')))
     );
     sendQuery(inputValue, conversationHistory);
   };
@@ -1260,7 +1260,7 @@ Let's continue building your SAP career roadmap together! 🚀`,
                 <Sparkles className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-xl font-bold">SAP Career Coach</h1>
+                <h1 className="text-xl font-bold">Deep SAP</h1>
                 <p className="text-sm opacity-90">Multi-Agent SAP Career Guidance System</p>
               </div>
             </div>
@@ -1316,7 +1316,7 @@ Let's continue building your SAP career roadmap together! 🚀`,
                     <div className="flex items-center gap-3">
                       <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
                       <span className="text-sm text-gray-600 dark:text-gray-400">
-                        AI is analyzing your career request...
+                        Deep SAP is analyzing your career request...
                       </span>
                     </div>
                   </div>
@@ -1352,7 +1352,7 @@ Let's continue building your SAP career roadmap together! 🚀`,
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Ask about your SAP career path, certifications, or job transitions..."
+                  placeholder="Ask about your SAP career path, certifications, or job transitions with Deep SAP..."
                   className="flex-1 border-gray-300 dark:border-gray-600 focus:border-blue-500 h-12 text-base"
                   disabled={isModelResponding || !isConnected}
                 />
@@ -1386,7 +1386,7 @@ Let's continue building your SAP career roadmap together! 🚀`,
                     connectionStatus === 'connecting' ? 'bg-yellow-400 animate-pulse' :
                     'bg-red-400'
                   }`} />
-                  {connectionStatus === 'connected' ? 'Connected to SAP Career Coach' :
+                  {connectionStatus === 'connected' ? 'Connected to Deep SAP' :
                    connectionStatus === 'connecting' ? 'Connecting...' :
                    'Disconnected'}
                 </span>

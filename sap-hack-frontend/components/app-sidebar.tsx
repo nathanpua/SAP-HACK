@@ -233,7 +233,7 @@ export default function AppSidebar({
             <Bot className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">SAP Career Coach</h2>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Deep SAP</h2>
             <p className="text-sm text-gray-500 dark:text-gray-400">AI Assistant</p>
           </div>
         </div>
