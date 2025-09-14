@@ -37,6 +37,7 @@ interface CareerCoachChatbotProps {
   onConversationCreated?: () => void;
   onConversationTitleUpdated?: () => void;
   onCurrentConversationTitleUpdate?: (sessionId: string) => void;
+  isLoadingExistingChat?: boolean;
 }
 
 // Helper function to format time consistently
@@ -49,7 +50,7 @@ const formatTime = (date: Date) => {
 
 import { getClientWebSocketUrl } from '@/lib/websocket-config';
 
-export function CareerCoachChatbot({ wsUrl, loadConversationRef, onConversationCreated, onConversationTitleUpdated, onCurrentConversationTitleUpdate }: CareerCoachChatbotProps) {
+export function CareerCoachChatbot({ wsUrl, loadConversationRef, onConversationCreated, onConversationTitleUpdated, onCurrentConversationTitleUpdate, isLoadingExistingChat = false }: CareerCoachChatbotProps) {
   // Use provided URL or get from centralized config
   const finalWsUrl = wsUrl || getClientWebSocketUrl();
 
@@ -75,7 +76,32 @@ export function CareerCoachChatbot({ wsUrl, loadConversationRef, onConversationC
   const [expandedReports, setExpandedReports] = useState<Set<number>>(new Set());
   const [isNearBottom, setIsNearBottom] = useState(true);
   const [showScrollToBottom, setShowScrollToBottom] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(isLoadingExistingChat);
+
+  // Update component state when isLoadingExistingChat changes
+  useEffect(() => {
+    if (isLoadingExistingChat) {
+      setIsExpanded(true);
+    } else {
+      // Reset state for new chat
+      setIsExpanded(false);
+      setCurrentSessionId(null);
+      setConversationStarted(false);
+      setMessages([
+        {
+          id: Date.now(),
+          content: `👋 Hi, I'm Deep SAP!`,
+          sender: 'assistant',
+          timestamp: new Date(),
+          type: 'text'
+        }
+      ]);
+      setInputValue('');
+      setIsModelResponding(false);
+      setExpandedToolOutputs(new Set());
+      setExpandedReports(new Set());
+    }
+  }, [isLoadingExistingChat]);
 
   const { sendQuery, sendFinishEvent, lastMessage, readyState } = useChatWebSocket(finalWsUrl);
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { Bot, User, MessageSquare, BookOpen, Target, LogOut, UserCircle, Clock, History } from "lucide-react";
+import { Bot, User, MessageSquare, BookOpen, Target, LogOut, UserCircle, Clock, History, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { cacheManager } from "@/lib/cache-manager";
@@ -185,6 +185,11 @@ export default function AppSidebar({
     router.push(`/chatbot?sessionId=${sessionId}`);
   };
 
+  const handleRefreshChat = () => {
+    // Refresh the current page to reset the chat interface
+    window.location.reload();
+  };
+
   const navigationItems = [
     {
       id: 'chatbot',
@@ -252,6 +257,22 @@ export default function AppSidebar({
               >
                 <Icon className="w-5 h-5" />
                 <span className={isActive ? 'font-medium' : ''}>{item.label}</span>
+                {item.id === 'chatbot' && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent parent click
+                      handleRefreshChat();
+                    }}
+                    className={`ml-auto p-1 rounded-md transition-colors ${
+                      isActive
+                        ? 'text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-800/30'
+                        : 'text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    }`}
+                    title="New Chat"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             );
           })}

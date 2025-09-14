@@ -16,6 +16,8 @@ function ChatbotPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // Track initial navigation intent to distinguish new chat vs existing chat
+  const initialIntentRef = useRef<'new' | 'existing' | null>(null);
 
   // Function to handle when a new conversation is created
   const handleConversationCreated = useCallback(() => {
@@ -100,6 +102,35 @@ function ChatbotPageContent() {
     }
   }, [searchParams, hasLoadedFromUrl, isAuthenticated, setCurrentConversation]);
 
+  // Determine if we're loading an existing chat
+  const [isLoadingExistingChat, setIsLoadingExistingChat] = useState(() => {
+    const hasSessionId = searchParams.get('sessionId') !== null;
+    initialIntentRef.current = hasSessionId ? 'existing' : 'new';
+    return hasSessionId;
+  });
+
+  // Update isLoadingExistingChat when searchParams change
+  useEffect(() => {
+    const hasSessionId = searchParams.get('sessionId') !== null;
+
+    // If we initially intended to load existing chat but URL got cleared, keep existing state
+    if (initialIntentRef.current === 'existing' && !hasSessionId) {
+      return; // Don't change state when URL gets cleared after loading
+    }
+
+    // If we're navigating to a clean URL and we didn't start with existing intent, reset
+    if (!hasSessionId && initialIntentRef.current === 'new') {
+      setIsLoadingExistingChat(false);
+      setCurrentConversation(null);
+      initialIntentRef.current = 'new';
+      return;
+    }
+
+    // Update for new navigation
+    setIsLoadingExistingChat(hasSessionId);
+    initialIntentRef.current = hasSessionId ? 'existing' : 'new';
+  }, [searchParams, setCurrentConversation]);
+
   // Show loading while checking authentication
   if (isAuthenticated === null) {
     return (
@@ -147,6 +178,7 @@ function ChatbotPageContent() {
           onConversationCreated={handleConversationCreated}
           onConversationTitleUpdated={handleConversationTitleUpdated}
           onCurrentConversationTitleUpdate={handleCurrentConversationTitleUpdate}
+          isLoadingExistingChat={isLoadingExistingChat}
         />
       </div>
     </div>
