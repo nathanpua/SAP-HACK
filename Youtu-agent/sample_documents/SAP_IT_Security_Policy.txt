@@ -1,0 +1,504 @@
+
+# SAP - INFORMATION SECURITY AND DATA PROTECTION POLICY
+
+**Policy Number:** SAP-POL-004  
+**Effective Date:** January 1, 2024  
+**Last Revised:** September 02, 2025  
+**Approved By:** Christian Klein, Chief Executive Officer  
+**Policy Owner:** Michael Schmidt, Chief Information Security Officer  
+**Classification:** Internal Use Only
+
+## 1. PURPOSE AND SCOPE
+
+This policy establishes comprehensive information security standards to protect SAP's confidential data, intellectual property, and computing resources from unauthorized access, use, disclosure, modification, or destruction. This policy ensures compliance with SOC 2 Type II, GDPR, CCPA, ISO 27001, and industry-specific security requirements for our clients.
+
+**Applicable Systems:**
+- All company-owned devices and networks
+- Cloud infrastructure (Microsoft Azure, Amazon Web Services, Google Cloud Platform)
+- SaaS applications (SAP SuccessFactors, SAP Concur, Salesforce, Microsoft 365)
+- Employee personal devices used for company business (BYOD program)
+
+**Data Classification Levels:**
+- **Public:** Marketing materials, press releases, public website content
+- **Internal:** Company policies, organizational charts, general business information  
+- **Confidential:** Client data, financial records, employee personal information
+- **Restricted:** Source code, trade secrets, M&A information, executive communications
+
+## 2. ACCESS CONTROL AND AUTHENTICATION
+
+### 2.1 User Account Management
+
+**Account Provisioning Process:**
+- New user accounts created within 24 hours of IT ticket submission
+- Default access principle: Minimum necessary permissions for job function
+- Account activation requires manager approval via ServiceNow workflow
+- Temporary accounts expire automatically after 90 days maximum
+
+**Standard User Account Format:**
+- Username: firstname.lastname (e.g., john.smith@sap.com)
+- Employee ID integration with Azure Active Directory (SAP-YYYY-####)
+- Distribution lists managed by department heads
+- Shared accounts prohibited except for approved service accounts
+
+### 2.2 Multi-Factor Authentication (MFA) Requirements
+
+**MFA Mandatory For:**
+- All email accounts (Microsoft 365 via Authenticator app)
+- VPN access (Cisco AnyConnect with push notifications)
+- Cloud platforms (Azure, AWS via hardware tokens for admins)
+- Administrative systems (Active Directory, DNS, firewall management)
+- Financial systems (SAP SuccessFactors, SAP Concur, banking portals)
+
+**Approved MFA Methods:**
+1. Microsoft Authenticator (primary method)
+2. YubiKey 5 Series hardware tokens (for privileged accounts)
+3. SMS to company-provided mobile devices (backup only)
+4. Backup codes (printed and stored securely)
+
+### 2.3 Password Policy Standards
+
+**Password Requirements:**
+- Minimum 14 characters in length
+- Combination of uppercase, lowercase, numbers, and special characters
+- Cannot contain dictionary words, personal information, or company name
+- Cannot reuse previous 15 passwords
+- Must be changed every 90 days for privileged accounts, 180 days for standard accounts
+
+**Password Management:**
+- 1Password Business required for all employees
+- Personal password managers prohibited for business accounts
+- Shared passwords must be stored in 1Password shared vaults
+- Default passwords must be changed immediately upon first login
+
+## 3. NETWORK SECURITY CONTROLS
+
+### 3.1 Firewall and Network Segmentation
+
+**Network Architecture:**
+- Perimeter firewall: Palo Alto Networks PA-5220 (redundant pair)
+- Internal segmentation: VLANs separate departments and functions
+- Guest network: Isolated with 4-hour session timeout
+- IoT devices: Dedicated network with restricted internet access
+
+**Firewall Rules:**
+- Default deny-all inbound traffic policy
+- Outbound web browsing through content filter (Zscaler Internet Access)
+- VPN concentrator: Cisco ASA 5555-X (concurrent user limit: 500)
+- DMZ hosts for public-facing services with strict access controls
+
+### 3.2 Wireless Network Security
+**Corporate Wireless (SAP-Corporate):**
+- WPA3-Enterprise encryption with certificate-based authentication
+- 802.1X authentication via RADIUS server
+- Automatic disconnection after 8 hours of inactivity
+- MAC address filtering for IoT devices
+
+**Guest Wireless (SAP-Guest):**
+- Captive portal with terms of service acceptance
+- Daily password rotation (distributed via reception desk)
+- Bandwidth limitation: 25 Mbps per device
+- Web filtering blocks malicious and inappropriate content
+
+### 3.3 Remote Access Security
+**VPN Requirements:**
+- Cisco AnyConnect VPN client required for all remote connections
+- Split tunneling disabled - all traffic routed through corporate network
+- VPN session timeout: 8 hours of inactivity
+- Concurrent connection limit: 3 sessions per user
+
+**Remote Desktop Access:**
+- Windows Remote Desktop Services through VPN only
+- Session encryption: 256-bit AES
+- Session recording enabled for privileged account access
+- Automatic logoff after 30 minutes of inactivity
+
+## 4. ENDPOINT SECURITY STANDARDS
+
+### 4.1 Device Management Requirements
+
+**Company-Owned Devices:**
+- Microsoft Intune MDM enrollment mandatory
+- BitLocker full-disk encryption enabled (256-bit AES)
+- Automatic screen lock after 10 minutes of inactivity
+- USB port restrictions (approved devices only via Intune policy)
+
+**BYOD (Bring Your Own Device) Program:**
+- Enrollment in Microsoft Intune for Conditional Access
+- Company data containerization via Intune App Protection
+- Remote wipe capability for company data only
+- Device PIN/biometric lock required (8-digit minimum)
+
+### 4.2 Anti-Malware and Endpoint Detection
+**Microsoft Defender for Business:**
+- Real-time malware detection and prevention
+- Advanced threat protection with behavioral analysis
+- Automatic quarantine and remediation of threats
+- 24/7 Security Operations Center monitoring
+
+**Endpoint Configuration:**
+- Windows Security as primary antivirus solution
+- Automatic definition updates every hour
+- Weekly full system scans scheduled during off-hours
+- User cannot disable or modify security software
+
+### 4.3 Software Installation and Updates
+**Approved Software Management:**
+- Microsoft WSUS for Windows updates (automatic installation)
+- Microsoft Intune for application deployment and management
+- Software allowlist maintained in Intune (300+ approved applications)
+- Unapproved software installation blocked by Group Policy
+
+**Patch Management:**
+- Critical security patches: Within 48 hours of release
+- High-priority patches: Within 5 business days of release
+- Standard updates: Monthly maintenance window (second Saturday, 2:00-6:00 AM)
+- Testing environment mirrors production for patch validation
+
+## 5. DATA PROTECTION AND ENCRYPTION
+
+### 5.1 Data Encryption Requirements
+
+**Data at Rest:**
+- Database encryption: AES-256 for all customer data
+- File storage: BitLocker for Windows, FileVault for macOS
+- Cloud storage: Server-side encryption enabled (Azure Storage, AWS S3)
+- Email encryption: Microsoft 365 Advanced Threat Protection
+
+**Data in Transit:**
+- TLS 1.3 minimum for all web communications
+- VPN tunnel encryption: IPSec with AES-256
+- Email transport: SMTP TLS enforcement
+- API communications: HTTPS with certificate pinning
+
+### 5.2 Data Classification and Handling
+
+**Confidential Data Storage Locations:**
+- Customer database: Azure SQL Database with Transparent Data Encryption
+- Employee records: SAP SuccessFactors with SOC 2 compliance
+- Financial data: SAP S/4HANA with role-based access controls
+- Source code: Azure DevOps with branch protection
+
+**Data Retention Policies:**
+- Employee records: 7 years post-termination
+- Financial records: 10 years per regulatory requirements
+- Customer data: Per contract terms (typically 5-7 years)
+- System logs: 2 years retention, archived to Azure Archive Storage
+
+### 5.3 Data Loss Prevention (DLP)
+**Microsoft Purview Data Loss Prevention:**
+- Automatic detection of credit card numbers, SSNs, GDPR-regulated data
+- Email attachment scanning for sensitive information
+- USB and removable media transfer blocking for confidential data
+- Cloud app data upload monitoring (OneDrive, SharePoint, Teams)
+
+**Incident Response:**
+- Automatic alerts to security@sap.com for policy violations
+- User notification and mandatory security awareness training
+- Management escalation for repeated violations
+- Potential disciplinary action per SAP-POL-001
+
+## 6. EMAIL AND COMMUNICATIONS SECURITY
+
+### 6.1 Email Security Controls
+
+**Microsoft Defender for Office 365:**
+- Safe Attachments: Advanced sandboxing of email attachments
+- Safe Links: Real-time URL scanning and rewriting
+- Anti-phishing policies with executive impersonation protection
+- Quarantine management with self-service release
+
+**Email Encryption:**
+- Automatic encryption for emails marked "Confidential"
+- Manual encryption available via Outlook add-in
+- External sharing requires recipient identity verification
+- Encrypted emails expire after 90 days (configurable)
+
+### 6.2 Instant Messaging and Collaboration
+**Microsoft Teams Security:**
+- Data residency: Germany and United States only
+- Message retention: 7 years for compliance
+- External guest access approval required by department heads
+- File sharing restricted to approved file types
+
+**Slack Enterprise Grid Security (Secondary Platform):**
+- External guest access disabled
+- Message retention: 7 years for compliance
+- File sharing through approved channels only
+- Integration with Azure AD for single sign-on
+
+### 6.3 Social Media and External Communications
+- Personal social media use during work hours limited to breaks
+- Company information cannot be shared without Communications approval
+- LinkedIn profiles must not reference confidential projects
+- Twitter/X company account managed by Marketing team only
+
+## 7. CLOUD SECURITY AND VENDOR MANAGEMENT
+
+### 7.1 Cloud Service Provider Requirements
+
+**Microsoft Azure (Primary Cloud):**
+- Subscription consolidated under Enterprise Agreement
+- Azure AD Connect for hybrid identity management
+- Azure Security Center for advanced threat protection
+- Azure Monitor for comprehensive logging and alerting
+
+**Amazon Web Services (Secondary Cloud):**
+- Account consolidated billing and cross-account roles
+- AWS CloudTrail logging enabled for all regions
+- AWS Config for compliance and configuration management
+- AWS GuardDuty for threat detection
+
+### 7.2 SaaS Application Security
+**Vendor Risk Assessment:**
+- SOC 2 Type II certification required for all critical applications
+- Annual vendor security questionnaires completed
+- Data processing agreements (DPAs) for GDPR compliance
+- Incident response and business continuity plan documentation required
+
+**Application Integration Security:**
+- API keys rotated quarterly
+- OAuth 2.0 preferred over API key authentication
+- Single Sign-On (SSO) integration via SAML 2.0 where available
+- Automated user provisioning/deprovisioning via SCIM protocol
+
+### 7.3 Data Backup and Recovery
+**Backup Strategy (3-2-1-1 Rule):**
+- 3 copies of critical data maintained
+- 2 different storage media types (local and cloud)
+- 1 offsite copy (Azure Blob Storage with geo-redundancy)
+- 1 air-gapped backup for ransomware protection
+
+**Recovery Time Objectives (RTO):**
+- Tier 1 systems (production): 2 hours maximum
+- Tier 2 systems (development): 12 hours maximum  
+- Tier 3 systems (archives): 48 hours maximum
+
+**Recovery Point Objectives (RPO):**
+- Database systems: 5 minutes maximum data loss
+- File systems: 1 hour maximum data loss
+- Email systems: 15 minutes maximum data loss
+
+## 8. INCIDENT RESPONSE PROCEDURES
+
+### 8.1 Security Incident Classification
+
+**Severity Levels:**
+- **Critical (P1):** Data breach, ransomware, system compromise affecting >500 users
+- **High (P2):** Malware infection, successful phishing attack, unauthorized access attempt
+- **Medium (P3):** Policy violation, suspicious activity, failed security control
+- **Low (P4):** Security awareness issue, minor configuration issue, routine maintenance
+
+### 8.2 Incident Response Team
+**Core Team Members:**
+- **Incident Commander:** Michael Schmidt, CISO (primary), Jennifer Park (backup)
+- **Technical Lead:** Senior Systems Administrator (rotating schedule)
+- **Communications Lead:** Amanda Chen, HR Business Partner
+- **Legal Liaison:** External counsel (Morgan Lewis & Bockius LLP)
+
+**Response Timeline:**
+- Initial response: Within 15 minutes of detection
+- Stakeholder notification: Within 1 hour for P1/P2 incidents
+- Preliminary assessment: Within 2 hours
+- Detailed investigation: 24-48 hours depending on complexity
+
+### 8.3 External Incident Reporting
+**Regulatory Requirements:**
+- GDPR breach notification: 72 hours to supervisory authority
+- CCPA breach notification: Without unreasonable delay
+- Client contract notification: Per agreement terms (typically 24 hours)
+- Cyber insurance notification: Within 24 hours (AIG Cyber Insurance)
+
+## 9. SECURITY AWARENESS AND TRAINING
+
+### 9.1 Mandatory Security Training
+**New Employee Orientation:**
+- Information Security Fundamentals (3-hour online course)
+- Phishing simulation and response training
+- Password management and MFA setup
+- Data classification and handling procedures
+
+**Annual Requirements:**
+- Security awareness training refresher (2-hour course)
+- Monthly phishing simulation exercises
+- Role-specific training (developers, sales, HR, finance)
+- Incident response tabletop exercises (bi-annually)
+
+### 9.2 Phishing Simulation Program
+**Proofpoint Security Awareness Training:**
+- Bi-weekly simulated phishing campaigns
+- Progressive difficulty based on historical click rates
+- Immediate micro-learning for users who click
+- Department-level reporting and improvement tracking
+
+**Performance Metrics:**
+- Target: <3% click rate on simulated phishing
+- Current baseline: 5% company-wide click rate
+- Remedial training required for >2 clicks per quarter
+- Recognition program for departments with <1% click rate
+
+## 10. COMPLIANCE AND AUDIT REQUIREMENTS
+
+### 10.1 Regulatory Compliance Frameworks
+**SOC 2 Type II Certification:**
+- Annual audit by independent CPA firm (Deloitte & Touche)
+- Quarterly internal assessments and gap analysis
+- Control testing and evidence collection
+- Management assertions and remediation planning
+
+**ISO 27001 Certification:**
+- Annual surveillance audits by certification body (TÜV SÜD)
+- Risk assessment and treatment plan updates
+- Internal audit program with trained auditors
+- Management review and continual improvement process
+
+**GDPR Compliance Program:**
+- Data Protection Officer (DPO): External consultant (TrustArc)
+- Data processing inventory maintained in Microsoft Purview
+- Privacy impact assessments for new systems/processes
+- Subject rights request handling within 30 days
+
+### 10.2 Internal Security Assessments
+**Quarterly Assessments:**
+- Vulnerability scanning via Rapid7 InsightVM
+- Penetration testing by third-party firm (Rapid7)
+- Configuration compliance audits
+- Access rights review and certification
+
+**Annual Security Review:**
+- Complete policy review and updates
+- Risk assessment and treatment plan updates
+- Vendor security assessment renewals
+- Cyber insurance coverage evaluation
+
+## 11. BRING YOUR OWN DEVICE (BYOD) POLICY
+
+### 11.1 Eligible Devices and Requirements
+**Supported Platforms:**
+- iOS 16.0 or later (iPhone, iPad)
+- Android 12 or later with Samsung Knox or equivalent
+- Windows 10/11 Pro with BitLocker capability
+- macOS 13 (Ventura) or later
+
+**Security Requirements:**
+- Device encryption enabled and verified
+- Screen lock with PIN, password, or biometric authentication
+- Automatic lock timeout: 5 minutes maximum
+- Operating system updates applied within 30 days of release
+
+### 11.2 Company Data Access and Protection
+**Microsoft Intune App Protection:**
+- Company email and documents containerized
+- Copy/paste restrictions between personal and business apps
+- Screenshot and screen recording prevention for business data
+- Remote wipe capability for company data only (personal data preserved)
+
+**Approved Business Applications:**
+- Microsoft Outlook, Teams, OneDrive, Word, Excel, PowerPoint
+- SAP mobile apps with enterprise mobility management
+- 1Password Business mobile app for password management
+- Adobe Acrobat Reader with enterprise features
+
+### 11.3 BYOD Program Enrollment
+**Enrollment Process:**
+1. Complete BYOD agreement and submit to HR
+2. Install Microsoft Company Portal app and enroll device
+3. Verify compliance with security requirements
+4. Complete mobile device security training
+5. Receive approval confirmation and access credentials
+
+**Ongoing Compliance:**
+- Weekly compliance checks via Intune
+- Security patch verification and reporting
+- Annual device security recertification
+- Non-compliant devices automatically blocked from accessing company resources
+
+## 12. VENDOR AND THIRD-PARTY SECURITY
+
+### 12.1 Vendor Risk Assessment Process
+**Security Questionnaire Requirements:**
+- Comprehensive Vendor Security Assessment (150+ questions)
+- Documentation of security certifications (SOC 2, ISO 27001, etc.)
+- Data processing and subprocessor agreements
+- Incident response and breach notification procedures
+
+**Risk Categories:**
+- **Critical:** Access to customer data or core business systems
+- **High:** Processing personal information or financial data  
+- **Medium:** Limited data access or non-critical business functions
+- **Low:** Public information or minimal business impact
+
+### 12.2 Ongoing Vendor Management
+**Annual Reviews:**
+- Security certification renewal verification
+- Contract terms and SLA performance review
+- Incident history and security posture assessment
+- Alternative vendor evaluation and business continuity planning
+
+## 13. POLICY ENFORCEMENT AND VIOLATIONS
+
+### 13.1 Monitoring and Detection
+**Microsoft Sentinel SIEM:**
+- Centralized log aggregation and correlation
+- Real-time alerting for suspicious activities
+- Automated threat hunting and investigation
+- Integration with endpoint detection and network monitoring
+
+**User Activity Monitoring:**
+- Privileged account session recording
+- File access auditing for confidential data
+- Email and web browsing activity logging
+- Failed authentication attempt tracking
+
+### 13.2 Policy Violation Response
+**Progressive Discipline Framework (per SAP-POL-001):**
+1. **First Violation:** Security awareness training and counseling
+2. **Second Violation:** Written warning and additional monitoring
+3. **Third Violation:** Final written warning and performance improvement plan
+4. **Serious Violations:** Immediate suspension pending investigation
+5. **Criminal Activity:** Termination and law enforcement involvement
+
+**Common Policy Violations:**
+- Sharing passwords or MFA tokens
+- Installing unauthorized software
+- Accessing confidential data without business need
+- Failing to report security incidents
+- Using personal cloud storage for business data
+
+## 14. CONTACT INFORMATION AND ESCALATION
+
+### 14.1 Security Team Contacts
+**Michael Schmidt, Chief Information Security Officer**  
+Phone: (610) 661-1000 ext. 1001  
+Email: mschmidt@sap.com  
+Mobile: (610) 555-CISO (available 24/7)  
+Office: 3rd Floor, Room 3001
+
+**Security Operations Center (SOC)**  
+Email: security@sap.com  
+Phone: (610) 661-1000 ext. 1000  
+Emergency: (610) 661-HELP (after hours)
+
+**IT Help Desk**  
+Email: support@sap.com  
+Phone: (610) 661-1000 ext. 2000  
+Portal: helpdesk.sap.com
+
+### 14.2 Incident Reporting
+**Security Incident Hotline:** security-incident@sap.com  
+**Anonymous Reporting:** https://sap.ethicspoint.com  
+**Emergency After-Hours:** (610) 661-EMERGENCY
+
+**External Resources:**
+- **Cyber Insurance:** AIG Insurance, Policy #CY-2024-7891234
+- **Legal Counsel:** Morgan Lewis & Bockius LLP, (215) 963-5000
+- **Forensic Investigator:** Rapid7 Incident Response, 1-866-7-RAPID7
+
+**Policy Questions:** Direct questions about this policy to the Information Security team at security@sap.com or call the IT Help Desk.
+
+**This policy is reviewed annually and updated as needed to address emerging threats and business requirements. All employees are required to acknowledge receipt and understanding of this policy annually.**
+
+**Revision History:**
+- v1.0: January 2024 - Initial policy creation
+- v1.1: April 2024 - Enhanced cloud security requirements and ISO 27001 alignment
+- v1.2: July 2024 - Updated compliance frameworks and vendor requirements  
+- v1.3: September 02, 2025 - Annual review and threat landscape updates

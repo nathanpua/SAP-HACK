@@ -1,0 +1,642 @@
+
+# SAP - FACILITIES AND OPERATIONS GUIDE
+
+**Document Number:** SAP-FAC-001  
+**Effective Date:** January 1, 2024  
+**Last Revised:** September 05, 2025  
+**Document Owner:** Lisa Thompson, Facilities Manager  
+**Operations Lead:** Robert Martinez, Building Operations Supervisor  
+
+## 1. WELCOME TO SAP NEWTOWN SQUARE
+
+The SAP Newtown Square facility serves as the US headquarters, housing over 2,500 employees across multiple functions including Engineering, Sales, Consulting, Finance, and HR. Our modern, sustainable campus is designed to foster collaboration, innovation, and employee well-being.
+
+**Campus Address:**
+3999 West Chester Pike  
+Newtown Square, PA 19073  
+United States
+
+**Main Reception:**
+- **Phone:** (610) 661-1000
+- **Hours:** Monday-Friday 6:00 AM - 8:00 PM EST
+- **Weekend Access:** Badge access only, security on-call
+
+## 2. BUILDING LAYOUT AND FLOOR PLANS
+
+### 2.1 Building Overview
+
+**Total Campus Details:**
+- **Building Size:** 850,000 square feet across 6 floors
+- **Capacity:** 3,200 employees with flexible workspace design
+- **Construction:** LEED Gold certified sustainable building
+- **Renovation:** Major refresh completed in 2023 with modern amenities
+
+### 2.2 Floor Directory
+
+**Ground Floor (Floor 1):**
+- Main Reception and Welcome Center
+- Visitor Management and Security Desk
+- Main Cafeteria "Innovation Hub" (seating for 400)
+- Coffee Bar "Brew & Collaborate" 
+- Auditorium "Hasso Plattner Hall" (capacity 300)
+- Fitness Center "SAP Wellness Studio" (24/7 access)
+- Credit Union branch office
+- Building Services and Facilities Management
+
+**Second Floor (Floor 2):**
+- Sales Department (Offices 2001-2030)
+- Sales Leadership Suites (2031-2040)
+- Customer Briefing Center (rooms 2051-2055)
+- Executive Conference Center "Innovation Boardroom"
+- Marketing and Communications Department
+- Large Conference Rooms: "Dietmar Hopp" (50 people), "Bill McDermott" (40 people)
+
+**Third Floor (Floor 3):**
+- Engineering Department (Cubes 3001-3080)
+- Product Development Teams
+- Innovation Labs and Maker Space
+- IT Operations Center (Room 3001)
+- Technical Support and Help Desk (Room 3015-3020)
+- Medium Conference Rooms: "TechTalk A-F" (8-12 people each)
+
+**Fourth Floor (Floor 4):**
+- Consulting Department (Open workspace areas)
+- Project Team Collaboration Spaces
+- Training Center "SAP Academy" (rooms 4001-4010)
+- Library and Quiet Study Areas
+- Phone Booths for confidential calls (4051-4070)
+
+**Fifth Floor (Floor 5):**
+- Finance Department (Offices 5001-5015)
+- Human Resources Department (Offices 5016-5025)
+- Executive Leadership Suites (5030-5040)
+- Board Room "Leadership Circle" (capacity 20)
+- Small Conference Rooms: "Focus A-J" (4-6 people each)
+
+**Sixth Floor (Floor 6):**
+- Flexible Event Space "Community Center"
+- All-Hands Meeting Space (capacity 500)
+- Outdoor Terrace and Garden "Sky Deck"
+- Game Room and Relaxation Area
+- Meditation and Wellness Room
+- Storage and Facilities Equipment
+
+### 2.3 Workspace Types and Allocation
+
+**Office Types:**
+- **Executive Offices:** 150-200 sq ft, window views, private entrance
+- **Manager Offices:** 100-120 sq ft, shared assistant areas
+- **Team Lead Offices:** 80-100 sq ft, interior or exterior windows
+- **Open Workstations:** 64 sq ft per person, height-adjustable desks
+- **Collaboration Pods:** 4-person informal meeting spaces
+- **Phone Booths:** Individual enclosed spaces for private calls
+
+**Activity-Based Working:**
+- **Focus Zones:** Quiet areas for concentrated work
+- **Collaboration Areas:** Open spaces for team interaction
+- **Social Zones:** Informal spaces for networking and breaks
+- **Learning Spaces:** Dedicated areas for training and development
+- **Creative Studios:** Specialized spaces for design and innovation
+
+## 3. PARKING SYSTEM AND TRANSPORTATION
+
+### 3.1 Parking Lot Layout
+
+**Lot A (Main Employee Parking):**
+- **Capacity:** 1,200 numbered parking spots
+- **Assignment:** Permanent spots assigned by seniority and role
+- **Sections:** A1-A12, organized by department proximity
+- **Special Spaces:** 50 electric vehicle charging stations
+- **Security:** 24/7 surveillance and patrol coverage
+
+**Lot B (Visitor and Overflow Parking):**
+- **Capacity:** 300 spaces for visitors and temporary parking
+- **Access:** Guest parking passes issued at reception
+- **Time Limit:** 8-hour maximum for non-employees
+- **Accessibility:** 25 ADA-compliant spaces near building entrance
+- **Validation:** Visitor parking validation available at reception
+
+**Lot C (Executive and Reserved Parking):**
+- **Capacity:** 50 premium spots near main entrance
+- **Assignment:** C-level executives, VPs, and distinguished guests
+- **Features:** Covered parking and valet service available
+- **Security:** Enhanced monitoring and access controls
+- **Electric Charging:** 10 premium EV charging stations
+
+### 3.2 Parking Assignment Process
+
+**New Employee Parking:**
+1. Submit parking request via facilities@sap.com within first week
+2. Assignment based on role, seniority, and availability
+3. Parking passes issued by Security Desk (ext. 9000)
+4. Temporary parking in Lot B until permanent assignment
+5. Spot number communicated via email within 5 business days
+6. Parking decal must be displayed on vehicle dashboard
+
+**Parking Policies:**
+- **Reserved Hours:** 6:00 AM - 8:00 PM Monday-Friday
+- **Overnight Parking:** Permitted with advance approval
+- **Guest Parking:** Available in Lot B with reception validation
+- **Violations:** Tickets issued for unauthorized parking ($25 fine)
+- **Lost Passes:** Replacement fee $15, report to Security immediately
+
+### 3.3 Transportation Options
+
+**Public Transportation:**
+- **SEPTA Route 104:** Direct service to 69th Street Terminal
+- **SEPTA Route 105:** Connection to Newtown Square Station  
+- **Shuttle Service:** Complimentary shuttle to/from train stations (7:00 AM - 7:00 PM)
+- **Monthly Transit Pass:** Up to $250 reimbursement per SAP-POL-007
+
+**Alternative Transportation:**
+- **Bike Storage:** Covered bike racks for 100+ bicycles
+- **Bike Sharing:** Partnership with Indego bike share program
+- **Carpooling:** Internal carpool matching program via intranet
+- **Ride Sharing:** Preferred corporate rates with Uber and Lyft
+- **Electric Vehicle Support:** Charging stations and preferred parking
+
+## 4. BUILDING ACCESS AND SECURITY PROTOCOLS
+
+### 4.1 Badge Access System
+
+**Access Card Types:**
+- **Standard Employee:** Access to assigned floor and common areas
+- **Manager Access:** Additional access to management areas and conference rooms
+- **IT Personnel:** Extended access for technical support areas
+- **Facilities Staff:** Building-wide access for maintenance and operations
+- **Executive Access:** Full building access including restricted areas
+
+**Badge Activation Process:**
+1. Badge photos taken during onboarding (per SAP-SOP-001)
+2. Access levels assigned based on role and department
+3. Badge activation within 24 hours of start date
+4. Testing and verification with Security team
+5. Backup access methods established for emergencies
+
+### 4.2 Visitor Management System
+
+**Visitor Check-In Process:**
+1. Pre-registration required through visitor portal (visitors.sap.com)
+2. Host employee approval and escort responsibility
+3. Valid government ID required for badge issuance
+4. Background check for frequent visitors (5+ visits per month)
+5. Visitor badge must be worn visibly at all times
+6. Maximum visit duration: 8 hours without special approval
+
+**Visitor Badge Types:**
+- **Standard Visitor:** Common areas and escorted access only
+- **Contractor:** Extended access based on work requirements
+- **Vendor/Partner:** Limited access to specific areas and times
+- **VIP Guest:** Executive-level access with dedicated escort
+- **Emergency Personnel:** Unrestricted access during emergencies
+
+### 4.3 After-Hours Access
+
+**Standard After-Hours Access:**
+- **Weekdays:** Badge access until 10:00 PM
+- **Weekends:** Badge access 24/7 for authorized personnel
+- **Holidays:** Limited access with advance approval
+- **Security Patrol:** Hourly rounds during non-business hours
+- **Emergency Contact:** Security desk (610) 661-9000
+
+**Extended Access Approval:**
+- Submit request via facilities portal minimum 24 hours advance
+- Manager approval required for non-exempt employees
+- Business justification and estimated duration required
+- Check-in/check-out with security required
+- Additional security measures for extended stays
+
+## 5. CONFERENCE ROOM BOOKING AND MEETING SPACES
+
+### 5.1 Conference Room Categories
+
+**Large Conference Rooms (25+ people):**
+- **Hasso Plattner Hall:** Auditorium seating for 300, full A/V capabilities
+- **Innovation Boardroom:** Executive setting for 50, video conferencing
+- **Dietmar Hopp:** Training room for 50, movable furniture configuration
+- **Bill McDermott:** Presentation room for 40, advanced technology integration
+- **Community Center:** Flexible event space for 500, divisible sections
+
+**Medium Conference Rooms (10-24 people):**
+- **TechTalk A-F:** Engineering-focused rooms with whiteboards and monitors
+- **Leadership Circle:** Boardroom setting with premium finishes
+- **SAP Academy Rooms 4001-4010:** Training configurations with A/V
+- **Customer Briefing Center 2051-2055:** Client-ready presentation spaces
+
+**Small Conference Rooms (4-9 people):**
+- **Focus A-J:** Quiet meeting rooms for team discussions
+- **Phone Booths 4051-4070:** Individual enclosed spaces for calls
+- **Collaboration Pods:** Informal meeting spaces throughout building
+
+### 5.2 Room Booking System
+
+**Microsoft Outlook Room Booking:**
+1. Open Outlook calendar and create new meeting
+2. Click "Add Room" and select from available conference rooms
+3. Check room availability and select appropriate time slot
+4. Include meeting agenda and attendee list in invitation
+5. Room automatically confirmed if available during requested time
+6. Cancellation required minimum 2 hours in advance
+
+**Room Booking Policies:**
+- **Advance Booking:** Maximum 30 days, minimum 1 hour notice
+- **Meeting Duration:** Standard 30, 60, 90 minute increments
+- **No-Show Policy:** Room released after 15 minutes if unused
+- **Recurring Meetings:** Requires manager approval for weekly/monthly bookings
+- **External Guests:** Additional approval required for client meetings
+
+### 5.3 Meeting Room Technology
+
+**Standard Room Equipment:**
+- **65" Interactive Displays:** All medium and large conference rooms
+- **Video Conferencing:** Microsoft Teams Rooms integration
+- **Audio Systems:** Ceiling microphones and premium speakers
+- **Presentation Tools:** Wireless screen sharing via Miracast
+- **Lighting Controls:** Automated systems with manual override
+- **Climate Control:** Individual room temperature controls
+
+**Advanced Technology Rooms:**
+- **4K Video Conferencing:** Ultra-high-definition cameras and displays
+- **Multi-Point Connectivity:** Connect multiple global locations simultaneously
+- **Digital Whiteboarding:** Interactive displays with collaboration software
+- **Simultaneous Translation:** Language interpretation capabilities
+- **Live Streaming:** Broadcast capabilities for large events
+- **Recording Systems:** Automated meeting recording and transcription
+
+## 6. EMERGENCY PROCEDURES AND SAFETY
+
+### 6.1 Fire Safety Procedures
+
+**Fire Alarm Response:**
+1. **Evacuation Signal:** Continuous alarm and flashing strobe lights
+2. **Immediate Action:** Stop work and proceed to nearest exit
+3. **Evacuation Routes:** Follow green exit signs and emergency lighting
+4. **Assembly Point:** Parking Lot B designated emergency assembly area
+5. **Attendance Check:** Department managers conduct headcount at assembly point
+6. **All Clear Signal:** Security announcement via PA system when safe to return
+
+**Fire Safety Equipment:**
+- **Sprinkler System:** Automatic suppression throughout building
+- **Fire Extinguishers:** Located every 75 feet in corridors
+- **Emergency Lighting:** Battery backup for minimum 90 minutes
+- **Fire Doors:** Automatically close during alarm conditions
+- **Smoke Detectors:** Advanced detection in all rooms and common areas
+
+### 6.2 Medical Emergency Response
+
+**Medical Emergency Procedures:**
+1. **Call 911** immediately for life-threatening emergencies
+2. **Notify Security:** Call ext. 9000 to dispatch on-site first aid
+3. **Provide First Aid:** Only if trained and certified
+4. **Clear Area:** Ensure emergency responders have clear access
+5. **Documentation:** Complete incident report with Security team
+6. **Follow-up:** HR coordination for workers' compensation if applicable
+
+**Medical Resources:**
+- **AED Locations:** 12 Automated External Defibrillators throughout building
+- **First Aid Stations:** Located on each floor near elevator lobbies
+- **Trained Personnel:** 50+ employees certified in CPR/First Aid
+- **Emergency Medical Kit:** Comprehensive supplies in each first aid station
+- **Nurse Station:** Part-time occupational nurse available 3 days/week
+
+### 6.3 Security Emergency Procedures
+
+**Security Threat Response:**
+1. **Lockdown Signal:** PA announcement "Secure in Place" with specific instructions
+2. **Immediate Actions:** Move away from windows, lock doors, turn off lights
+3. **Communication:** Use mobile phones to contact 911 and Security (ext. 9000)
+4. **Shelter Location:** Remain in secure location until all-clear signal
+5. **Evacuation:** Only evacuate when directed by law enforcement or Security
+6. **Reunification:** Assembly at off-site location as directed by emergency personnel
+
+**Security Resources:**
+- **24/7 Security Desk:** Manned security station monitoring all access points
+- **Surveillance System:** 200+ cameras with recording capabilities
+- **Panic Buttons:** Located at reception, executive offices, and key locations
+- **Emergency Communication:** PA system with zone-specific messaging
+- **Law Enforcement Partnership:** Direct communication with local police department
+
+### 6.4 Weather Emergency Procedures
+
+**Severe Weather Response:**
+- **Weather Monitoring:** Continuous monitoring via weather service alerts
+- **Early Dismissal:** Facilities management coordination with HR leadership
+- **Shelter Areas:** Interior conference rooms and corridors designated as safe zones
+- **Communication:** Email, text alerts, and PA announcements for updates
+- **Remote Work Option:** Employees encouraged to work from home during severe weather
+
+**Emergency Supplies:**
+- **Emergency Food/Water:** 72-hour supply for 500 people
+- **Backup Power:** Generators for critical systems and lighting
+- **Communication Equipment:** Battery-powered radios and satellite phones
+- **Medical Supplies:** Enhanced first aid supplies and emergency medications
+- **Blankets/Comfort Items:** Emergency supplies for extended shelter situations
+
+## 7. FOOD SERVICES AND DINING FACILITIES
+
+### 7.1 Main Cafeteria "Innovation Hub"
+
+**Operating Hours:**
+- **Breakfast:** 7:00 AM - 9:30 AM
+- **Lunch:** 11:30 AM - 2:30 PM  
+- **Snacks/Beverages:** 6:00 AM - 6:00 PM
+- **Dinner (Special Events):** 5:00 PM - 7:00 PM as scheduled
+
+**Dining Options:**
+- **Global Cuisine Station:** Rotating international menus daily
+- **Grill Station:** Made-to-order burgers, sandwiches, and proteins
+- **Salad Bar:** Fresh greens, toppings, and house-made dressings
+- **Pizza Station:** Fresh-made pizza with customizable toppings
+- **Healthy Options:** Vegetarian, vegan, and gluten-free selections daily
+- **Grab & Go:** Pre-made salads, sandwiches, and snacks
+
+**Pricing and Payment:**
+- **Employee Discount:** 30% off all food items
+- **Payment Methods:** Badge tap, credit cards, mobile payments
+- **Catering Services:** Available for meetings and events
+- **Special Dietary Needs:** Advance notice for accommodations
+- **Guest Pricing:** Full menu pricing for visitors and contractors
+
+### 7.2 Coffee Bar "Brew & Collaborate"
+
+**Beverage Selection:**
+- **Premium Coffee:** Starbucks-quality espresso drinks and specialty coffees
+- **Tea Selection:** 20+ varieties including herbal and specialty teas
+- **Fresh Juices:** Cold-pressed juices and smoothies
+- **Healthy Options:** Kombucha, coconut water, and low-sugar alternatives
+- **Free Options:** Regular coffee, basic teas, and filtered water
+
+**Operating Hours:**
+- **Monday-Friday:** 6:00 AM - 6:00 PM
+- **Weekend:** 8:00 AM - 4:00 PM (limited menu)
+- **Barista Service:** Professional baristas during peak hours (7-10 AM, 1-3 PM)
+
+### 7.3 Vending and Micro-Markets
+
+**Vending Machine Locations:**
+- **Each Floor:** Snack and beverage vending near elevator lobbies
+- **Fitness Center:** Sports drinks, protein bars, and healthy snacks
+- **24/7 Availability:** All vending machines accessible during off-hours
+- **Payment Options:** Cash, credit cards, mobile payments, and badge tap
+
+**Micro-Market "Fresh Express":**
+- **Location:** Ground floor near fitness center
+- **Hours:** 24/7 self-service with security camera monitoring
+- **Selection:** Fresh meals, salads, fruits, and premium snacks
+- **Self-Checkout:** Automated payment system with receipt printing
+- **Inventory:** Restocked twice daily with fresh options
+
+## 8. WELLNESS AND RECREATION FACILITIES
+
+### 8.1 SAP Wellness Studio (Fitness Center)
+
+**Facility Features:**
+- **Cardio Equipment:** 30 treadmills, ellipticals, and stationary bikes
+- **Strength Training:** Full range of free weights and resistance machines
+- **Functional Training Area:** TRX, kettlebells, and bodyweight exercise space
+- **Group Exercise Studio:** Classes and personal training sessions
+- **Locker Rooms:** Full facilities with showers and changing areas
+- **Towel Service:** Complimentary towels and basic amenities provided
+
+**Operating Hours:**
+- **Monday-Friday:** 5:00 AM - 9:00 PM
+- **Saturday-Sunday:** 7:00 AM - 7:00 PM
+- **Holidays:** 8:00 AM - 6:00 PM
+- **24/7 Access:** Available for employees with special access approval
+
+**Fitness Programs:**
+- **Group Classes:** Yoga, Pilates, HIIT, and spinning classes
+- **Personal Training:** Certified trainers available by appointment
+- **Wellness Challenges:** Monthly fitness competitions and team challenges
+- **Health Screenings:** Annual biometric screening and health assessments
+- **Nutrition Counseling:** Registered dietitian available weekly
+
+### 8.2 Outdoor Recreation Areas
+
+**Sky Deck (6th Floor Terrace):**
+- **Garden Space:** Raised beds with herbs and vegetables for cafeteria use
+- **Seating Areas:** Tables and chairs for outdoor dining and meetings
+- **WiFi Coverage:** Full wireless internet access for outdoor work
+- **Weather Protection:** Retractable awnings for sun and light rain protection
+- **Events:** Corporate gatherings and team building activities
+
+**Walking Trails:**
+- **Perimeter Path:** 0.8-mile paved walking trail around campus
+- **Nature Trail:** 1.2-mile trail through adjacent wooded area
+- **Exercise Stations:** 8 outdoor fitness stations along trails
+- **Lighting:** LED pathway lighting for early morning and evening use
+- **Maintenance:** Daily cleaning and seasonal landscaping
+
+### 8.3 Relaxation and Wellness Spaces
+
+**Meditation and Wellness Room (6th Floor):**
+- **Quiet Environment:** Sound-proofed space for meditation and reflection
+- **Flexible Seating:** Mats, cushions, and chairs for various practices
+- **Guided Sessions:** Weekly meditation and mindfulness classes
+- **Reservation System:** Bookable via Outlook for individual use
+- **Wellness Resources:** Books, apps, and relaxation materials available
+
+**Game Room and Social Areas:**
+- **Gaming Options:** Pool table, foosball, ping pong, and video games
+- **Board Games:** Selection of strategy and social games
+- **Comfortable Seating:** Sofas and informal seating for socializing
+- **Snack Station:** Healthy snacks and beverages available
+- **Events:** Monthly game tournaments and social gatherings
+
+## 9. FACILITIES SERVICES AND MAINTENANCE
+
+### 9.1 Facilities Management Team
+
+**Lisa Thompson, Facilities Manager**  
+Phone: (610) 661-1000 ext. 3001  
+Email: lthompson@sap.com  
+Office: Ground Floor, Room 1025  
+Responsibilities: Overall facilities strategy, vendor management, space planning
+
+**Robert Martinez, Building Operations Supervisor**  
+Phone: (610) 661-1000 ext. 3005  
+Email: rmartinez@sap.com  
+Office: Ground Floor, Room 1030  
+Responsibilities: Daily operations, maintenance coordination, emergency response
+
+**Facilities Help Desk**  
+Phone: (610) 661-1000 ext. 3000  
+Email: facilities@sap.com  
+Hours: Monday-Friday 7:00 AM - 6:00 PM EST  
+After-hours emergencies: (610) 661-3000
+
+### 9.2 Maintenance Request System
+
+**Online Work Order System:**
+- **Portal:** facilities.sap.com/workorders
+- **Mobile App:** SAP Facilities (iOS and Android)
+- **Email Submission:** facilities@sap.com with detailed description
+- **Phone Requests:** (610) 661-1000 ext. 3000 for urgent issues
+- **Response Times:** Emergency (1 hour), Urgent (4 hours), Routine (48 hours)
+
+**Common Maintenance Requests:**
+- **HVAC Issues:** Temperature control, air quality, system noise
+- **Electrical Problems:** Lighting, outlets, equipment power issues
+- **Plumbing:** Restroom facilities, water fountains, drainage problems
+- **Furniture:** Desk adjustments, chair repairs, ergonomic assessments
+- **Technology:** Conference room equipment, network connectivity issues
+
+### 9.3 Sustainability and Environmental Programs
+
+**LEED Gold Certification Features:**
+- **Energy Efficiency:** LED lighting with occupancy sensors throughout building
+- **Water Conservation:** Low-flow fixtures and rainwater collection systems
+- **Waste Management:** Comprehensive recycling and composting programs
+- **Air Quality:** Advanced HVAC filtration and regular air quality monitoring
+- **Sustainable Materials:** Environmentally friendly construction and furnishing materials
+
+**Employee Environmental Programs:**
+- **Recycling Initiative:** Paper, plastic, electronics, and battery collection points
+- **Composting Program:** Food waste collection from cafeteria and coffee bar
+- **Bike-to-Work:** Incentives and support for bicycle commuting
+- **Paperless Initiatives:** Digital document management and electronic forms
+- **Energy Awareness:** Monthly energy usage reports and conservation tips
+
+## 10. VENDOR AND SERVICE PROVIDERS
+
+### 10.1 Primary Service Vendors
+
+**Cleaning Services (JLL):**
+- **Contact:** cleaning@sap.com or (610) 661-3010
+- **Service Hours:** Daily cleaning after business hours (6:00 PM - 6:00 AM)
+- **Special Requests:** Event cleanup, spill response, deep cleaning projects
+- **Supplies:** Green cleaning products and sustainable practices
+
+**Food Services (Compass Group):**
+- **Contact:** dining@sap.com or (610) 661-3020
+- **Management:** On-site food service manager
+- **Catering:** Event catering and special dietary accommodations
+- **Feedback:** Monthly satisfaction surveys and suggestion program
+
+**Security Services (Allied Universal):**
+- **Contact:** Security Desk ext. 9000 or security@sap.com
+- **Coverage:** 24/7 manned security desk and patrol services
+- **Services:** Access control, visitor management, emergency response
+- **Training:** Regular security drills and emergency preparedness
+
+**Landscaping and Grounds (TruGreen):**
+- **Contact:** grounds@sap.com
+- **Services:** Lawn care, seasonal plantings, tree maintenance, snow removal
+- **Schedule:** Weekly maintenance during growing season
+- **Special Projects:** Landscape design and outdoor event support
+
+### 10.2 Technology and Equipment Services
+
+**Audio/Visual Support (AVI-SPL):**
+- **Contact:** av-support@sap.com or (610) 661-3030
+- **Services:** Conference room setup, event production, equipment maintenance
+- **Response:** On-site technician within 2 hours for critical issues
+- **Training:** Quarterly training sessions on new A/V equipment
+
+**Office Equipment (Ricoh):**
+- **Contact:** print-support@sap.com or (610) 661-3040
+- **Services:** Printer maintenance, supply replenishment, new installations
+- **Help Desk:** Technical support for printing and copying issues
+- **Sustainability:** Recycling program for toner cartridges and equipment
+
+## 11. SPACE PLANNING AND ALLOCATION
+
+### 11.1 Workspace Allocation Process
+
+**New Employee Space Assignment:**
+1. Space request submitted during pre-boarding process (per SAP-SOP-001)
+2. Facilities team coordinates with department manager
+3. Assignment based on role, team proximity, and availability
+4. Workspace prepared and equipped prior to start date
+5. Welcome packet includes desk location and access information
+6. 30-day follow-up for space satisfaction and adjustments
+
+**Space Change Requests:**
+- **Department Moves:** Advance planning required, 90-day minimum notice
+- **Individual Relocations:** Subject to availability and business justification
+- **Temporary Assignments:** Project-based space allocation for specific durations
+- **Hot-desking:** Flexible workspace options for traveling employees
+- **Space Utilization:** Regular analysis to optimize space efficiency
+
+### 11.2 Future Space Planning
+
+**Growth Projections:**
+- **2024-2025:** Accommodation for 10% headcount increase
+- **Flexible Design:** Convertible spaces to adapt to changing needs
+- **Technology Integration:** Enhanced connectivity and smart building features
+- **Collaboration Focus:** Increased informal meeting and collaboration spaces
+- **Wellness Expansion:** Additional wellness and relaxation facilities
+
+**Space Utilization Technology:**
+- **Occupancy Sensors:** Real-time monitoring of space usage patterns
+- **Desk Booking System:** Reservation system for flexible workstations
+- **Room Analytics:** Data-driven insights for optimal space allocation
+- **Mobile Apps:** Employee tools for finding and reserving workspace
+- **Reporting Dashboard:** Management visibility into space utilization metrics
+
+## 12. CONTACT INFORMATION AND RESOURCES
+
+### 12.1 Facilities Team Directory
+
+**Lisa Thompson, Facilities Manager**  
+Phone: (610) 661-1000 ext. 3001  
+Email: lthompson@sap.com  
+Office: Ground Floor, Room 1025
+
+**Robert Martinez, Building Operations Supervisor**  
+Phone: (610) 661-1000 ext. 3005  
+Email: rmartinez@sap.com  
+Office: Ground Floor, Room 1030
+
+**Security Desk (24/7)**  
+Phone: (610) 661-1000 ext. 9000  
+Email: security@sap.com  
+Location: Main Lobby Reception
+
+**Building Maintenance**  
+Phone: (610) 661-1000 ext. 9001  
+Email: maintenance@sap.com  
+Emergency: (610) 661-3000
+
+### 12.2 Emergency Contact Information
+
+**Primary Emergency Numbers:**
+- **Life-threatening Emergency:** 911
+- **Security Emergency:** (610) 661-9000
+- **Facilities Emergency:** (610) 661-3000
+- **IT Emergency:** (610) 661-1000
+- **Medical Emergency:** 911, then Security ext. 9000
+
+**External Emergency Services:**
+- **Police:** Newtown Township Police Department
+- **Fire:** Newtown Square Fire Company
+- **Medical:** Riddle Hospital (0.8 miles from campus)
+- **Utilities:** PECO Energy emergency line
+
+### 12.3 Online Resources and Tools
+
+**Facilities Portal:** facilities.sap.com
+- Work order submission and tracking
+- Room reservation system
+- Space allocation requests
+- Emergency procedures and contacts
+
+**Mobile Applications:**
+- SAP Facilities app (iOS/Android)
+- Room booking and availability
+- Campus maps and directions
+- Emergency alerts and notifications
+
+**Feedback and Suggestions:**
+- Email: facilities-feedback@sap.com
+- Online suggestion box: feedback.sap.com/facilities
+- Monthly town halls with facilities team
+- Annual facilities satisfaction survey
+
+**This guide is updated quarterly to reflect changes in facilities, procedures, and vendor services. For the most current information, visit facilities.sap.com.**
+
+**Document History:**
+- v1.0: January 2024 - Initial comprehensive facilities guide
+- v1.1: March 2024 - Enhanced emergency procedures and safety protocols
+- v1.2: June 2024 - Updated vendor information and sustainability programs
+- v1.3: September 05, 2025 - Annual review with new services and space improvements

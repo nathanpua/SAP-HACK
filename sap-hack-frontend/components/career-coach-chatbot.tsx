@@ -1340,6 +1340,7 @@ export function CareerCoachChatbot({ wsUrl, loadConversationRef, onConversationC
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 text-center">Try asking:</p>
                 <div className="flex flex-wrap gap-2 justify-center">
                   {[
+                    "What equipment will I receive on my first day at SAP?",
                     "How can I transition to data science roles within SAP?",
                     "Analyze my performance reviews and suggest how I can improve",
                     "What certifications should I pursue to achieve my career goals?"

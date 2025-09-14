@@ -1,0 +1,173 @@
+
+# SAP - EMPLOYEE CODE OF CONDUCT AND BUSINESS ETHICS
+
+**Policy Number:** SAP-POL-001  
+**Effective Date:** January 1, 2024  
+**Last Revised:** September 02, 2025  
+**Approved By:** Christian Klein, Chief Executive Officer  
+**Policy Owner:** Julia White, Chief Human Resources Officer  
+
+## 1. PURPOSE AND SCOPE
+
+This Code of Conduct establishes the ethical and behavioral standards expected of all SAP employees, contractors, interns, and temporary staff. This policy applies to all work-related activities, including but not limited to office premises at 3999 West Chester Pike, Newtown Square, PA 19073, remote work locations, client sites, company-sponsored events, and business travel.
+
+## 2. CORE VALUES AND PRINCIPLES
+
+SAP operates under five core values:
+- **Purpose-Driven Innovation**: We create solutions that help the world run better and improve people's lives
+- **Customer Success**: We are committed to our customers' success and earn their trust through excellence
+- **Integrity and Trust**: We act with integrity, are trustworthy, and take ownership for our actions
+- **Collaboration**: We work together as one team, leveraging our diversity as a strength  
+- **Learning Mindset**: We constantly learn, grow, and adapt to stay ahead
+
+## 3. PROFESSIONAL CONDUCT STANDARDS
+
+### 3.1 Workplace Behavior
+- Maintain professional demeanor during business hours (8:00 AM - 6:00 PM EST)
+- Use respectful language in all communications via Microsoft Teams, Slack, and email
+- Report to designated Team Lead or Department Manager within 15 minutes of scheduled start time
+- Participate constructively in daily standups, sprint planning, and quarterly business reviews
+
+### 3.2 Dress Code Policy
+**Office Days (Monday, Wednesday, Friday):**
+- Business casual attire required
+- Prohibited: shorts, flip-flops, revealing clothing, offensive graphics
+- Client meeting days: Business professional attire mandatory
+
+**Remote Work Days (Tuesday, Thursday):**
+- Professional appearance required for video calls with clients or executives
+- Camera-on policy for meetings with external stakeholders
+
+### 3.3 Communication Standards
+- Response time expectations: Teams messages within 2 hours, emails within 24 hours
+- Use designated channels: #general for announcements, #it-support for technical issues, #random for casual conversation
+- Meeting etiquette: Join calls by scheduled start time, mute when not speaking
+- External communications must be approved by Communications Team (communications@sap.com)
+
+## 4. CONFIDENTIALITY AND DATA PROTECTION
+
+### 4.1 Proprietary Information
+All employees must protect SAP's confidential information including:
+- Source code repositories hosted on GitHub Enterprise
+- Client data stored in our Microsoft Azure infrastructure
+- Financial information accessed through SAP SuccessFactors and SAP Ariba systems
+- Strategic plans discussed in executive meetings
+- Employee personal information in SAP SuccessFactors Employee Central
+
+### 4.2 Non-Disclosure Requirements
+- Signed NDA valid for 2 years post-employment
+- Confidential information cannot be discussed outside SAP premises
+- Use of company devices for personal activities is monitored and logged
+- Report suspected data breaches to security@sap.com within 30 minutes
+
+## 5. CONFLICT OF INTEREST
+
+### 5.1 Outside Employment
+- Must receive written approval from HR before accepting secondary employment
+- Cannot work for direct competitors: Oracle Corporation, Microsoft Dynamics, Workday Inc.
+- Maximum 10 hours per week for approved outside work
+- Complete Form SAP-HR-003 for outside employment requests
+
+### 5.2 Financial Interests
+Employees cannot have financial interests in:
+- Companies that are current clients or prospects in our SAP CRM system
+- Suppliers or vendors with contracts exceeding $25,000 annually
+- Competitors in the enterprise software market
+
+## 6. HARASSMENT AND DISCRIMINATION PREVENTION
+
+### 6.1 Zero Tolerance Policy
+SAP has zero tolerance for:
+- Sexual harassment or unwelcome advances
+- Discrimination based on race, gender, age, religion, sexual orientation, or disability
+- Bullying, intimidation, or hostile work environment creation
+- Retaliation against employees who report violations
+
+### 6.2 Reporting Procedures
+**Internal Reporting:**
+- Direct Supervisor or Department Manager
+- HR Business Partner: Amanda Chen (achen@sap.com, ext. 2154)
+- Anonymous Ethics Hotline: 1-855-SAP-ETHICS
+- Online portal: ethics.sap.com
+
+**External Resources:**
+- Equal Employment Opportunity Commission (EEOC)
+- Pennsylvania Human Relations Commission
+
+## 7. SUBSTANCE ABUSE POLICY
+
+### 7.1 Drug and Alcohol Guidelines
+- Consumption of alcohol is prohibited during work hours (8:00 AM - 6:00 PM EST)
+- Company-sponsored events: Maximum 2 alcoholic beverages per person
+- Drug testing required for roles involving equipment operation or client site access
+- Medical marijuana users must provide documentation to HR
+
+### 7.2 Violation Consequences
+First offense: Written warning and mandatory counseling
+Second offense: 30-day suspension without pay
+Third offense: Termination of employment
+
+## 8. TECHNOLOGY AND SOCIAL MEDIA USE
+
+### 8.1 Company Device Usage
+- Surface Laptop and iPhone devices are for business use primarily
+- Personal use permitted during lunch breaks (12:00 PM - 1:00 PM)
+- Install only approved software from company-maintained whitelist
+- VPN connection required when accessing company systems remotely
+
+### 8.2 Social Media Guidelines
+- Do not identify yourself as an SAP employee in personal profiles without disclaimer
+- Cannot post confidential company information or client details
+- Negative comments about SAP or competitors are prohibited
+- Use disclaimer: "Views are my own and do not represent my employer"
+
+## 9. GIFTS AND ENTERTAINMENT
+
+### 9.1 Receiving Gifts
+- Gifts valued under $25 are acceptable
+- Gifts between $25-$100 require manager approval
+- Gifts exceeding $100 must be reported to Legal Department
+- Cash gifts and gift cards are prohibited
+
+### 9.2 Client Entertainment
+- Maximum $150 per person for business meals
+- Alcohol expenses limited to $50 per person per event
+- Entertainment expenses require pre-approval via SAP Concur expense system
+- Submit receipts within 7 business days
+
+## 10. COMPLIANCE AND ENFORCEMENT
+
+### 10.1 Policy Violations
+Violations may result in:
+- Verbal counseling and coaching
+- Written warning placed in personnel file
+- Performance improvement plan (30-90 days)
+- Suspension without pay
+- Termination of employment
+- Legal action if laws are violated
+
+### 10.2 Investigation Process
+- Initial review by HR within 48 hours of report
+- Formal investigation completed within 14 business days
+- External investigator may be engaged for serious allegations
+- Confidentiality maintained throughout process
+- Written findings provided to all parties
+
+## 11. ACKNOWLEDGMENT AND COMPLIANCE
+
+All employees must:
+- Complete annual ethics training via SAP SuccessFactors Learning
+- Sign acknowledgment form within 30 days of hire date
+- Report suspected violations within 72 hours of awareness
+- Cooperate fully with internal investigations
+
+**Policy Questions Contact:**
+Julia White, Chief Human Resources Officer  
+Phone: (610) 661-1000 ext. 2001  
+Email: jwhite@sap.com  
+
+**Legal Department:**  
+Phone: (610) 661-1000 ext. 3000  
+Email: legal@sap.com
+
+This policy supersedes all previous versions and is subject to change based on business needs and legal requirements.

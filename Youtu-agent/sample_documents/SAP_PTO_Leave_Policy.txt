@@ -1,0 +1,312 @@
+
+# SAP - PAID TIME OFF AND LEAVE POLICY
+
+**Policy Number:** SAP-POL-002  
+**Effective Date:** January 1, 2024  
+**Last Revised:** September 02, 2025  
+**Approved By:** Christian Klein, Chief Executive Officer  
+**Policy Owner:** Julia White, Chief Human Resources Officer  
+
+## 1. PURPOSE AND SCOPE
+
+This policy establishes SAP's comprehensive paid time off (PTO) and leave benefits for all eligible employees. This policy covers vacation time, sick leave, personal days, bereavement leave, jury duty, military leave, and parental leave in compliance with federal and Pennsylvania state regulations.
+
+**Coverage:** All regular full-time and part-time employees working 20+ hours per week  
+**Effective Location:** SAP headquarters and all remote work locations  
+**Fiscal Year:** January 1 - December 31
+
+## 2. PAID TIME OFF (PTO) ACCRUAL SYSTEM
+
+### 2.1 Eligibility Requirements
+- Full-time employees (40 hours/week): Eligible immediately upon hire
+- Part-time employees (20-39 hours/week): Eligible after 90 days of employment  
+- Contract employees: Not eligible for PTO benefits
+- Interns and temporary staff: Not eligible for PTO benefits
+
+### 2.2 PTO Accrual Schedule
+
+**Full-Time Employee Accrual Rates:**
+
+| Years of Service | Annual PTO Days | Monthly Accrual | Hourly Accrual |
+|------------------|------------------|-----------------|----------------|
+| 0-2 years | 18 days (144 hours) | 1.5 days | 5.54 hours |
+| 3-5 years | 23 days (184 hours) | 1.92 days | 7.08 hours |
+| 6-10 years | 28 days (224 hours) | 2.33 days | 8.62 hours |
+| 11+ years | 33 days (264 hours) | 2.75 days | 10.15 hours |
+
+**Part-Time Employee Accrual:**
+- Prorated based on scheduled hours per week
+- Example: 30 hours/week = 75% of full-time accrual rate
+- Minimum 20 hours/week required for any PTO eligibility
+
+### 2.3 PTO Accrual Rules
+- PTO begins accruing on the first day of employment
+- Accrual occurs on a per-pay-period basis (bi-weekly payroll)
+- Maximum accrual cap: 1.5 times annual allocation
+- Employees at cap cannot accrue additional PTO until usage reduces balance
+- PTO hours are rounded to the nearest quarter hour (0.25)
+
+### 2.4 Carryover and Expiration Policy
+- Maximum carryover: 48 hours (6 days) into following calendar year
+- Carryover PTO must be used by March 31 or it will be forfeited
+- Employees receive 30-day written notice before forfeiture
+- No cash payout for forfeited PTO hours
+- "Use it or lose it" policy applies to excess hours over carryover limit
+
+## 3. PTO REQUEST AND APPROVAL PROCESS
+
+### 3.1 Advance Notice Requirements
+
+**Planned PTO Requests:**
+- 1-5 days: Minimum 1 week advance notice
+- 6-10 days: Minimum 3 weeks advance notice  
+- 11+ days: Minimum 6 weeks advance notice
+- Peak business periods (Q4, SAP SAPPHIRE conference): 8 weeks advance notice
+
+**Emergency PTO:**
+- Same-day requests permitted for illness or family emergency
+- Supervisor notification required within 2 hours of normal start time
+- Documentation may be required for emergency leave exceeding 3 days
+
+### 3.2 Request Submission Process
+1. Submit request via SAP SuccessFactors Employee Central self-service portal
+2. Include specific dates, total hours requested, and business justification
+3. Confirm adequate PTO balance before submitting request
+4. Await supervisor approval before making travel arrangements
+5. Add approved time off to Outlook calendar as "Out of Office"
+
+### 3.3 Approval Criteria and Workflow
+**First-Level Approval:** Direct Supervisor/Team Lead
+- Reviews team coverage and project deadlines
+- Considers previous time off patterns and fairness
+- Responds to requests within 3 business days
+
+**Second-Level Approval Required for:**
+- Requests exceeding 10 consecutive days
+- Multiple team members requesting same dates
+- Requests during blackout periods or peak seasons
+- Department Manager or VP approval needed
+
+**Denial and Appeal Process:**
+- Supervisor must provide written reason for denial
+- Employee may appeal to HR within 5 business days
+- HR mediates between employee and supervisor for resolution
+- Final appeal goes to Department Head within 10 business days
+
+### 3.4 Blackout Periods and Restrictions
+**Company-Wide Blackout Periods:**
+- November 15 - December 15 (holiday season and year-end closing)
+- Last week of each quarter (Q1, Q2, Q3, Q4)
+- SAP SAPPHIRE conference week (typically in May)
+- Major product release weeks (as announced by Engineering Team)
+
+**Department-Specific Blackouts:**
+- Finance: Month-end closing periods (last 3 business days)
+- Sales: End of quarter (last 2 weeks)
+- Engineering: Release weeks and critical deployment periods
+- HR: Benefits enrollment periods (typically October-November)
+
+## 4. SICK LEAVE POLICY
+
+### 4.1 Pennsylvania Paid Sick Leave Compliance
+SAP provides paid sick leave in accordance with Pennsylvania state requirements:
+- Minimum accrual: 1 hour of sick leave per 40 hours worked
+- Annual cap: 40 hours (5 days) accrual and usage
+- Carryover: Up to 40 hours to following year
+- No cash payout upon termination
+
+### 4.2 Enhanced Sick Leave Benefits
+SAP provides enhanced sick leave beyond state minimums:
+- Immediate availability of 40 hours sick leave upon hire
+- Additional accrual beyond state minimum included in PTO bank
+- No annual usage cap for legitimate medical needs
+- Family care coverage for spouse, children, parents, grandparents
+
+### 4.3 Sick Leave Usage Guidelines
+**Acceptable Uses:**
+- Personal illness or medical appointments
+- Caring for ill family member (as defined by law)
+- Mental health and wellness days
+- Medical procedures and recovery time
+- Preventive medical care and check-ups
+
+**Documentation Requirements:**
+- 1-2 days: No documentation required
+- 3-5 days: Doctor's note or medical certification
+- 6+ days: Detailed medical documentation and potential FMLA coordination
+- Pattern of Monday/Friday absences: May require medical documentation
+
+## 5. BEREAVEMENT LEAVE
+
+### 5.1 Paid Bereavement Leave Allowance
+**Immediate Family (5 paid days):**
+- Spouse or domestic partner
+- Children (biological, adopted, step, or foster)
+- Parents (biological, adoptive, step, or in-law)
+- Siblings (biological, step, or half-siblings)
+- Grandparents and grandchildren
+
+**Extended Family (3 paid days):**
+- Aunts, uncles, nieces, nephews
+- Close personal friends (with manager approval)
+
+### 5.2 Additional Bereavement Provisions
+- Travel time: Up to 2 additional unpaid days for out-of-state services
+- Flexible arrangements: Work from home options during grief period
+- Extended leave: Unpaid leave available through HR coordination
+- Employee Assistance Program: Grief counseling services available
+
+## 6. JURY DUTY AND CIVIC RESPONSIBILITIES
+
+### 6.1 Jury Duty Leave
+- Unlimited paid time off for jury duty service
+- Employee continues to receive full salary and benefits
+- Jury duty stipend payment retained by employee
+- Flexible return to work schedule based on daily dismissals
+
+### 6.2 Voting and Civic Participation
+- Paid time off for voting (up to 2 hours at beginning or end of shift)
+- Volunteer time off: 20 hours annually for approved community service
+- Political activities: Unpaid time off available for campaign work or civic roles
+
+## 7. PARENTAL LEAVE POLICY
+
+### 7.1 Paid Parental Leave Benefits
+SAP provides industry-leading parental leave benefits:
+
+**Primary Caregiver:**
+- 14 weeks fully paid leave
+- Additional 6 weeks at 70% salary (total 20 weeks)
+- Includes birth mothers and primary adoptive parents
+
+**Secondary Caregiver:**
+- 8 weeks fully paid leave  
+- Additional 4 weeks at 70% salary (total 12 weeks)
+- Includes non-birth parents and secondary adoptive parents
+
+### 7.2 Leave Coordination and Benefits
+- Coordination with Pennsylvania State Disability Insurance
+- Coordination with Federal Family and Medical Leave Act (FMLA)
+- Health insurance premiums covered during entire leave period
+- Position guaranteed upon return from leave
+- Gradual return-to-work options available
+
+### 7.3 Application Process
+1. Notify HR of pregnancy/adoption plans as early as possible
+2. Submit formal leave request 30 days before anticipated leave start
+3. Provide medical documentation or adoption paperwork
+4. Meet with HR to coordinate state benefits and company policies
+5. Develop transition plan with supervisor and team
+
+## 8. MILITARY LEAVE
+
+### 8.1 Uniformed Services Employment Rights
+SAP fully complies with USERRA (Uniformed Services Employment and Reemployment Rights Act):
+- Unpaid leave for military training and deployment
+- Job restoration guarantee upon return
+- Continued health benefits (employee pays premium)
+- No loss of seniority or benefits
+
+### 8.2 Differential Pay Program
+- Employees receive difference between military pay and SAP salary
+- Available for deployments exceeding 30 days
+- Maximum 24 months of differential pay coverage
+- Applies to active duty, reserves, and National Guard service
+
+## 9. PERSONAL LEAVE OF ABSENCE
+
+### 9.1 Unpaid Personal Leave
+Available for situations not covered by other leave policies:
+- Extended medical treatment not qualifying for FMLA
+- Educational opportunities (degree programs, certifications)
+- Personal or family circumstances requiring extended absence
+- Sabbatical requests for long-term employees (7+ years)
+
+### 9.2 Application and Approval Process
+- Submit written request 60 days in advance when possible
+- Include detailed justification and proposed duration
+- Department Head and HR approval required
+- Maximum 6 months unpaid leave in any 12-month period
+- Position held for leaves up to 3 months, subject to business needs thereafter
+
+## 10. LEAVE ADMINISTRATION
+
+### 10.1 Payroll and Benefits During Leave
+- PTO deducted from employee accrual balance
+- Health insurance premiums: Company continues paying during paid leave
+- 401(k) contributions suspended during unpaid leave
+- Employee Stock Purchase Plan (ESPP) continues during paid leave, paused during unpaid leave
+- Seniority and service time continue to accrue during all approved leave
+
+### 10.2 Return to Work Requirements
+- 48-hour advance notice of return date required
+- Medical clearance required for extended medical leave (15+ days)
+- Gradual return schedules available with medical documentation
+- Position guaranteed for leaves under 90 days, comparable position for longer leaves
+
+### 10.3 Abuse and Discipline
+**Policy Violations May Include:**
+- Fraudulent use of sick leave (working elsewhere, recreational activities)
+- Failure to provide required documentation
+- Excessive unscheduled absences (more than 6 occurrences in 12 months)
+- Misrepresentation of leave reasons or circumstances
+
+**Progressive Discipline:**
+1. Verbal counseling and coaching
+2. Written warning with expectations
+3. Final written warning and monitoring
+4. Termination of employment
+
+## 11. COORDINATION WITH STATE AND FEDERAL LAWS
+
+### 11.1 Family and Medical Leave Act (FMLA)
+- Eligible employees: 12 months employment, 1,250 hours worked
+- 12 weeks unpaid leave for qualifying medical and family reasons
+- Job restoration and continued health benefits guaranteed
+- SAP PTO and sick leave may be used concurrently with FMLA
+
+### 11.2 Pennsylvania Family Care Act
+- Provides job protection for family care leave
+- Includes leave for domestic violence situations
+- Coordination with federal FMLA requirements
+
+### 11.3 Americans with Disabilities Act (ADA)
+- Reasonable accommodations may include modified leave schedules
+- Interactive process required for disability-related leave requests
+- Unpaid leave as accommodation when other options not feasible
+
+## 12. CONTACT INFORMATION AND RESOURCES
+
+### 12.1 Leave Administration Team
+**Amanda Chen, HR Business Partner**  
+Phone: (610) 661-1000 ext. 2154  
+Email: achen@sap.com  
+Office: 5th Floor, Room 5018
+
+**Robert Kim, Employee Development Specialist**  
+Phone: (610) 661-1000 ext. 2187  
+Email: rkim@sap.com  
+Office: 5th Floor, Room 5019
+
+### 12.2 Online Resources and Forms
+- Leave request portal: leave.sap.com
+- Policy library: policies.sap.com  
+- Benefits information: benefits.sap.com
+- Employee assistance program: eap.sap.com
+
+### 12.3 External Resources
+**Pennsylvania Department of Labor & Industry**  
+Phone: 1-877-4-PA-JOBS  
+Website: dli.pa.gov
+
+**Employee Assistance Program (EAP)**  
+24/7 Confidential Support: 1-800-EAP-HELP  
+Website: eap.anthem.com (Access Code: SAP2024)
+
+**Questions about this policy should be directed to the HR team. Policy interpretations and special circumstances will be handled on a case-by-case basis with documentation in the employee's personnel file.**
+
+**Revision History:**
+- v1.0: January 2024 - Initial policy creation
+- v1.1: April 2024 - Enhanced parental leave benefits  
+- v1.2: July 2024 - Updated Pennsylvania compliance requirements
+- v1.3: September 02, 2025 - Annual review and contact updates

@@ -1,0 +1,384 @@
+
+# SAP - CORPORATE TRAVEL AND EXPENSE POLICY
+
+**Policy Number:** SAP-POL-003  
+**Effective Date:** January 1, 2024  
+**Last Revised:** September 02, 2025  
+**Approved By:** Christian Klein, Chief Executive Officer  
+**Policy Owner:** Thomas Mueller, Chief Financial Officer  
+
+## 1. PURPOSE AND SCOPE
+
+This policy establishes guidelines for business travel, expense reimbursement, and corporate spending to ensure cost-effective travel while maintaining employee safety and comfort. This policy applies to all SAP employees, contractors, and authorized third parties traveling on company business.
+
+**Geographic Scope:** Domestic (US) and International Business Travel  
+**Budget Authority:** Annual corporate travel budget of $8.2 million  
+**Compliance:** Sarbanes-Oxley Act, IRS regulations, Pennsylvania expense reimbursement laws
+
+## 2. TRAVEL AUTHORIZATION AND APPROVAL
+
+### 2.1 Pre-Approval Requirements
+
+**Domestic Travel (within US):**
+- Estimated cost under $2,000: Direct supervisor approval
+- Estimated cost $2,000-$7,500: Department head approval  
+- Estimated cost over $7,500: CFO approval required
+
+**International Travel:**
+- All international travel requires CFO pre-approval
+- Minimum 4 weeks advance notice required
+- Passport/visa requirements verified through HR
+- International travel insurance automatically provided
+
+### 2.2 Approval Workflow Process
+1. Submit travel request via SAP Concur Travel & Expense system
+2. Include business justification, estimated costs, and itinerary
+3. Obtain required approvals before booking any arrangements
+4. Receive authorization code for booking (format: SAP-TR-YYYY-####)
+5. Forward approval confirmation to travel@sap.com
+
+### 2.3 Emergency Travel Authorization
+- Emergency domestic travel: Supervisor approval via phone/email
+- Emergency international travel: CFO approval required within 24 hours
+- Post-trip documentation required within 5 business days
+- Emergency situations: client crisis, system outage, family emergency
+
+## 3. TRANSPORTATION GUIDELINES
+
+### 3.1 Air Travel Standards
+
+**Domestic Flights (within US):**
+- Economy class required for all flights under 5 hours
+- Premium economy allowed for flights 5+ hours with manager approval
+- Business class permitted for flights 8+ hours or overnight red-eye flights
+- First class prohibited unless economy/business unavailable
+
+**International Flights:**
+- Economy class for flights under 8 hours
+- Business class permitted for flights 8+ hours
+- First class allowed for flights 12+ hours with CFO approval
+- Upgrade costs paid personally if voluntary
+
+**Booking Requirements:**
+- Use SAP Concur Travel booking tool or approved travel agency (American Express Global Business Travel)
+- Book minimum 14 days in advance for domestic, 21 days for international
+- Saturday night stay required if total savings exceed $300
+- Airline preference: Lufthansa (corporate discount 8%), United, American
+
+**Baggage and Fees:**
+- Standard checked baggage reimbursed (up to 2 bags domestic, 3 international)
+- Overweight fees require pre-approval from manager
+- Seat selection fees up to $75 per flight reimbursable
+- TSA PreCheck/Global Entry annual fees reimbursed for frequent travelers (8+ trips/year)
+
+### 3.2 Ground Transportation
+
+**Rental Cars:**
+- Compact or mid-size vehicles required (full-size if 3+ people)
+- GPS navigation systems reimbursable
+- Insurance: Decline if covered by corporate Amex card benefits
+- Fuel receipts required for reimbursement
+- Preferred vendors: Avis (20% corporate discount), Enterprise, Hertz
+
+**Rideshare and Taxi Services:**
+- Rideshare preferred over taxi when available (Uber for Business, Lyft Business)
+- Airport transfers: Standard rates apply, premium service requires approval
+- Maximum single ride limit: $200 (higher amounts require explanation)
+- Receipt required for all rides over $25
+
+**Personal Vehicle Usage:**
+- Mileage reimbursement: $0.67 per mile (updated annually per IRS rates)
+- Parking fees at destination fully reimbursable with receipts
+- Tolls reimbursable with receipts or electronic toll records
+- Vehicle insurance verification required annually
+
+**Public Transportation:**
+- Local transit, buses, trains fully reimbursable
+- Monthly transit passes reimbursed for extended assignments
+- High-speed rail preferred over short-haul flights when time-comparable
+
+### 3.3 Train Travel
+- Business class permitted for trips over 4 hours
+- Acela service approved for Northeast Corridor business travel
+- Sleeping accommodations reimbursed for overnight train travel
+- Wi-Fi charges reimbursable for work-related connectivity
+
+## 4. ACCOMMODATION POLICIES
+
+### 4.1 Hotel Standards and Rates
+
+**Domestic Hotel Limits (per night, including taxes):**
+- Tier 1 Cities (NYC, SF, LA, Chicago, Boston, DC): $400
+- Tier 2 Cities (Seattle, Austin, Denver, Miami, Atlanta): $325  
+- Tier 3 Cities (All other locations): $250
+- Extended stay (7+ nights): Negotiate weekly rates for 20% minimum discount
+
+**International Hotel Limits (per night, including taxes):**
+- Major European cities (London, Paris, Frankfurt, Munich): $450
+- Major Asian cities (Tokyo, Singapore, Hong Kong, Sydney): $425
+- Other international locations: $350
+- Currency conversion at booking date rates
+
+**Preferred Hotel Chains:**
+- Marriott International (Bonvoy corporate rate - 15% discount)
+- Hilton Hotels (Honors corporate rate - 12% discount)  
+- Hyatt Hotels (World of Hyatt corporate rate - 18% discount)
+- Independent boutique hotels with corporate rates available
+
+### 4.2 Alternative Accommodations
+**Vacation Rentals (Airbnb, VRBO):**
+- Permitted for stays 5+ nights or when hotels unavailable
+- Must be business-appropriate and professional for client meetings
+- Maximum rate: 75% of comparable hotel nightly rate
+- Screenshots of comparable hotel rates required for approval
+
+**Extended Stay Arrangements:**
+- Corporate housing for assignments 30+ days
+- Furnished apartment rentals negotiated through Oakwood or BridgeStreet
+- Monthly rates must show 25% savings over nightly hotel rates
+
+### 4.3 Hotel Amenities and Services
+**Reimbursable Hotel Expenses:**
+- Standard internet/Wi-Fi charges
+- Business center usage fees
+- Hotel parking fees (valet or self-park)
+- Laundry service for trips 5+ days
+- Hotel phone charges for business calls
+
+**Non-Reimbursable Hotel Expenses:**
+- In-room movies, games, or entertainment
+- Mini-bar charges and room service premium
+- Spa services and fitness center fees  
+- Personal laundry for trips under 5 days
+- Hotel upgrade fees paid by employee choice
+
+## 5. MEAL AND ENTERTAINMENT GUIDELINES
+
+### 5.1 Business Meal Allowances
+
+**Domestic Per Diem Rates (per day):**
+- Major metropolitan areas: $95/day
+- Standard cities: $75/day  
+- Small cities/rural areas: $60/day
+- Breakfast: 20% of daily rate
+- Lunch: 30% of daily rate
+- Dinner: 50% of daily rate
+
+**International Per Diem Rates:**
+- Rates based on US State Department guidelines
+- Major international cities: $110-$150/day
+- Standard international locations: $85-$110/day
+- Remote/developing areas: $65-$85/day
+
+### 5.2 Client Entertainment Guidelines
+**Client Meal Expenses:**
+- Business meals with clients fully reimbursable
+- Alcohol limit: $50 per person per meal
+- Receipts required for all expenses over $25
+- Business purpose and attendees must be documented
+
+**Entertainment Activities:**
+- Client entertainment up to $250 per person per event
+- Pre-approval required for entertainment over $750 total
+- Sporting events, shows, golf acceptable with business justification
+- Spouses/partners included only for multi-day client events
+
+### 5.3 Meal Documentation Requirements
+- Itemized receipts required for all meals over $25
+- Business purpose and attendees documented on receipt
+- Credit card statements not acceptable as sole documentation
+- Tip guidelines: 18-20% for table service, 15% for delivery
+
+## 6. EXPENSE REPORTING AND REIMBURSEMENT
+
+### 6.1 Expense Report Submission
+**Timeline Requirements:**
+- Submit expense reports within 30 days of trip completion
+- Monthly recurring travel: Submit by 5th of following month
+- Year-end deadline: December 10 for current year expenses
+- Late submissions require manager justification
+
+**Required Documentation:**
+- Original itemized receipts for all expenses over $25
+- Business purpose and attendee information
+- Currency conversion records for international expenses
+- Mileage logs for personal vehicle usage
+- Hotel folios showing zero balance after payment
+
+### 6.2 Reimbursement Process
+**Payment Timeline:**
+- Approved expense reports processed within 5 business days
+- Direct deposit to employee bank account (same as payroll)
+- Corporate credit card expenses: Offset against card balance
+- Check payments for employees without direct deposit setup
+
+**Expense Categories:**
+- Transportation: Airfare, rental cars, fuel, parking, rideshare
+- Lodging: Hotel, vacation rentals, extended stay facilities
+- Meals: Business meals, per diem allowances, client entertainment
+- Communications: Phone charges, internet, mobile data overages
+- Miscellaneous: Conference fees, business materials, tips
+
+### 6.3 Corporate Credit Card Program
+**American Express Corporate Card:**
+- Issued to employees with monthly travel over $1,500
+- Individual liability with company payment arrangement
+- Monthly reconciliation required through SAP Concur system
+- Lost card replacement fee: $25 (charged to employee)
+
+**Card Usage Guidelines:**
+- Business travel and entertainment expenses only
+- Personal charges prohibited and subject to disciplinary action per SAP-POL-001
+- Monthly statements reviewed by Finance team
+- Delinquent accounts reported to HR for action
+
+## 7. INTERNATIONAL TRAVEL REQUIREMENTS
+
+### 7.1 Pre-Travel Preparations
+**Documentation Requirements:**
+- Passport valid 6+ months beyond return date
+- Visa requirements verified and obtained 6+ weeks advance
+- International driving permit if rental car required
+- Emergency contact registration with US State Department
+
+**Health and Safety Preparations:**
+- Vaccination requirements verified with CDC guidelines
+- Travel health insurance activated (Cigna Global)
+- Prescription medications in original containers
+- Emergency evacuation insurance included in corporate policy
+
+### 7.2 International Expense Considerations
+**Currency and Payments:**
+- Corporate Amex provides competitive exchange rates
+- Cash advances available for locations with limited card acceptance
+- ATM fees reimbursed (maximum $7 per transaction)
+- Currency conversion fees reimbursed on corporate card
+
+**Tax and VAT Recovery:**
+- VAT receipts collected for recovery where applicable
+- Tax recovery services managed by Finance team
+- Employee assistance required for documentation completion
+
+## 8. CONFERENCE AND EVENT TRAVEL
+
+### 8.1 Conference Approval Process
+**Industry Conferences:**
+- Pre-approval required with business justification
+- Training budget: $3,000 per employee annually (per SAP-POL-002)
+- Conference fees, travel, and accommodation included in budget
+- Knowledge sharing required post-conference (presentation or report)
+
+**Trade Shows and Client Events:**
+- Marketing and Sales team pre-approval required
+- Booth setup and promotional material costs separate from travel budget
+- Team coordination required to minimize travel costs
+
+### 8.2 Special Event Considerations
+- Group bookings for 3+ attendees required
+- Shared accommodations acceptable for same-gender colleagues
+- Group dining reservations for team meals
+- Airport transfers coordinated for multiple travelers
+
+## 9. TRAVEL SAFETY AND SECURITY
+
+### 9.1 Duty of Care Obligations
+**Travel Safety Resources:**
+- 24/7 travel assistance hotline: 1-800-SAP-TRAVEL
+- Travel risk assessments for high-risk destinations
+- Real-time travel alerts and security updates
+- Emergency evacuation insurance through Cigna
+
+**Communication Requirements:**
+- Itinerary shared with manager and HR prior to departure
+- Daily check-ins required for international travel
+- Emergency contact information updated in employee portal
+- Travel app registration required (SAP Concur Travel mobile app)
+
+### 9.2 High-Risk Travel Protocols
+**Restricted Destinations:**
+- US State Department Travel Advisory Level 3 and 4 countries require CEO approval
+- Additional security measures and insurance required
+- Satellite phone rental for remote locations
+- Security briefings required for high-risk areas
+
+## 10. COMPLIANCE AND POLICY VIOLATIONS
+
+### 10.1 Audit and Monitoring
+- Monthly expense report sampling and review
+- Annual travel policy compliance audit
+- Vendor spend analysis and contract compliance review
+- Employee travel pattern analysis for policy optimization
+
+### 10.2 Policy Violations and Consequences
+**Common Violations:**
+- Failure to obtain pre-approval for required travel
+- Submission of fraudulent or inflated expenses
+- Personal travel charged to corporate accounts
+- Violation of safety and security protocols
+
+**Progressive Discipline (per SAP-POL-001):**
+1. First violation: Counseling and policy review
+2. Second violation: Written warning and monitoring
+3. Third violation: Suspension and final warning
+4. Continued violations: Termination of employment
+
+### 10.3 Exceptions and Appeals Process
+- Policy exceptions require CFO approval
+- Business justification and documentation required
+- Appeals submitted to Finance team within 10 business days
+- Final appeal authority: Chief Executive Officer
+
+## 11. VENDOR RELATIONSHIPS AND DISCOUNTS
+
+### 11.1 Preferred Vendor Programs
+**Travel Management Company:** American Express Global Business Travel  
+Account Manager: Sarah Johnson, sarah.johnson@amexgbt.com  
+Phone: (555) 234-5678  
+Corporate discount: 18% off booking fees
+
+**Hotel Partnerships:**
+- Marriott: 15% discount + late checkout + breakfast included
+- Hilton: 12% discount + room upgrades when available  
+- Hyatt: 18% discount + elite status benefits
+
+**Car Rental Partners:**
+- Avis: 20% discount + free additional driver + one car class upgrade
+- Enterprise: 15% discount + GPS included
+- Hertz: 12% discount + expedited service
+
+### 11.2 Corporate Account Benefits
+- Priority customer service lines
+- Flexible cancellation policies
+- Consolidated billing and reporting
+- Volume-based rebates and incentives
+
+## 12. POLICY ADMINISTRATION AND CONTACTS
+
+### 12.1 Travel Administration Team
+**Thomas Mueller, Chief Financial Officer**  
+Phone: (610) 661-1000 ext. 3001  
+Email: tmueller@sap.com  
+Office: 5th Floor, Room 5001
+
+**Jennifer Park, Finance Manager**  
+Phone: (610) 661-1000 ext. 3015  
+Email: jpark@sap.com  
+Office: 5th Floor, Room 5003
+
+**Travel Coordinator**  
+Email: travel@sap.com  
+Phone: (610) 661-1000 ext. 3020
+
+### 12.2 Emergency Travel Support
+**24/7 Travel Emergency Line:** 1-800-SAP-TRAVEL  
+**International Emergency:** +1-610-661-HELP  
+**Travel Insurance Claims:** cigna-travel.com  
+**Lost Card Reporting:** 1-800-AXP-HELP
+
+**Policy Questions:** Direct to Finance team via email finance@sap.com or phone (610) 661-1000 ext. 3000.
+
+**Revision History:**
+- v1.0: January 2024 - Initial policy creation  
+- v1.1: March 2024 - Updated international rates and vendors
+- v1.2: June 2024 - Enhanced safety protocols and high-risk travel procedures
+- v1.3: September 02, 2025 - Annual rate adjustments and vendor updates

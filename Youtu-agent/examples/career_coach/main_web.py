@@ -10,30 +10,32 @@ from utu.agents import OrchestraAgent
 from utu.config import ConfigLoader
 from utu.ui.webui_chatbot import WebUIChatbot
 
-# Load environment variables (including Supabase credentials)
+# Load environment variables (including ChromaDB and OpenAI credentials)
 try:
     from utu.utils.env import EnvUtils
-    print("✅ Environment variables loaded (including Supabase credentials)")
+    print("✅ Environment variables loaded")
 except ImportError:
-    print("⚠️  Could not load environment variables - Supabase integration may not work")
+    print("⚠️  Could not load environment variables")
 except Exception as e:
     print(f"⚠️  Error loading environment variables: {e}")
 
 
 def main():
-    print("🚀 Starting SAP Career Coach WebUI with Supabase MCP Integration")
+    print("🚀 Starting SAP Career Coach WebUI with ChromaDB Integration")
     print("=" * 70)
 
-    # Verify Supabase environment variables
-    supabase_token = os.getenv('SUPABASE_ACCESS_TOKEN')
-    supabase_project = 'kclhwddhqtlmcjfpebz'  # Hardcoded project ID
+    # Verify ChromaDB environment variables
+    chroma_data_path = os.getenv('CHROMA_DATA_PATH', './chroma_db_data')
 
-    if supabase_token and supabase_project:
-        print(f"✅ Supabase MCP configured for project: {supabase_project}")
-        print("✅ Analysis Agent will have access to SAP Employee Database")
+    print("🔍 Checking environment configuration...")
+    print("✅ Using SentenceTransformers for embeddings (local model)")
+
+    # Check if ChromaDB data directory exists
+    if os.path.exists(chroma_data_path):
+        print(f"✅ ChromaDB data directory found: {chroma_data_path}")
     else:
-        print("⚠️  Supabase credentials not found - database queries may not work")
-        print("   Make sure SUPABASE_ACCESS_TOKEN and SUPABASE_PROJECT_REF are set in .env")
+        print(f"ℹ️  ChromaDB data directory not found: {chroma_data_path}")
+        print("   Run document ingestion first: python scripts/ingest_chromadb_docs.py sample_documents/")
 
     # Load the career coach orchestra configuration
     config = ConfigLoader.load_agent_config("career_coach_orchestra")
@@ -46,20 +48,22 @@ def main():
     data_dir = pathlib.Path(__file__).parent / "data"
     data_dir.mkdir(exist_ok=True)
 
-    # Enhanced example query that will trigger database analysis using list_tables and execute_sql
-    question = "I'm an SAP consultant with 3 years experience wanting to become a Solution Architect. Can you analyze our company database to show me what SAP certifications successful architects have, how long it takes to become an architect, and what skills are most valuable?"
+    # Enhanced example query that demonstrates ChromaDB vector search
+    question = "I'm new to SAP and starting tomorrow. What do I need to know about equipment, first day logistics, and available benefits?"
 
     print("\n🤖 SAP Career Coach WebUI Features:")
-    print("- Multi-agent orchestra system for comprehensive career guidance")
-    print("- SAP Analysis Agent with direct database access (list_tables + execute_sql)")
-    print("- Real-time SQL queries against employee database")
-    print("- Data-driven recommendations based on actual company data")
+    print("- Multi-agent orchestra system with ChromaDB vector search integration")
+    print("- Onboarding Agent with access to comprehensive SAP policy documents")
+    print("- Real-time vector similarity search across 15+ policy documents")
+    print("- Data-driven recommendations based on actual company policies")
+    print("- Support for new hire onboarding, benefits enrollment, and policy questions")
     print("\n💡 Try asking questions like:")
-    print("- 'What SAP certifications do senior architects typically have?'")
-    print("- 'How long does it take to become a SAP Solution Architect?'")
-    print("- 'What skills are most valuable for SAP consultants?'")
-    print("- 'Show me career progression patterns in our company database'")
-    print("- 'Analyze certification completion rates by department'")
+    print("- 'What equipment will I receive on my first day at SAP?'")
+    print("- 'How do I set up my SAP email and access systems?'")
+    print("- 'What's the hotel limit for business travel to London?'")
+    print("- 'How much PTO do I accrue with 5 years of service?'")
+    print("- 'What are the company policies for remote work?'")
+    print("- 'How do I request IT support or troubleshoot issues?'")
     print()
 
     # Launch the WebUI

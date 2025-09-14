@@ -1,10 +1,11 @@
-# SAP Career Coach Orchestra Agent Configuration - Enhanced with Skills Development Focus
+# SAP Career Coach Orchestra Agent Configuration - Enhanced with Onboarding Agent
 defaults:
   - /model/base@planner_model
   - /simple_agents/sap_research_agent@workers.ResearchAgent
   - /simple_agents/sap_analysis_agent@workers.AnalysisAgent
   - /simple_agents/sap_synthesis_agent@workers.SynthesisAgent
   - /simple_agents/sap_skills_development_agent@workers.SkillsDevelopmentAgent
+  - /simple_agents/onboarding_agent@workers.OnboardingAgent
   - _self_
 
 type: orchestra
@@ -48,3 +49,8 @@ workers_info:
     desc: SAP Career integration specialist for comprehensive SAP career guidance and skills development strategy
     strengths: Synthesizing SAP career information, creating SAP-specific action plans with skills development, SAP career strategy development with training integration, SAP transition planning with skill acquisition roadmaps
     weaknesses: Cannot gather new data or perform detailed technical analysis
+
+  - name: OnboardingAgent
+    desc: SAP Onboarding specialist for new employee guidance, policies, procedures, and company navigation
+    strengths: Employee onboarding guidance, SAP policy explanation, IT setup assistance, HR process navigation, training program information, mentor connection, company culture guidance, ChromaDB vector search integration
+    weaknesses: Cannot access employee records, limited to general onboarding information, cannot approve requests or make policy exceptions

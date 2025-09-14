@@ -1,0 +1,135 @@
+
+# SAP KNOWLEDGE BASE INDEX
+
+This knowledge base contains comprehensive company policies for SAP, designed to be highly specific and detailed to demonstrate effective RAG (Retrieval Augmented Generation) chatbot responses for employee onboarding and support.
+
+## Company Overview
+- **Company Name:** SAP
+- **Industry:** Enterprise Software and Cloud Solutions
+- **Location:** 3999 West Chester Pike, Newtown Square, PA 19073
+- **Founded:** 1972
+- **Employees:** ~107,000+ employees globally (headquarters ~2,500 employees)
+- **CEO:** Christian Klein
+- **CHRO:** Julia White
+
+## Policy Documents
+
+### 1. Employee Code of Conduct and Business Ethics (SAP-POL-001)
+**File:** SAP_Employee_Code_of_Conduct.txt
+**Word Count:** 1076 words
+**Key Topics:** Professional conduct, confidentiality, conflicts of interest, harassment prevention, technology use, gifts and entertainment
+
+### 2. Employee Onboarding Standard Operating Procedures (SAP-SOP-001)
+**File:** SAP_Onboarding_SOP.txt  
+**Word Count:** 1671 words
+**Key Topics:** 90-day onboarding process, equipment provisioning, training requirements, buddy system, performance evaluations
+
+### 3. Paid Time Off and Leave Policy (SAP-POL-002)
+**File:** SAP_PTO_Leave_Policy.txt
+**Word Count:** 1918 words  
+**Key Topics:** PTO accrual rates, sick leave, bereavement, parental leave, military leave, request procedures
+
+### 4. Corporate Travel and Expense Policy (SAP-POL-003)
+**File:** SAP_Travel_Expense_Policy.txt
+**Word Count:** 2126 words
+**Key Topics:** Travel approval, transportation guidelines, accommodation limits, meal allowances, expense reporting
+
+### 5. Information Security and Data Protection Policy (SAP-POL-004)
+**File:** SAP_IT_Security_Policy.txt
+**Word Count:** 2754 words
+**Key Topics:** Access controls, network security, endpoint protection, data encryption, incident response, BYOD
+
+### 6. Remote Work and Flexible Work Arrangements Policy (SAP-POL-005)  
+**File:** SAP_Remote_Work_Policy.txt
+**Word Count:** 2574 words
+**Key Topics:** Hybrid work schedule, home office requirements, communication standards, performance management
+
+### 7. Performance Management and Development Policy (SAP-POL-006)
+**File:** SAP_Performance_Management_Policy.txt  
+**Word Count:** 2714 words
+**Key Topics:** Performance ratings, goal setting, feedback, PIPs, recognition programs, succession planning
+
+## Key Personnel and Contact Information
+
+### Executive Team
+- **Christian Klein, CEO:** cklein@sap.com, ext. 1000
+- **Julia White, CHRO:** jwhite@sap.com, ext. 2001
+- **Thomas Mueller, CFO:** tmueller@sap.com, ext. 3001
+- **Michael Schmidt, CISO:** mschmidt@sap.com, ext. 1001
+
+### HR Team  
+- **Amanda Chen, HR Business Partner:** achen@sap.com, ext. 2154
+- **Robert Kim, Employee Development:** rkim@sap.com, ext. 2187
+
+### IT Support
+- **Help Desk:** support@sap.com, ext. 2000
+- **Security:** security@sap.com, ext. 1000
+
+## Technology Systems
+- **HR System:** SAP SuccessFactors Employee Central
+- **Performance Management:** SAP SuccessFactors Performance & Goals
+- **Travel & Expense:** SAP Concur  
+- **Learning Management:** SAP SuccessFactors Learning
+- **Communication:** Microsoft Teams, SAP Jam
+- **Cloud Infrastructure:** Microsoft Azure (primary), AWS (secondary)
+
+## Locations and Facilities
+- **Headquarters:** 3999 West Chester Pike, Newtown Square, PA 19073
+- **Office Hours:** 8:00 AM - 6:00 PM EST
+- **Parking:** Lot A (assigned spots), Lot B (visitor parking)
+- **Building Access:** Key card required, Security Desk ext. 9000
+
+## Usage Instructions for RAG Chatbot
+
+This knowledge base is designed to support an onboarding chatbot that can answer specific questions about company policies. The policies contain:
+
+1. **Specific dollar amounts** (travel limits, stipends, budgets)
+2. **Exact timeframes** (approval deadlines, response times, review cycles)  
+3. **Contact information** (names, phone extensions, email addresses)
+4. **System names** (SAP SuccessFactors, SAP Concur, Microsoft Teams, etc.)
+5. **Detailed procedures** (step-by-step processes, approval workflows)
+6. **Measurable metrics** (performance ratings, targets, limits)
+
+When responding to queries, the chatbot should reference specific policy numbers, contact persons, dollar amounts, and procedures to demonstrate that information is being retrieved from the knowledge base rather than generated generically.
+
+**Sample Questions the Chatbot Can Answer:**
+
+**Onboarding Questions:**
+- "What equipment will I receive on my first day at SAP?"
+- "Who is my HR Business Partner and how do I contact them?"
+- "What training do I need to complete in my first week?"
+- "When do I get my parking assignment?"
+
+**Leave Policy Questions:**
+- "How much PTO do I accrue with 5 years of service at SAP?"
+- "What's the maximum carryover for unused vacation days?"
+- "How much paid parental leave does SAP provide?"
+- "What documentation do I need for sick leave over 5 days?"
+
+**Travel Policy Questions:**
+- "What's the hotel limit for travel to New York City?"
+- "Can I book business class for an 8-hour international flight?"
+- "Who approves international travel requests at SAP?"
+- "What's the per diem rate for meals in major metropolitan areas?"
+
+**IT Security Questions:**
+- "What's the password policy for my SAP laptop?"
+- "How do I set up MFA for my accounts?"
+- "Can I use my personal device for work email?"
+- "Who do I contact for a security incident?"
+
+**Remote Work Questions:**
+- "What days am I required to be in the office?"
+- "What home office stipend does SAP provide?"
+- "What are the internet speed requirements for working from home?"
+- "How do I set up my home office workspace?"
+
+**Performance Management Questions:**
+- "How often will I have performance reviews?"
+- "What's the performance rating scale at SAP?"
+- "What development budget do I have available?"
+- "How does the 360-degree feedback process work?"
+
+**Total Knowledge Base Size:** 14833 words across 7 documents
+
+**Last Updated:** September 02, 2025

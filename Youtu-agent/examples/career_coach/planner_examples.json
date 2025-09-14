@@ -106,5 +106,60 @@
     ],
     "analysis": "Complex career transition requiring assessment of current skills, market research, and strategic planning. Multiple agents needed for comprehensive presales career guidance.",
     "plan": "- AnalysisAgent: Assess user's sales potential, technical knowledge, and customer-facing experience against SAP presales requirements\n- ResearchAgent: Research SAP presales career paths, required competencies, salary data, and progression opportunities\n- SynthesisAgent: Create comprehensive presales development plan with SAP solution knowledge and sales training roadmap"
+  },
+  {
+    "question": "I'm new to SAP and starting tomorrow. What equipment will I get and what's my first day like?",
+    "available_agents": [
+      {
+        "agent_name": "OnboardingAgent",
+        "description": "SAP Onboarding specialist for new employee guidance and ChromaDB vector search"
+      }
+    ],
+    "analysis": "New employee onboarding question requiring specific information from company policies. OnboardingAgent can provide comprehensive first-day guidance using ChromaDB vector search.",
+    "plan": "- OnboardingAgent: Search SAP-SOP-001 for first-day logistics, equipment details from IT policies, and schedule information from onboarding procedures"
+  },
+  {
+    "question": "How do I set up my SAP email, VPN, and access to company systems?",
+    "available_agents": [
+      {
+        "agent_name": "OnboardingAgent",
+        "description": "SAP Onboarding specialist for new employee guidance and ChromaDB vector search"
+      }
+    ],
+    "analysis": "IT setup and access question requiring specific technical procedures. OnboardingAgent can provide step-by-step guidance using vector search across IT security and onboarding policies.",
+    "plan": "- OnboardingAgent: Search SAP-POL-004 for VPN setup, email configuration procedures, and access control policies"
+  },
+  {
+    "question": "What are my benefits and how do I enroll in health insurance and retirement plans?",
+    "available_agents": [
+      {
+        "agent_name": "OnboardingAgent",
+        "description": "SAP Onboarding specialist for new employee guidance and ChromaDB vector search"
+      }
+    ],
+    "analysis": "Benefits enrollment question requiring detailed information from HR policies. OnboardingAgent can provide comprehensive benefits overview and enrollment procedures.",
+    "plan": "- OnboardingAgent: Search SAP-POL-007 for benefits details, enrollment deadlines, and retirement plan information"
+  },
+  {
+    "question": "What's the company policy on remote work and what home office support is available?",
+    "available_agents": [
+      {
+        "agent_name": "OnboardingAgent",
+        "description": "SAP Onboarding specialist for new employee guidance and ChromaDB vector search"
+      }
+    ],
+    "analysis": "Remote work policy question requiring specific guidelines and procedures. OnboardingAgent can provide detailed information about hybrid work model and home office support.",
+    "plan": "- OnboardingAgent: Search SAP-POL-005 for remote work policies, hybrid schedule details, and home office reimbursement procedures"
+  },
+  {
+    "question": "How do I request business travel and what are the expense reimbursement procedures?",
+    "available_agents": [
+      {
+        "agent_name": "OnboardingAgent",
+        "description": "SAP Onboarding specialist for new employee guidance and ChromaDB vector search"
+      }
+    ],
+    "analysis": "Travel and expense policy question requiring specific procedures and limits. OnboardingAgent can provide comprehensive guidance on travel authorization and expense reporting.",
+    "plan": "- OnboardingAgent: Search SAP-POL-003 for travel approval process, expense limits, and SAP Concur usage procedures"
   }
 ]
