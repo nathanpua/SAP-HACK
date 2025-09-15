@@ -16,10 +16,24 @@ import {
   GraduationCap,
   Brain,
   Music,
+  UserPlus,
   ArrowRight,
 } from "lucide-react";
 
 const agents = [
+  {
+    icon: UserPlus,
+    title: "SAP Onboarding Agent",
+    description: "Guides new SAP employees through their onboarding journey with access to comprehensive company policies and procedures",
+    functionalities: [
+      "Equipment setup and IT access guidance",
+      "First day logistics and training schedules",
+      "Benefits enrollment and policy navigation",
+      "Company policies and procedures overview"
+    ],
+    color: "from-indigo-500 to-blue-600",
+    bgColor: "from-indigo-50 to-blue-50 dark:from-indigo-950/30 dark:to-blue-950/30",
+  },
   {
     icon: Search,
     title: "SAP Research Agent",

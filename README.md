@@ -2,10 +2,46 @@
 
 A comprehensive SAP-focused AI agent system that combines an advanced Python backend framework with a modern React frontend to deliver intelligent career guidance, skills development planning, and real-time AI coaching powered by multi-agent orchestration.
 
+## 🏆 Technology Stack & Services
+
+### Core Technologies
+[![Python](https://img.shields.io/badge/Python-3.12+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![Next.js](https://img.shields.io/badge/Next.js-15-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+
+### AI & ML Services
+[![DeepSeek](https://img.shields.io/badge/DeepSeek-V3-000000?style=for-the-badge&logo=deepseek&logoColor=white)](https://platform.deepseek.com)
+[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com)
+[![Microsoft](https://img.shields.io/badge/Microsoft-Phi--3-00BCF2?style=for-the-badge&logo=microsoft&logoColor=white)](https://azure.microsoft.com)
+[![Jina AI](https://img.shields.io/badge/Jina_AI-Embeddings-000000?style=for-the-badge&logo=jina&logoColor=white)](https://jina.ai)
+
+### Database & Storage
+[![Supabase](https://img.shields.io/badge/Supabase-2.39.0-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://postgresql.org)
+[![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector_DB-000000?style=for-the-badge&logo=chromadb&logoColor=white)](https://www.trychroma.com)
+
+### APIs & Search
+[![Serper](https://img.shields.io/badge/Serper_API-Search-FF6B35?style=for-the-badge&logo=google&logoColor=white)](https://serper.dev)
+[![WebSocket](https://img.shields.io/badge/WebSocket-Real--time-010101?style=for-the-badge&logo=websocket&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket)
+
+### UI & Styling
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Radix UI](https://img.shields.io/badge/Radix_UI-Components-000000?style=for-the-badge&logo=radix-ui&logoColor=white)](https://www.radix-ui.com)
+[![shadcn/ui](https://img.shields.io/badge/shadcn/ui-Components-000000?style=for-the-badge&logo=shadcnui&logoColor=white)](https://ui.shadcn.com)
+
+### DevOps & Deployment
+[![Vercel](https://img.shields.io/badge/Vercel-Frontend-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com)
+[![Railway](https://img.shields.io/badge/Railway-Backend-0B0D0E?style=for-the-badge&logo=railway&logoColor=white)](https://railway.app)
+[![Docker](https://img.shields.io/badge/Docker-Container-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docker.com)
+
+### Development Tools
+[![uv](https://img.shields.io/badge/uv-Package_Manager-000000?style=for-the-badge&logo=uv&logoColor=white)](https://github.com/astral-sh/uv)
+[![npm](https://img.shields.io/badge/npm-Package_Manager-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://npmjs.com)
+[![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![OpenTelemetry](https://img.shields.io/badge/OpenTelemetry-Monitoring-000000?style=for-the-badge&logo=opentelemetry&logoColor=white)](https://opentelemetry.io)
+
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://python.org)
-[![Next.js](https://img.shields.io/badge/Next.js-15-black.svg)](https://nextjs.org)
-[![Supabase](https://img.shields.io/badge/Supabase-2.39.0-green.svg)](https://supabase.com)
 
 ## 📋 Table of Contents
 
@@ -27,7 +63,7 @@ A comprehensive SAP-focused AI agent system that combines an advanced Python bac
 
 ## 🎯 Overview
 
-Deep SAP is an intelligent career coaching platform specifically designed for SAP professionals. It leverages advanced AI agents to provide personalized career guidance, skills assessment, certification recommendations, and development planning. The system combines real-time database analysis with web research to deliver data-driven career insights.
+Deep SAP is an intelligent career coaching platform specifically designed for SAP professionals. It leverages advanced AI agents to provide onboarding assistance, personalized career guidance, skills assessment, certification recommendations, and development planning. The system combines real-time database analysis with web research to deliver data-driven career insights.
 
 ### What Makes Deep SAP Unique
 
@@ -57,8 +93,10 @@ Deep SAP is an intelligent career coaching platform specifically designed for SA
 │   Supabase      │◄────────────────►│   AI Models      │
 │   (PostgreSQL)  │                  │   (OpenAI/DeepSeek)
 │                 │                  │                 │
-│ - User Data     │                  │ - GPT-4o-mini   │
-│ - Career Goals  │                  │ - Embeddings    │
+│ - User Data     │                  │ - Deepseek V3   │
+│ - Career Goals  │                  │ - Sentence      |
+|                 |                  |   transformers  |
+|                 |                  |   embeddings    │
 │ - Chat History  │                  │ - Analysis      │
 │ - Reports       │                  └─────────────────┘
 └─────────────────┘
@@ -68,24 +106,61 @@ Deep SAP is an intelligent career coaching platform specifically designed for SA
 
 The backend is built on the **Youtu-agent framework**, featuring:
 
-- **Orchestra Agent**: Multi-agent coordination system
+- **Orchestra Agent**: Multi-agent coordination system with planning and reporting tools
 - **Specialized Workers**:
+  - **Onboarding Agent**: Provide onboarding assistance based on given company documents
   - **Research Agent**: SAP market research and certification data
   - **Analysis Agent**: Database queries and profile analysis
   - **Skills Development Agent**: Learning path recommendations
   - **Synthesis Agent**: Comprehensive career strategy integration
-- **MCP Integration**: Direct Supabase database access via Model Context Protocol
+- **MCP Integration**: Direct Supabase database and ChromaDB access via Model Context Protocol
 - **WebSocket Server**: Real-time communication with frontend
 
 ### Frontend Architecture (sap-hack-frontend)
 
-The frontend is a modern **Next.js 15** application with:
+The frontend is a modern **Next.js 15** application built with the App Router, featuring a comprehensive React-based architecture:
 
-- **Authentication System**: Supabase-based user management
-- **Real-time Chat Interface**: WebSocket-powered AI conversations
-- **Career Management Dashboard**: Goals, progress tracking, and reporting
-- **Responsive Design**: Mobile-first approach with Tailwind CSS
-- **Component Library**: Radix UI and shadcn/ui for consistency
+#### 🎨 **UI Framework & Design System**
+- **Next.js 15 App Router**: Server and client component architecture
+- **React 19**: Latest React features with concurrent rendering
+- **TypeScript**: Full type safety across the application
+- **Tailwind CSS**: Utility-first styling with custom design system
+- **Radix UI**: Accessible, unstyled UI primitives
+- **shadcn/ui**: High-quality component library built on Radix UI
+- **Responsive Design**: Mobile-first approach with adaptive layouts
+
+#### 🔐 **Authentication & Security**
+- **Supabase Auth**: Complete authentication system with social logins
+- **Role-Based Access**: User permissions and access control
+- **Secure API Routes**: Protected endpoints with authentication middleware
+- **Session Management**: Persistent user sessions with automatic refresh
+
+#### 💬 **Real-time Communication**
+- **WebSocket Integration**: Bidirectional real-time communication
+- **Streaming Responses**: Live AI response streaming with typing indicators
+- **Connection Management**: Automatic reconnection and error handling
+- **Event-driven Updates**: Real-time UI updates based on backend events
+
+#### 📱 **Application Architecture**
+- **Modular Component Structure**: Reusable components organized by feature
+- **Custom Hooks**: Business logic abstraction and state management
+- **Context Providers**: Global state management for user preferences
+- **API Integration Layer**: Centralized API client with error handling
+- **Form Management**: React Hook Form with Zod validation
+
+#### 📊 **Feature Modules**
+- **Chat Interface**: AI conversation component with message history
+- **Career Goals Manager**: CRUD operations for career objectives
+- **Reports Dashboard**: Analytics and progress visualization
+- **User Profile**: Personal information and preferences management
+- **Authentication Flow**: Login, signup, password reset workflows
+
+#### 🚀 **Performance & Optimization**
+- **Code Splitting**: Automatic route-based code splitting
+- **Image Optimization**: Next.js Image component with automatic optimization
+- **Caching Strategies**: Intelligent caching for improved performance
+- **Progressive Web App**: PWA capabilities for offline functionality
+- **Bundle Analysis**: Optimized bundle size and loading performance
 
 ## ✨ Key Features
 
@@ -118,9 +193,10 @@ The frontend is a modern **Next.js 15** application with:
 ### Backend (Youtu-agent)
 - **Framework**: Youtu-agent (Tencent Youtu Lab)
 - **Language**: Python 3.12+
-- **AI/ML**: OpenAI Agents, OpenAI API, DeepSeek V3
+- **AI/ML**: DeepSeek V3 for generation, Microsoft phi-3 for title generation
 - **Database**: Supabase PostgreSQL via MCP
-- **Web Framework**: FastAPI, WebSocket
+- **Vector DB**: ChromaDB with ChromaDB MCP
+- **Web Framework**: FastAPI, WebSockets
 - **Search**: Serper API, Jina AI embeddings
 - **Monitoring**: OpenTelemetry, Phoenix
 
@@ -133,7 +209,7 @@ The frontend is a modern **Next.js 15** application with:
 - **Real-time**: WebSocket, Socket.io
 
 ### Infrastructure
-- **Database**: Supabase (PostgreSQL)
+- **Database**: Supabase (PostgreSQL), ChromaDB
 - **Deployment**: Vercel (Frontend), Railway (Backend)
 - **Containerization**: Docker
 - **Package Management**: uv (Python), npm (Node.js)
